@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lorenzo Orsetti | Web Developer &amp; Software Engineering Student</title>
+  <meta name="description" content="Portfolio of Lorenzo Orsetti, Software Engineering student and web developer focused on building modern web applications.">
+  <meta name="author" content="Lorenzo Orsetti">
+  <meta name="theme-color" content="#040607">
+
+  <!-- TODO: troque "https://seu-dominio.com/" pelo endereço real do site (ver README → Publicação) -->
+  <link rel="canonical" href="https://seu-dominio.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Lorenzo Orsetti">
+  <meta property="og:title" content="Lorenzo Orsetti | Web Developer &amp; Software Engineering Student">
+  <meta property="og:description" content="Portfolio of Lorenzo Orsetti, Software Engineering student and web developer focused on building modern web applications.">
+  <meta property="og:url" content="https://seu-dominio.com/">
+  <meta property="og:image" content="https://seu-dominio.com/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pt_BR">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lorenzo Orsetti | Web Developer &amp; Software Engineering Student">
+  <meta name="twitter:description" content="Portfolio of Lorenzo Orsetti, Software Engineering student and web developer focused on building modern web applications.">
+  <meta name="twitter:image" content="https://seu-dominio.com/assets/images/og-image.png">
+
+  <!-- Favicon (substitua os arquivos em assets/icons/) -->
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+  <!-- Tema e idioma aplicados antes da renderização (evita "flash") -->
+  <script>
+    (function () {
+      var d = document.documentElement, t, l;
+      d.classList.add("js");
+      try { t = localStorage.getItem("lo-theme"); l = localStorage.getItem("lo-lang"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      d.dataset.theme = t;
+      if (l !== "pt" && l !== "en") l = (navigator.language || "en").toLowerCase().indexOf("pt") === 0 ? "pt" : "en";
+      d.lang = l === "pt" ? "pt-BR" : "en";
+    })();
+  </script>
+
+  <!-- Fontes: uma única requisição, com display=swap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="top">
+    <div class="site-header__inner container">
+      <a class="brand" href="#hero" aria-label="Lorenzo Orsetti">
+        <span class="brand__prompt" aria-hidden="true">&gt;_</span>
+        <span class="brand__name">LORENZO ORSETTI</span>
+      </a>
+
+      <nav class="nav" id="site-nav" data-i18n-attr="aria-label:nav.label" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#about" data-i18n="nav.about">About</a></li>
+          <li><a class="nav__link" href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a class="nav__link" href="#stack" data-i18n="nav.stack">Stack</a></li>
+          <li><a class="nav__link" href="#education" data-i18n="nav.education">Education</a></li>
+          <li><a class="nav__link" href="#english" data-i18n="nav.english">English</a></li>
+          <li><a class="nav__link" href="#github" data-i18n="nav.github">GitHub</a></li>
+          <li><a class="nav__link" href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-controls">
+        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
+          <button type="button" class="lang-switch__btn" data-lang-option="pt" aria-pressed="false" lang="pt-BR">PT</button>
+          <span class="lang-switch__sep" aria-hidden="true">/</span>
+          <button type="button" class="lang-switch__btn" data-lang-option="en" aria-pressed="true" lang="en">EN</button>
+        </div>
+
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Switch to light theme">
+          <span class="theme-toggle__track" aria-hidden="true">
+            <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+            <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+            <span class="theme-toggle__thumb"></span>
+          </span>
+        </button>
+
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-controls="site-nav" aria-expanded="false" data-i18n-attr="aria-label:nav.open" aria-label="Open menu">
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <p class="hero__hello mono"><span class="accent" aria-hidden="true">//</span> <span data-i18n="hero.hello">Hello, I'm</span></p>
+          <h1 class="hero__name" id="hero-title">
+            <span>LORENZO</span>
+            <span class="hero__name-last">ORSETTI</span>
+          </h1>
+          <p class="hero__role">
+            <span data-i18n="hero.role1">Software Engineering Student</span><br>
+            <span class="hero__role-sub" data-i18n="hero.role2">&amp; Web Developer</span>
+          </p>
+          <p class="hero__lead" data-i18n="hero.lead">I turn ideas into functional digital experiences while developing web applications and expanding my knowledge in Software Engineering.</p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#projects">
+              <span data-i18n="hero.ctaProjects">View Projects</span>
+              <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn--ghost" data-link="github" href="#github" target="_blank" rel="noopener noreferrer">
+              <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-github"/></svg>
+              GitHub
+            </a>
+            <a class="btn btn--ghost" data-link="linkedin" href="https://www.linkedin.com/in/lorenzo-orsetti-031906349/" target="_blank" rel="noopener noreferrer">
+              <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-linkedin"/></svg>
+              LinkedIn
+            </a>
+            <a class="btn btn--ghost" data-link="instagram" href="https://www.instagram.com/lorenzo.or7/" target="_blank" rel="noopener noreferrer">
+              <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-instagram"/></svg>
+              Instagram
+            </a>
+          </div>
+
+          <p class="status-pill" data-open-to-work>
+            <span class="status-pill__dot" aria-hidden="true"></span>
+            <span data-i18n="hero.status">Available for opportunities</span>
+          </p>
+        </div>
+
+        <!-- Editor / terminal -->
+        <div class="editor" role="region" data-i18n-attr="aria-label:hero.editor" aria-label="Code editor">
+          <div class="editor__tabs" role="tablist">
+            <button type="button" class="editor__tab" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="true">
+              <span class="editor__tab-ext">JS</span> lorenzo.js
+            </button>
+            <button type="button" class="editor__tab" role="tab" id="tab-term" aria-controls="panel-term" aria-selected="false" tabindex="-1">
+              <span class="editor__tab-ext">&gt;_</span> <span data-i18n="term.tab">terminal</span>
+            </button>
+          </div>
+
+          <div class="editor__panel" id="panel-code" role="tabpanel" aria-labelledby="tab-code">
+            <pre class="code" aria-label="lorenzo.js"><code id="hero-code"></code></pre>
+          </div>
+
+          <div class="editor__panel terminal" id="panel-term" role="tabpanel" aria-labelledby="tab-term" hidden>
+            <div class="terminal__out" id="term-out" aria-live="polite"></div>
+            <form class="terminal__line" id="term-form" autocomplete="off">
+              <label for="term-input" class="terminal__prompt"><span class="accent">lorenzo@portfolio</span>:<span class="terminal__path">~</span>$</label>
+              <input id="term-input" class="terminal__input" type="text" spellcheck="false" autocapitalize="off" data-i18n-attr="aria-label:term.input;placeholder:term.input">
+            </form>
+          </div>
+
+          <div class="editor__status mono" aria-hidden="true">
+            <span><svg viewBox="0 0 16 16" class="editor__branch"><use href="#i-branch"/></svg> main</span>
+            <span>UTF-8</span>
+            <span class="editor__lang">JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="marquee" data-i18n-attr="aria-label:hero.marquee" aria-label="Technologies I use" role="region">
+        <div class="marquee__track" id="marquee-track"></div>
+      </div>
+    </section>
+
+    <!-- ===================== LAYOUT: PERFIL + CONTEÚDO ===================== -->
+    <div class="container layout">
+      <aside class="profile" id="profile" data-i18n-attr="aria-label:profile.label" aria-label="Profile">
+        <div class="profile__card" data-reveal>
+          <div class="avatar" id="avatar">
+            <span class="avatar__initials" aria-hidden="true">LO</span>
+          </div>
+
+          <div class="profile__id">
+            <p class="profile__name">Lorenzo Orsetti</p>
+            <p class="profile__handle mono" id="profile-handle" hidden></p>
+          </div>
+
+          <p class="profile__role" id="profile-role"></p>
+
+          <p class="status-pill status-pill--sm" data-open-to-work>
+            <span class="status-pill__dot" aria-hidden="true"></span>
+            <span data-i18n="hero.status">Available for opportunities</span>
+          </p>
+
+          <ul class="profile__facts" id="profile-facts"></ul>
+
+          <ul class="profile__stats" id="profile-stats"></ul>
+
+          <p class="profile__branch mono" id="profile-branch"></p>
+        </div>
+      </aside>
+
+      <div class="content">
+        <!-- ===================== SOBRE ===================== -->
+        <section class="section" id="about" aria-labelledby="about-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">01</span>
+            <h2 class="section-head__title" id="about-title" data-i18n="about.title">About Me</h2>
+            <span class="section-head__file">about.md</span>
+          </header>
+
+          <div class="about" data-reveal>
+            <div class="about__text">
+              <p data-i18n="about.p1"></p>
+              <p data-i18n="about.p2"></p>
+              <p data-i18n="about.p3"></p>
+              <div class="connect">
+                <h3 class="kv-block__title mono" data-i18n="about.connect">Connect with me</h3>
+                <ul class="shields" id="about-connect"></ul>
+              </div>
+            </div>
+            <div class="about__side">
+              <div class="kv-block">
+                <h3 class="kv-block__title mono" data-i18n="about.interests">Interests</h3>
+                <ul class="plain-list" id="about-interests"></ul>
+              </div>
+              <div class="kv-block">
+                <h3 class="kv-block__title mono" data-i18n="about.now">Right now</h3>
+                <ul class="plain-list plain-list--now" id="about-now"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== PROJETOS ===================== -->
+        <section class="section" id="projects" aria-labelledby="projects-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">02</span>
+            <h2 class="section-head__title" id="projects-title" data-i18n="projects.title">Featured Projects</h2>
+            <span class="section-head__file">projects.js</span>
+          </header>
+          <p class="section-intro" data-i18n="projects.intro" data-reveal></p>
+
+          <div class="featured-list" id="featured-projects"></div>
+
+          <div class="subsection" id="concepts">
+            <header class="subsection__head" data-reveal>
+              <h3 class="subsection__title"><span class="accent mono" aria-hidden="true">{ }</span> <span data-i18n="concepts.title">Web Design &amp; Development Concepts</span></h3>
+              <p class="section-intro" data-i18n="concepts.intro"></p>
+            </header>
+            <div class="concept-grid" id="concept-projects"></div>
+          </div>
+        </section>
+
+        <!-- ===================== STACK ===================== -->
+        <section class="section" id="stack" aria-labelledby="stack-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">03</span>
+            <h2 class="section-head__title" id="stack-title" data-i18n="stack.title">Tech Stack</h2>
+            <span class="section-head__file">stack.json</span>
+          </header>
+          <p class="section-intro" data-i18n="stack.intro" data-reveal></p>
+          <div class="stack" id="stack-grid"></div>
+        </section>
+
+        <!-- ===================== FORMAÇÃO ===================== -->
+        <section class="section" id="education" aria-labelledby="education-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">04</span>
+            <h2 class="section-head__title" id="education-title" data-i18n="edu.title">Education</h2>
+            <span class="section-head__file">education.log</span>
+          </header>
+          <div class="education" id="education-content"></div>
+        </section>
+
+        <!-- ===================== IDIOMAS / INGLÊS ===================== -->
+        <section class="section" id="english" aria-labelledby="english-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">05</span>
+            <h2 class="section-head__title" id="english-title" data-i18n="lang.title">Languages</h2>
+            <span class="section-head__file">i18n.config</span>
+          </header>
+          <div class="languages" id="languages-content"></div>
+        </section>
+
+        <!-- ===================== GITHUB ===================== -->
+        <section class="section" id="github" aria-labelledby="github-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">06</span>
+            <h2 class="section-head__title" id="github-title" data-i18n="gh.title">GitHub Activity</h2>
+            <span class="section-head__file">git log</span>
+          </header>
+          <p class="section-intro" data-i18n="gh.intro" data-reveal></p>
+          <div class="github" id="github-content"></div>
+        </section>
+
+        <!-- ===================== CONTATO ===================== -->
+        <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">07</span>
+            <h2 class="visually-hidden" data-i18n="nav.contact">Contact</h2>
+            <span class="section-head__file">contact.sh</span>
+          </header>
+          <div class="contact" data-reveal>
+            <p class="contact__title" id="contact-title" data-i18n="contact.title">Let's build something.</p>
+            <p class="contact__text" data-i18n="contact.text"></p>
+            <div class="contact__links" id="contact-links"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__credit">
+        <span class="mono accent" aria-hidden="true">&lt;/&gt;</span>
+        <span data-i18n="footer.credit">Designed &amp; Developed by Lorenzo Orsetti</span>
+      </p>
+      <ul class="social social--footer" id="footer-social"></ul>
+      <p class="site-footer__copy mono">© <span id="year"></span> Lorenzo Orsetti</p>
+      <a class="site-footer__top mono" href="#hero" data-i18n="footer.top">Back to top</a>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAL: ESTUDO DE CASO ===================== -->
+  <dialog class="case" id="case-dialog" aria-labelledby="case-title">
+    <div class="case__inner" id="case-content"></div>
+  </dialog>
+
+  <!-- Ícones SVG reutilizáveis -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 16 16"><path fill="currentColor" d="M0 1.15C0 .52.52 0 1.17 0h13.66C15.48 0 16 .52 16 1.15v13.7c0 .63-.52 1.15-1.17 1.15H1.17C.52 16 0 15.48 0 14.85V1.15Zm4.94 12.24V6.17H2.54v7.22h2.4Zm-1.2-8.2c.84 0 1.36-.56 1.36-1.25-.02-.71-.52-1.25-1.34-1.25-.82 0-1.36.54-1.36 1.25 0 .7.52 1.25 1.33 1.25h.01Zm2.53 8.2h2.4V9.36c0-.22.01-.43.08-.59.17-.43.57-.88 1.23-.88.87 0 1.21.66 1.21 1.63v3.87h2.4V9.25c0-2.22-1.18-3.25-2.76-3.25-1.27 0-1.84.7-2.16 1.2v.02h-.01l.01-.02V6.17h-2.4c.03.68 0 7.22 0 7.22Z"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 16 16"><rect x="1.6" y="1.6" width="12.8" height="12.8" rx="3.8" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11.9" cy="4.1" r="0.9" fill="currentColor"/></symbol>
+    <symbol id="i-discord" viewBox="0 0 16 16"><path fill="currentColor" d="M13.55 3.02A13.2 13.2 0 0 0 10.3 2l-.15.3c-.1.2-.2.45-.28.66a12.3 12.3 0 0 0-3.72 0A7 7 0 0 0 5.7 2a13.2 13.2 0 0 0-3.26 1.02C.38 6.13-.18 9.16.1 12.15a13.3 13.3 0 0 0 4.01 2.03c.32-.44.61-.9.86-1.39-.47-.18-.92-.4-1.35-.65l.33-.26a9.4 9.4 0 0 0 8.1 0l.33.26c-.43.25-.88.47-1.35.65.25.49.54.95.86 1.39a13.2 13.2 0 0 0 4.01-2.03c.34-3.47-.57-6.47-2.4-9.13ZM5.35 10.32c-.79 0-1.43-.73-1.43-1.62s.63-1.62 1.43-1.62c.8 0 1.44.73 1.43 1.62 0 .89-.63 1.62-1.43 1.62Zm5.3 0c-.79 0-1.43-.73-1.43-1.62s.63-1.62 1.43-1.62c.8 0 1.44.73 1.43 1.62 0 .89-.63 1.62-1.43 1.62Z"/></symbol>
+    <symbol id="i-spotify" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm3.67 11.54a.5.5 0 0 1-.69.17c-1.88-1.15-4.25-1.41-7.04-.77a.5.5 0 1 1-.22-.97c3.05-.7 5.67-.4 7.78.88.24.14.31.45.17.69Zm.98-2.18a.62.62 0 0 1-.86.2c-2.15-1.32-5.43-1.7-7.97-.93a.63.63 0 0 1-.36-1.2c2.9-.88 6.5-.45 8.98 1.07.3.18.39.57.21.86Zm.08-2.27C10.15 5.56 5.9 5.42 3.44 6.17a.75.75 0 1 1-.44-1.44c2.83-.86 7.53-.69 10.5 1.07a.75.75 0 0 1-.77 1.29Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M1.5 3.5h13v9h-13z"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="m1.5 4 6.5 5 6.5-5"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4.5 2.5v11M4.5 10.5c0-3 7-2 7-5"/><circle cx="4.5" cy="2.5" r="1.5" fill="currentColor"/><circle cx="4.5" cy="13.5" r="1.5" fill="currentColor"/><circle cx="11.5" cy="4.5" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-external" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M9.5 2.5h4v4M13.5 2.5 7 9M12 9.5v3.5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m3 8.5 3.2 3L13 4.5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></symbol>
+    <symbol id="i-repo" viewBox="0 0 16 16"><path fill="currentColor" d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.09a.25.25 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M8 14.5s4.5-4.2 4.5-8a4.5 4.5 0 0 0-9 0c0 3.8 4.5 8 4.5 8Z"/><circle cx="8" cy="6.5" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" d="M8 3 1 6.2 8 9.4l7-3.2L8 3Z"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M4 7.7v3.3c0 .9 1.8 2 4 2s4-1.1 4-2V7.7M15 6.2V10"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.4"/><path fill="none" stroke="currentColor" stroke-width="1.2" d="M1.8 8h12.4M8 1.7c-2.2 2.4-2.2 10.2 0 12.6M8 1.7c2.2 2.4 2.2 10.2 0 12.6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 16 16"><path fill="currentColor" d="M5 3.2v9.6a.5.5 0 0 0 .77.42l7.4-4.8a.5.5 0 0 0 0-.84l-7.4-4.8A.5.5 0 0 0 5 3.2Z"/></symbol>
+  </svg>
+
+  <!-- Scripts (ordem importa: dados → idioma → tema → módulos → main) -->
+  <script src="js/data.js" defer></script>
+  <script src="js/language.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/projects.js" defer></script>
+  <script src="js/github.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

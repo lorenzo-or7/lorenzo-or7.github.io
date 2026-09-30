@@ -1,0 +1,120 @@
+/* =============================================================
+   themes.css — tokens de cor dos temas escuro e claro
+   -------------------------------------------------------------
+   Todas as cores do site vêm destas variáveis. Para ajustar a
+   paleta, altere apenas este arquivo.
+   ============================================================= */
+
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:            #040607;
+  --bg-2:          #0B0D10;
+  --surface:       #101217;
+  --surface-2:     #161920;
+  --surface-3:     #1C2029;
+  --border:        #1F232B;
+  --border-strong: #2E333D;
+
+  --text:   #EEEDF2;
+  --text-2: #A7ABB4;
+  --text-3: #80858F;
+
+  --accent:       #BF40FA;
+  --accent-hover: #CD68FB;
+  --accent-ink:   #D28BFC;              /* accent para texto pequeno */
+  --accent-soft:  rgba(191, 64, 250, 0.10);
+  --accent-line:  rgba(191, 64, 250, 0.38);
+  --on-accent:    #0B0412;
+
+  --ok:      #3DDC84;
+  --ok-soft: rgba(61, 220, 132, 0.12);
+  --warn:    #F2B84B;
+  --warn-soft: rgba(242, 184, 75, 0.12);
+
+  --grid-dot: rgba(255, 255, 255, 0.055);
+  --shadow:   0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 20px 40px -24px rgba(0, 0, 0, 0.8);
+  --overlay:  rgba(2, 3, 4, 0.72);
+
+  /* Editor de código */
+  --code-bg:    #0A0C0F;
+  --code-gutter:#4A4F59;
+  --tk-kw:   #BF40FA;
+  --tk-var:  #F3F2F7;
+  --tk-prop: #8DB9FF;
+  --tk-str:  #B8E68A;
+  --tk-bool: #F7A76C;
+  --tk-pun:  #7D828C;
+  --tk-com:  #858A94;
+
+  /* Gráfico de contribuições (sequencial, uma cor) */
+  --heat-0: #14161C;
+  --heat-1: #3D1E52;
+  --heat-2: #6A2A93;
+  --heat-3: #9636CB;
+  --heat-4: #C85BFB;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg:            #E3D9FC;
+  --bg-2:          #EEE8FE;
+  --surface:       #FFFFFF;
+  --surface-2:     #F7F4FF;
+  --surface-3:     #EEE9FD;
+  --border:        #D5CAF3;
+  --border-strong: #BBAAE9;
+
+  --text:   #15121F;
+  --text-2: #464157;
+  --text-3: #625C78;
+
+  --accent:       #4928C2;
+  --accent-hover: #3A1EA4;
+  --accent-ink:   #4928C2;
+  --accent-soft:  rgba(73, 40, 194, 0.08);
+  --accent-line:  rgba(73, 40, 194, 0.35);
+  --on-accent:    #FFFFFF;
+
+  --ok:      #117A3E;
+  --ok-soft: rgba(17, 122, 62, 0.10);
+  --warn:    #955A00;
+  --warn-soft: rgba(176, 108, 0, 0.12);
+
+  --grid-dot: rgba(73, 40, 194, 0.10);
+  --shadow:   0 1px 2px rgba(40, 20, 110, 0.06), 0 18px 36px -24px rgba(40, 20, 110, 0.35);
+  --overlay:  rgba(30, 18, 70, 0.45);
+
+  --code-bg:    #FFFFFF;
+  --code-gutter:#A69DC4;
+  --tk-kw:   #4928C2;
+  --tk-var:  #15121F;
+  --tk-prop: #1F5FBF;
+  --tk-str:  #1B7A45;
+  --tk-bool: #B4530A;
+  --tk-pun:  #6F6888;
+  --tk-com:  #6B6585;
+
+  --heat-0: #EEE9FB;
+  --heat-1: #C9BCF3;
+  --heat-2: #9A83E6;
+  --heat-3: #6A4AD4;
+  --heat-4: #3A1EA4;
+}
+
+/* Transição suave apenas durante a troca de tema */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease, fill 0.3s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after { transition: none !important; }
+}

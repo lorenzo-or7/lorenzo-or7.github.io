@@ -1,0 +1,252 @@
+/* =============================================================
+   responsive.css — ajustes por largura de tela
+   -------------------------------------------------------------
+   ≥ 1441px  desktop grande     ≤ 1024px  tablet paisagem
+   ≤ 1280px  notebook           ≤ 768px   tablet retrato
+   ≤ 1100px  perfil vira card   ≤ 480px   smartphone
+   ≤ 960px   menu hamburger     ≤ 380px   smartphone pequeno
+   ============================================================= */
+
+/* ---------- Desktop grande ---------- */
+@media (min-width: 1441px) {
+  :root { --container: 1320px; }
+  .layout { grid-template-columns: 300px minmax(0, 1fr); }
+}
+
+/* ---------- Notebook ---------- */
+@media (max-width: 1280px) {
+  .nav__link { padding-inline: 8px; }
+  .nav__link::after { left: 8px; right: 8px; }
+  .feature__body { grid-template-columns: minmax(0, 1fr); }
+  .feature__details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .gh-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gh-stat:nth-child(4) { border-left: 0; }
+  .gh-stat:nth-child(n + 4) { border-top: 1px solid var(--border); }
+}
+
+/* ---------- Perfil lateral vira card horizontal ---------- */
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .profile { position: static; margin-bottom: 72px; }
+  .profile__card {
+    grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "avatar id     facts"
+      "avatar role   facts"
+      "avatar pill   stats"
+      "avatar pill   branch";
+    align-items: start;
+    column-gap: 36px;
+    row-gap: 12px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .avatar { grid-area: avatar; margin: 0; max-width: 170px; }
+  .profile__id { grid-area: id; }
+  .profile__role { grid-area: role; }
+  .profile__card > .status-pill { grid-area: pill; }
+  .profile__facts { grid-area: facts; border-top: 0; padding-top: 0; }
+  .profile__stats { grid-area: stats; }
+  .profile__branch { grid-area: branch; align-self: center; }
+
+  .stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stack__group, .stack__group:nth-child(4) { grid-column: span 1; border-radius: 0 !important; }
+  .stack__group:nth-child(5), .stack__group:nth-child(6) { grid-column: 1 / -1; }
+  .stack__group:first-child { border-top-left-radius: var(--radius) !important; }
+  .stack__group:nth-child(2) { border-top-right-radius: var(--radius) !important; }
+  .stack__group:last-child { border-bottom-left-radius: var(--radius) !important; border-bottom-right-radius: var(--radius) !important; }
+}
+
+/* ---------- Menu hamburger ---------- */
+@media (max-width: 960px) {
+  .menu-toggle { display: inline-block; }
+  .header-controls { margin-left: auto; gap: 8px; }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    margin: 0;
+    padding: 12px var(--gutter) 28px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0.25s;
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+  }
+  .nav-open .nav { opacity: 1; transform: none; visibility: visible; }
+  .nav-open .site-header { border-bottom-color: var(--border); background: var(--bg); }
+  .nav__list { flex-direction: column; gap: 0; counter-reset: nav; }
+  .nav__link {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    font-size: 1.15rem;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    counter-increment: nav;
+  }
+  .nav__link::before {
+    content: counter(nav, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-ink);
+    padding-top: 5px;
+  }
+  .nav__link::after { display: none; }
+  .nav__link.is-active { color: var(--accent-ink); }
+
+  .hero__grid { grid-template-columns: minmax(0, 1fr); }
+  .editor__panel { height: 380px; }
+
+  .about { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .about__side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .education { grid-template-columns: minmax(0, 1fr); }
+  .timeline-wrap { padding: 12px 4px 0; }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 768px) {
+  .profile__card {
+    grid-template-columns: 120px minmax(0, 1fr);
+    grid-template-areas:
+      "avatar id"
+      "avatar role"
+      "pill   pill"
+      "facts  facts"
+      "stats  stats"
+      "branch branch";
+    column-gap: 20px;
+    padding: 22px;
+  }
+  .avatar { max-width: 110px; }
+  .avatar::before { transform: translate(6px, 6px); }
+  .avatar__initials { font-size: 2.4rem; }
+  .profile__facts { border-top: 1px solid var(--border); padding-top: 16px; }
+
+  .concept-grid { grid-template-columns: minmax(0, 1fr); }
+  .feature__details { grid-template-columns: minmax(0, 1fr); }
+  .feature__main,
+  .feature__details { padding: 24px; }
+  .feature__media { aspect-ratio: 16 / 10; }
+
+  .repo-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .case__section { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 22px 0; }
+  .case__shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case__shot, .case__shot.is-wide { grid-column: 1 / -1; }
+  .case__shot.is-portrait { grid-column: span 1; }
+
+  .site-footer__inner { justify-content: space-between; }
+  .social--footer { margin-left: 0; }
+}
+
+/* ---------- Smartphone ---------- */
+@media (max-width: 480px) {
+  :root { --header-h: 60px; }
+  body { font-size: 0.97rem; }
+
+  .brand__name { display: none; }
+  .brand::after { content: "LO"; letter-spacing: 0.08em; }
+
+  .hero { padding-top: calc(var(--header-h) + 36px); }
+  .hero__name { font-size: clamp(2.5rem, 13.5vw, 3.4rem); }
+  .hero__actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero__actions .btn--primary { grid-column: 1 / -1; }
+  .hero__actions .btn:nth-child(4):last-child { grid-column: 1 / -1; }
+  .hero__lead { font-size: 1rem; }
+
+  .editor__panel { height: 360px; }
+  .code, .terminal { font-size: 0.74rem; }
+  .code__line::before { width: 2.6em; padding-right: 1em; }
+  .editor__tab { padding: 0 12px; }
+
+  .section-head { flex-wrap: wrap; gap: 4px 12px; }
+  .section-head__file { display: none; }
+  .section-intro { margin-top: -8px; }
+
+  .about__side { grid-template-columns: minmax(0, 1fr); }
+  .about__text p:first-child { font-size: 1.08rem; }
+
+  .profile__card {
+    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-areas:
+      "avatar id"
+      "avatar role"
+      "pill   pill"
+      "facts  facts"
+      "stats  stats"
+      "branch branch";
+    padding: 18px;
+  }
+  .avatar { max-width: 82px; }
+  .avatar::before { transform: translate(5px, 5px); border-radius: 10px; }
+  .avatar__initials, .avatar__img { border-radius: 10px; }
+  .avatar__initials { font-size: 1.8rem; }
+  .profile__name { font-size: 1.2rem; }
+  .profile__role { font-size: 0.88rem; }
+
+  .feature__main,
+  .feature__details { padding: 20px; }
+  .feature__media { aspect-ratio: 4 / 3; }
+  .feature__actions .btn,
+  .concept__actions .btn:not(.btn--text) { flex: 1 1 auto; }
+
+  .frame { font-size: 1.35cqi; }
+  .frame__canvas { padding: 3em 4em 4em; }
+  .frame__grid i { height: 6em; }
+
+  .stack { grid-template-columns: minmax(0, 1fr); }
+  .stack__group,
+  .stack__group:nth-child(n) { grid-column: 1 / -1; border-radius: 0 !important; }
+  .stack__group:first-child { border-radius: var(--radius) var(--radius) 0 0 !important; }
+  .stack__group:last-child { border-radius: 0 0 var(--radius) var(--radius) !important; }
+  .tooltip { max-width: 180px; }
+
+  .edu-card { padding: 22px; }
+
+  .lang-feature { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .lang-feature__code { font-size: 4.2rem; }
+
+  .gh-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gh-stat { padding: 18px 16px; }
+  .gh-stat:nth-child(n) { border-left: 0; border-top: 1px solid var(--border); }
+  .gh-stat:nth-child(-n + 2) { border-top: 0; }
+  .gh-stat:nth-child(even) { border-left: 1px solid var(--border); }
+  .gh-stat:last-child { grid-column: 1 / -1; }
+  .gh-stat__value { font-size: 1.5rem; }
+  .gh-recent a { flex-wrap: wrap; gap: 4px 12px; }
+
+  .contact__links { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .email-box { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+
+  .case { width: 100%; max-width: 100%; max-height: 100dvh; height: 100dvh; border-radius: 0; border: 0; margin: 0; }
+  .case__cover { aspect-ratio: 4 / 3; }
+
+  .site-footer__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Smartphone pequeno ---------- */
+@media (max-width: 380px) {
+  .header-controls { gap: 6px; }
+  .theme-toggle__track { width: 54px; }
+  [data-theme="light"] .theme-toggle__thumb { transform: translateX(22px); }
+  .lang-switch__btn { min-width: 30px; }
+  .hero__actions { grid-template-columns: 1fr; }
+  .feature__meta { gap: 8px; }
+}
+
+/* ---------- Dispositivos de toque: sem efeitos dependentes de hover ---------- */
+@media (hover: none) {
+  .cursor { display: none; }
+  .tech:hover { transform: none; }
+}
