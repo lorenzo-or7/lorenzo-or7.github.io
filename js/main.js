@@ -250,7 +250,7 @@
       [pad(Object.keys(TECHNOLOGIES).length), t("profile.tech")],
     ].map(([n, l]) => `<li><span class="mono">${n}</span>${esc(l)}</li>`).join("");
 
-    const current = Projects.featured().find((p) => p.status === "in-progress");
+    const current = Projects.featured().find((p) => p.status === "in-progress" || p.status === "live");
     $("#profile-branch").innerHTML = current
       ? `${icon("branch", "icon icon--sm")} main <span class="muted">·</span> ${esc(t("profile.building"))} <span class="accent">${esc(current.name)}</span>`
       : "";

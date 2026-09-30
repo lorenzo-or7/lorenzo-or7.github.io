@@ -92,6 +92,7 @@ const I18N = (() => {
       "projects.videoLabel": "Vídeo de demonstração do projeto",
 
       "status.in-progress": "Em desenvolvimento",
+      "status.live": "No ar",
       "status.completed": "Concluído",
       "status.prototype": "Protótipo",
       "status.concept": "Conceito",
@@ -246,6 +247,7 @@ const I18N = (() => {
       "projects.videoLabel": "Project demo video",
 
       "status.in-progress": "In development",
+      "status.live": "Live",
       "status.completed": "Completed",
       "status.prototype": "Prototype",
       "status.concept": "Concept",

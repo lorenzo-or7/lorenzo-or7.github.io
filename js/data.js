@@ -56,7 +56,7 @@ const PROFILE = {
   // O que você está fazendo agora (bloco "No momento" do Sobre).
   now: [
     { pt: "Cursando Engenharia de Software na PUCPR", en: "Studying Software Engineering at PUCPR" },
-    { pt: "Desenvolvendo o VotAI", en: "Building VotAI" },
+    { pt: "Evoluindo o VotAI, já no ar em planosdegoverno.com.br", en: "Improving VotAI, now live at planosdegoverno.com.br" },
     { pt: "Criando propostas de sites para negócios locais de Curitiba", en: "Building website proposals for local businesses in Curitiba" },
   ],
 };
@@ -138,16 +138,19 @@ const PROJECTS = [
       pt: "Plataforma de Informações e Comparação Eleitoral",
       en: "Electoral Information & Comparison Platform",
     },
-    status: "in-progress",
-    context: { pt: "Projeto pessoal", en: "Personal project" },
+    status: "live",
+    context: { pt: "Projeto pessoal · no ar em planosdegoverno.com.br", en: "Personal project · live at planosdegoverno.com.br" },
     description: {
-      pt: "Plataforma que centraliza as propostas das candidaturas das Eleições 2026, extraídas dos planos de governo oficiais, e permite pesquisar, filtrar e comparar lado a lado o que cada candidato propõe para cada tema.",
-      en: "A platform that gathers the proposals of the 2026 Brazilian election candidates, extracted from their official government plans, and lets you search, filter and compare side by side what each candidate proposes on every topic.",
+      pt: "Plataforma informativa e apartidária, já no ar, que centraliza as propostas das candidaturas à Presidência nas Eleições 2026 — 13 candidaturas, 1.866 propostas e 14 temas — extraídas dos planos de governo oficiais, para pesquisar, filtrar e comparar lado a lado o que cada candidato propõe.",
+      en: "A live, non-partisan information platform that gathers the proposals of the 2026 Brazilian presidential candidates — 13 candidates, 1,866 proposals and 14 topics — extracted from their official government plans, so anyone can search, filter and compare side by side what each candidate proposes.",
     },
     technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     features: {
       pt: [
+        "13 candidaturas e 1.866 propostas publicadas",
         "Propostas organizadas em 14 temas e subtemas",
+        "Extração dos documentos oficiais, classificação por tema e revisão humana antes da publicação",
+        "Plataforma apartidária: sem recomendações, notas ou rankings",
         "Comparação lado a lado entre candidaturas",
         "Filtros por tema, subtema e candidato",
         "Filtro de propostas com meta, prazo ou custo definidos",
@@ -160,7 +163,10 @@ const PROJECTS = [
         "Interface responsiva",
       ],
       en: [
+        "13 candidates and 1,866 published proposals",
         "Proposals organized into 14 topics and subtopics",
+        "Extraction from official documents, topic classification and human review before publishing",
+        "Non-partisan: no endorsements, scores or rankings",
         "Side-by-side comparison between candidates",
         "Filters by topic, subtopic and candidate",
         "Filter for proposals with a stated goal, deadline or cost",
@@ -178,7 +184,7 @@ const PROJECTS = [
       en: ["Project concept", "Feature definition", "Database modeling", "PHP backend", "Interface", "Implementation", "GitHub"],
     },
     image: "assets/projects/votai/cover.webp",
-    links: { demo: "", github: "" },
+    links: { demo: "https://planosdegoverno.com.br/", github: "https://github.com/lorenzo-or7/VotAI" },
     placeholder: { url: "votai", bg: "#F7F5FF", ink: "#1B1530", accent: "#4928C2" },
 
     caseStudy: {
@@ -293,7 +299,7 @@ const PROJECTS = [
     },
     image: "assets/projects/chapula/cover.webp",
     video: "",
-    links: { demo: "", github: "" },
+    links: { demo: "https://lorenzo-or7.github.io/barbearia-chapula-demo/", github: "https://github.com/lorenzo-or7/barbearia-chapula-demo" },
     placeholder: { url: "barbeariachapula", bg: "#0B0B0B", ink: "#F3EEE2", accent: "#E2BA24" },
     caseStudy: {
       problem: {
@@ -341,8 +347,8 @@ const PROJECTS = [
         ],
       },
       process: {
-        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio durante todas as etapas — planejamento, criação do design, desenvolvimento, revisão de código e solução de problemas. As decisões, adaptações e a implementação final foram conduzidas por mim. Protótipo funcional, ainda não publicado e sem repositório público.",
-        en: "Personal project. I used several AI tools as support throughout every stage — planning, design, development, code review and problem solving. The decisions, adaptations and final implementation were led by me. A working prototype, not yet published and without a public repository.",
+        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio durante todas as etapas — planejamento, criação do design, desenvolvimento, revisão de código e solução de problemas. As decisões, adaptações e a implementação final foram conduzidas por mim. Protótipo funcional, publicado como demonstração no GitHub Pages, com código aberto no GitHub.",
+        en: "Personal project. I used several AI tools as support throughout every stage — planning, design, development, code review and problem solving. The decisions, adaptations and final implementation were led by me. A working prototype, published as a demo on GitHub Pages, with its code open on GitHub.",
       },
       screenshots: [
         { src: "assets/projects/chapula/agendamento.webp", caption: { pt: "Agendamento em etapas com resumo e confirmação", en: "Step-by-step booking with summary and confirmation" } },
@@ -398,7 +404,7 @@ const PROJECTS = [
     },
     image: "assets/projects/casa-di-lucente/cover.webp",
     video: "",
-    links: { demo: "", github: "" },
+    links: { demo: "https://lorenzo-or7.github.io/casa-di-lucente-demo/", github: "https://github.com/lorenzo-or7/casa-di-lucente-demo" },
     placeholder: { url: "casadilucente", bg: "#5B1422", ink: "#F4E9D7", accent: "#F4E9D7", serif: true },
     caseStudy: {
       problem: {
@@ -446,8 +452,8 @@ const PROJECTS = [
         ],
       },
       process: {
-        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — pesquisa de ideias, planejamento da estrutura, criação e revisão de código, elaboração de textos, prompts para conteúdos visuais e resolução de problemas. As decisões sobre identidade visual, funcionalidades, organização do site e direção do projeto foram definidas por mim. Demo funcional, ainda não publicada: algumas funcionalidades são simuladas, pois o objetivo é demonstrar o conceito antes de uma versão definitiva.",
-        en: "Personal project. I used several AI tools as support — researching ideas, planning the structure, writing and reviewing code, drafting copy, creating prompts for visual content and solving problems. Decisions on visual identity, features, site organization and project direction were mine. A working demo, not yet published: some features are simulated, since the goal is to demonstrate the concept before a final version.",
+        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — pesquisa de ideias, planejamento da estrutura, criação e revisão de código, elaboração de textos, prompts para conteúdos visuais e resolução de problemas. As decisões sobre identidade visual, funcionalidades, organização do site e direção do projeto foram definidas por mim. Demo funcional, publicada no GitHub Pages: algumas funcionalidades são simuladas, pois o objetivo é demonstrar o conceito antes de uma versão definitiva.",
+        en: "Personal project. I used several AI tools as support — researching ideas, planning the structure, writing and reviewing code, drafting copy, creating prompts for visual content and solving problems. Decisions on visual identity, features, site organization and project direction were mine. A working demo, published on GitHub Pages: some features are simulated, since the goal is to demonstrate the concept before a final version.",
       },
       screenshots: [
         { src: "assets/projects/casa-di-lucente/torta.webp", caption: { pt: "A torta de gelato, camada por camada", en: "The gelato cake, layer by layer" } },
@@ -500,7 +506,7 @@ const PROJECTS = [
     },
     image: "assets/projects/iguana/cover.webp",
     video: "",
-    links: { demo: "", github: "" },
+    links: { demo: "https://lorenzo-or7.github.io/iguana-emporio-pet-demo/", github: "https://github.com/lorenzo-or7/iguana-emporio-pet-demo" },
     placeholder: { url: "iguanapet", bg: "#FAF6EE", ink: "#1D3524", accent: "#5AAE32" },
     caseStudy: {
       problem: {
@@ -554,8 +560,8 @@ const PROJECTS = [
         ],
       },
       process: {
-        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — geração de ideias, planejamento da estrutura, revisão de código, sugestões de interface e solução de problemas. As decisões sobre identidade visual, estrutura, conteúdo e funcionamento foram definidas e ajustadas por mim. Demo funcional, ainda não publicada: não possui backend, banco de dados nem sistemas reais de compra e agendamento.",
-        en: "Personal project. I used several AI tools as support — brainstorming, planning the structure, code review, interface suggestions and problem solving. Decisions on visual identity, structure, content and behavior were defined and refined by me. A working demo, not yet published: it has no backend, database or real purchase and booking systems.",
+        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — geração de ideias, planejamento da estrutura, revisão de código, sugestões de interface e solução de problemas. As decisões sobre identidade visual, estrutura, conteúdo e funcionamento foram definidas e ajustadas por mim. Demo funcional, publicada no GitHub Pages: não possui backend, banco de dados nem sistemas reais de compra e agendamento.",
+        en: "Personal project. I used several AI tools as support — brainstorming, planning the structure, code review, interface suggestions and problem solving. Decisions on visual identity, structure, content and behavior were defined and refined by me. A working demo, published on GitHub Pages: it has no backend, database or real purchase and booking systems.",
       },
       screenshots: [
         { src: "assets/projects/iguana/loja.webp", caption: { pt: "Produtos e categorias (tema escuro)", en: "Products and categories (dark theme)" } },
@@ -613,7 +619,7 @@ const PROJECTS = [
     },
     image: "assets/projects/maca/cover.webp",
     video: "",
-    links: { demo: "", github: "" },
+    links: { demo: "https://lorenzo-or7.github.io/maca-padaria-demo/", github: "https://github.com/lorenzo-or7/maca-padaria-demo" },
     placeholder: { url: "macapadaria", bg: "#FEF9E5", ink: "#231A18", accent: "#ED1F29" },
     caseStudy: {
       problem: {
@@ -659,8 +665,8 @@ const PROJECTS = [
         ],
       },
       process: {
-        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — brainstorming, organização de ideias, desenvolvimento e revisão de código, criação e edição de elementos visuais e refinamento do design. As decisões sobre estrutura, identidade visual, funcionalidades e resultado final foram definidas e ajustadas por mim. Demo funcional, ainda não publicada: algumas funcionalidades são demonstrativas e poderiam ser integradas a sistemas reais em uma versão final.",
-        en: "Personal project. I used several AI tools as support — brainstorming, organizing ideas, writing and reviewing code, creating and editing visual elements and refining the design. Decisions on structure, visual identity, features and the final result were defined and refined by me. A working demo, not yet published: some features are illustrative and could be connected to real systems in a final version.",
+        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — brainstorming, organização de ideias, desenvolvimento e revisão de código, criação e edição de elementos visuais e refinamento do design. As decisões sobre estrutura, identidade visual, funcionalidades e resultado final foram definidas e ajustadas por mim. Demo funcional, publicada no GitHub Pages: algumas funcionalidades são demonstrativas e poderiam ser integradas a sistemas reais em uma versão final.",
+        en: "Personal project. I used several AI tools as support — brainstorming, organizing ideas, writing and reviewing code, creating and editing visual elements and refining the design. Decisions on structure, visual identity, features and the final result were defined and refined by me. A working demo, published on GitHub Pages: some features are illustrative and could be connected to real systems in a final version.",
       },
       screenshots: [
         { src: "assets/projects/maca/sonhos.webp", caption: { pt: "A especialidade: sonhos", en: "The specialty: sonhos" } },

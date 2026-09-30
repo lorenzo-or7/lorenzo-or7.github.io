@@ -243,7 +243,8 @@ a { color: inherit; text-decoration: none; }
 }
 .status__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .status--in-progress { color: var(--warn); background: var(--warn-soft); }
-.status--completed   { color: var(--ok);   background: var(--ok-soft); }
+.status--completed,
+.status--live        { color: var(--ok);   background: var(--ok-soft); }
 .status--prototype,
 .status--concept     { color: var(--accent-ink); background: var(--accent-soft); }
 
