@@ -96,6 +96,7 @@ const I18N = (() => {
       "status.completed": "Concluído",
       "status.prototype": "Protótipo",
       "status.concept": "Conceito",
+      "status.discontinued": "Descontinuado",
 
       "type.website-concept": "Website Concept",
       "type.concept-project": "Concept Project",
@@ -251,6 +252,7 @@ const I18N = (() => {
       "status.completed": "Completed",
       "status.prototype": "Prototype",
       "status.concept": "Concept",
+      "status.discontinued": "Discontinued",
 
       "type.website-concept": "Website Concept",
       "type.concept-project": "Concept Project",

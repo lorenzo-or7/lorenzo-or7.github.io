@@ -80,12 +80,12 @@ const Projects = (() => {
     root.innerHTML = concepts()
       .map(
         (p) => `
-        <article class="concept" data-reveal aria-labelledby="c-${esc(p.id)}-title">
+        <article class="concept${p.status === "discontinued" ? " is-discontinued" : ""}" data-reveal aria-labelledby="c-${esc(p.id)}-title">
           <div class="concept__media media${p.video ? " has-video" : ""}">
             ${U.media(p)}
           </div>
           <div class="concept__body">
-            <p class="concept__type mono">${esc(t("type." + (p.type || "website-concept")))}</p>
+            <p class="concept__type mono">${esc(t("type." + (p.type || "website-concept")))}${p.status === "discontinued" ? " " + statusBadge(p.status) : ""}</p>
             <h4 class="concept__title" id="c-${esc(p.id)}-title">${esc(p.name)} <span>${esc(pick(p.tagline))}</span></h4>
             <p class="concept__desc">${esc(pick(p.description))}</p>
             <ul class="tags tags--sm">${p.technologies.map(U.techTag).join("")}</ul>

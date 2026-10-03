@@ -365,8 +365,8 @@ const PROJECTS = [
     type: "website-demo",
     name: "Casa di Lucente",
     tagline: { pt: "Gelato, café e confeitaria", en: "Gelato, coffee & patisserie" },
-    status: "prototype",
-    context: { pt: "Projeto pessoal · proposta para um estabelecimento real de Curitiba", en: "Personal project · proposal for a real business in Curitiba" },
+    status: "discontinued",
+    context: { pt: "Projeto pessoal · proposta para um estabelecimento real de Curitiba · descontinuado", en: "Personal project · proposal for a real business in Curitiba · discontinued" },
     description: {
       pt: "Demo de site próprio para uma gelateria, cafeteria e confeitaria real de Curitiba, criada como proposta comercial para mostrar como a marca poderia ir além do Instagram e do Linktree, valorizando os produtos e facilitando o contato com os clientes.",
       en: "A custom website demo for a real gelato shop, café and patisserie in Curitiba, built as a business proposal to show how the brand could go beyond Instagram and Linktree, showcasing its products and making it easier for customers to get in touch.",
@@ -452,8 +452,8 @@ const PROJECTS = [
         ],
       },
       process: {
-        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — pesquisa de ideias, planejamento da estrutura, criação e revisão de código, elaboração de textos, prompts para conteúdos visuais e resolução de problemas. As decisões sobre identidade visual, funcionalidades, organização do site e direção do projeto foram definidas por mim. Demo funcional, publicada no GitHub Pages: algumas funcionalidades são simuladas, pois o objetivo é demonstrar o conceito antes de uma versão definitiva.",
-        en: "Personal project. I used several AI tools as support — researching ideas, planning the structure, writing and reviewing code, drafting copy, creating prompts for visual content and solving problems. Decisions on visual identity, features, site organization and project direction were mine. A working demo, published on GitHub Pages: some features are simulated, since the goal is to demonstrate the concept before a final version.",
+        pt: "Projeto pessoal. Utilizei diferentes ferramentas de IA como apoio — pesquisa de ideias, planejamento da estrutura, criação e revisão de código, elaboração de textos, prompts para conteúdos visuais e resolução de problemas. As decisões sobre identidade visual, funcionalidades, organização do site e direção do projeto foram definidas por mim. Demo funcional, publicada no GitHub Pages. O projeto foi descontinuado e não recebe mais atualizações, mas o site continua no ar como registro do trabalho.",
+        en: "Personal project. I used several AI tools as support — researching ideas, planning the structure, writing and reviewing code, drafting copy, creating prompts for visual content and solving problems. Decisions on visual identity, features, site organization and project direction were mine. A working demo, published on GitHub Pages. The project has been discontinued and is no longer updated, but the site remains online as a record of the work.",
       },
       screenshots: [
         { src: "assets/projects/casa-di-lucente/torta.webp", caption: { pt: "A torta de gelato, camada por camada", en: "The gelato cake, layer by layer" } },
