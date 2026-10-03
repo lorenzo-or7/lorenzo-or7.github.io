@@ -247,6 +247,7 @@ a { color: inherit; text-decoration: none; }
 .status--live        { color: var(--ok);   background: var(--ok-soft); }
 .status--prototype,
 .status--concept     { color: var(--accent-ink); background: var(--accent-soft); }
+.status--discontinued { color: var(--text-2); background: var(--surface-2); border-style: dashed; }
 
 .status-pill {
   display: inline-flex;
@@ -1613,3 +1614,7 @@ a.repo:hover { border-color: var(--accent-line); }
 .tech-icon img { filter: none; }
 .tech:has(.tech-icon) { padding-left: 5px; }
 .marquee__icon { width: 26px; height: 26px; padding: 3px; border-radius: 6px; background: #EEE8FF; }
+
+/* Projeto descontinuado */
+.concept.is-discontinued .concept__media { filter: grayscale(.85); opacity: .75; }
+.concept__type .status { margin-left: 8px; vertical-align: middle; }
