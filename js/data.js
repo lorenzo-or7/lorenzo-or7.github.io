@@ -99,11 +99,11 @@ const TECHNOLOGIES = {
   DBModeling: { name: { pt: "Modelagem de Banco de Dados", en: "Database Modeling" }, short: "ER", icon: "assets/icons/db-modeling.webp", color: "#00758F", tip: { pt: "Modelos conceitual, lógico e físico", en: "Conceptual, logical and physical models" } },
   Requirements: { name: { pt: "Requisitos", en: "Requirements" }, short: "RQ", icon: "assets/icons/requirements.webp", color: "#5A8F6A", tip: { pt: "Levantamento e especificação de requisitos", en: "Requirements elicitation and specification" } },
   SWModeling: { name: { pt: "Modelagem de Software", en: "Software Modeling" }, short: "SM", icon: "assets/icons/software-modeling.webp", color: "#9A6BD1", tip: { pt: "Representação da estrutura e do comportamento de sistemas", en: "Describing system structure and behavior" } },
-  TypeScript: { name: "TypeScript", short: "TS", icon: "", color: "#3178C6", tip: { pt: "JavaScript com tipagem estática", en: "JavaScript with static types" } },
-  React:      { name: "React",      short: "Re", icon: "", color: "#61DAFB", tip: { pt: "Interfaces em componentes", en: "Component-based interfaces" } },
-  NextJS:     { name: "Next.js",    short: "Nx", icon: "", color: "#888888", tip: { pt: "Framework React com renderização no servidor", en: "React framework with server rendering" } },
-  Tailwind:   { name: "Tailwind CSS", short: "Tw", icon: "", color: "#38BDF8", tip: { pt: "Estilização com classes utilitárias", en: "Utility-first styling" } },
-  Supabase:   { name: "Supabase",   short: "Sb", icon: "", color: "#3ECF8E", tip: { pt: "PostgreSQL, autenticação e armazenamento", en: "PostgreSQL, auth and storage" } },
+  TypeScript: { name: "TypeScript", short: "TS", icon: "assets/icons/typescript.webp", color: "#3178C6", tip: { pt: "JavaScript com tipagem estática", en: "JavaScript with static types" } },
+  React:      { name: "React",      short: "Re", icon: "assets/icons/react.webp", color: "#61DAFB", tip: { pt: "Interfaces em componentes", en: "Component-based interfaces" } },
+  NextJS:     { name: "Next.js",    short: "Nx", icon: "assets/icons/nextjs.webp", color: "#888888", tip: { pt: "Framework React com renderização no servidor", en: "React framework with server rendering" } },
+  Tailwind:   { name: "Tailwind CSS", short: "Tw", icon: "assets/icons/tailwind.webp", color: "#38BDF8", tip: { pt: "Estilização com classes utilitárias", en: "Utility-first styling" } },
+  Supabase:   { name: "Supabase",   short: "Sb", icon: "assets/icons/supabase.webp", color: "#3ECF8E", tip: { pt: "PostgreSQL, autenticação e armazenamento", en: "PostgreSQL, auth and storage" } },
 };
 
 /* Categorias da seção "Tech Stack" (usam as chaves de TECHNOLOGIES). */
@@ -260,7 +260,7 @@ const PROJECTS = [
     category: "featured",
     name: "NEXO",
     tagline: { pt: "Gestão financeira pessoal", en: "Personal finance app" },
-    status: "in-progress",
+    status: "live",
     context: { pt: "Projeto pessoal · aplicação web completa", en: "Personal project · full web application" },
     description: {
       pt: "Aplicação de finanças pessoais com contas, cartões, faturas, parcelamentos, assinaturas e projeção do saldo dia a dia. Feita com Next.js, TypeScript e Supabase, com testes automatizados.",
@@ -294,7 +294,7 @@ const PROJECTS = [
       en: ["Product concept", "Financial rules", "Database modeling and security (RLS)", "Interface", "Implementation", "Testing"],
     },
     image: "assets/projects/nexo-cover.webp",
-    links: { demo: "", github: "https://github.com/lorenzo-or7/nexo" },
+    links: { demo: "https://nexo-gamma-one.vercel.app", github: "https://github.com/lorenzo-or7/nexo" },
     placeholder: { url: "nexo", bg: "#1A0B14", ink: "#F7EDF3", accent: "#E8336D" },
     caseStudy: {
       problem: {
