@@ -43,6 +43,7 @@ const PROFILE = {
 
   // Instagram (vazio = oculto)
   instagram: "https://www.instagram.com/lorenzo.or7/",
+  twitter: "https://x.com/lorenzo__or7",
   discord: "https://discord.com/users/706965087411372032",
   spotify: "https://open.spotify.com/user/lmorsetti",
 
@@ -88,6 +89,7 @@ const TECHNOLOGIES = {
   Git:        { name: "Git",        short: "Git", icon: "assets/icons/git.webp", color: "#F05032", tip: { pt: "Controle de versão", en: "Version control" } },
   GitHub:     { name: "GitHub",     short: "GH",  icon: "assets/icons/github.webp", color: "#8B949E", tip: { pt: "Repositórios e publicação de projetos", en: "Repositories and project hosting" } },
   Python:     { name: "Python",     short: "Py",  icon: "assets/icons/python.webp", color: "#3572A5", tip: { pt: "Linguagem de programação de uso geral", en: "General-purpose programming language" } },
+  Figma:      { name: "Figma",      short: "Fg",  icon: "assets/icons/figma.webp", color: "#A259FF", tip: { pt: "Prototipação e design de interfaces", en: "Interface design and prototyping" } },
   VSCode:     { name: "VS Code",    short: "VS",  icon: "assets/icons/vscode.webp", color: "#23A9F2", tip: { pt: "Editor de código do dia a dia", en: "My everyday code editor" } },
   ChatGPT:    { name: "ChatGPT",    short: "GPT", icon: "assets/icons/chatgpt.webp", color: "#10A37F", tip: { pt: "Pesquisa, ideias e revisão de código", en: "Research, ideas and code review" } },
   Claude:     { name: "Claude",     short: "Cl",  icon: "assets/icons/claude.webp", color: "#D97757", tip: { pt: "Desenvolvimento, revisão de código e textos", en: "Development, code review and writing" } },
@@ -111,7 +113,7 @@ const STACK = [
   { label: { pt: "Frontend", en: "Frontend" }, file: "frontend", items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "NextJS", "Tailwind"] },
   { label: { pt: "Backend & linguagens", en: "Backend & languages" }, file: "backend", items: ["PHP", "Python"] },
   { label: { pt: "Banco de dados", en: "Database" }, file: "database", items: ["MySQL", "Supabase"] },
-  { label: { pt: "Ferramentas", en: "Tools" }, file: "tools", items: ["VSCode", "Git", "GitHub", "Astah"] },
+  { label: { pt: "Ferramentas", en: "Tools" }, file: "tools", items: ["VSCode", "Git", "GitHub", "Figma", "Astah"] },
   { label: { pt: "Engenharia de Software", en: "Software Engineering" }, file: "engineering", items: ["DBModeling", "Requirements", "SWModeling"] },
   { label: { pt: "Inteligência Artificial", en: "AI tools" }, file: "ai", items: ["ChatGPT", "Claude", "Gemini", "Copilot", "Lovable", "Antigravity"] },
 ];

@@ -30,6 +30,7 @@
     if (gh) items.push({ href: gh, label: "GitHub", id: "github" });
     items.push({ href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin" });
     if (PROFILE.instagram) items.push({ href: PROFILE.instagram, label: "Instagram", id: "instagram" });
+    if (PROFILE.twitter) items.push({ href: PROFILE.twitter, label: "X (Twitter)", id: "x" });
     if (PROFILE.discord) items.push({ href: PROFILE.discord, label: "Discord", id: "discord" });
     if (PROFILE.spotify) items.push({ href: PROFILE.spotify, label: "Spotify", id: "spotify" });
     if (PROFILE.email) items.push({ href: `mailto:${PROFILE.email}`, label: t("contact.email"), id: "mail", internal: true });
@@ -238,6 +239,7 @@
       gh && ["github", `<a href="${esc(gh)}"${ext}>${esc(gh.replace("https://", ""))}</a>`],
       ["linkedin", `<a href="${esc(PROFILE.linkedin)}"${ext}>in/${esc(PROFILE.linkedin.split("/in/")[1].replace(/\/$/, ""))}</a>`],
       PROFILE.instagram && ["instagram", `<a href="${esc(PROFILE.instagram)}"${ext}>@${esc(PROFILE.instagram.replace(/\/$/, "").split("/").pop())}</a>`],
+      PROFILE.twitter && ["x", `<a href="${esc(PROFILE.twitter)}"${ext}>@${esc(PROFILE.twitter.replace(/\/$/, "").split("/").pop())}</a>`],
       PROFILE.discord && ["discord", `<a href="${esc(PROFILE.discord)}"${ext}>Discord</a>`],
       PROFILE.spotify && ["spotify", `<a href="${esc(PROFILE.spotify)}"${ext}>Spotify</a>`],
     ].filter(Boolean);
@@ -269,6 +271,7 @@
       { href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin", color: "#0A66C2" },
       gh && { href: gh, label: "GitHub", id: "github", color: "#24292F" },
       PROFILE.instagram && { href: PROFILE.instagram, label: "Instagram", id: "instagram", color: "#C13584" },
+      PROFILE.twitter && { href: PROFILE.twitter, label: "X", id: "x", color: "#000000" },
       PROFILE.discord && { href: PROFILE.discord, label: "Discord", id: "discord", color: "#5865F2" },
       PROFILE.spotify && { href: PROFILE.spotify, label: "Spotify", id: "spotify", color: "#1DB954" },
       PROFILE.email && { href: `mailto:${PROFILE.email}`, label: "Gmail", id: "mail", color: "#C5221F", internal: true },
