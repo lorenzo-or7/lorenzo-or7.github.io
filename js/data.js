@@ -296,7 +296,7 @@ const PROJECTS = [
       pt: ["Idealização do produto", "Regras financeiras", "Modelagem do banco e segurança (RLS)", "Interface", "Implementação", "Testes"],
       en: ["Product concept", "Financial rules", "Database modeling and security (RLS)", "Interface", "Implementation", "Testing"],
     },
-    image: "assets/projects/nexo-cover.webp",
+    image: "assets/projects/nexo-capa.webp",
     links: { demo: "https://nexo-gamma-one.vercel.app", github: "https://github.com/lorenzo-or7/nexo" },
     placeholder: { url: "nexo", bg: "#1A0B14", ink: "#F7EDF3", accent: "#E8336D" },
     caseStudy: {
@@ -347,6 +347,7 @@ const PROJECTS = [
         en: "A personal project, conceived and built by me. I used AI tools as support for coding, review and problem solving; the product rules, architecture and interface decisions were mine. In development: screens are being built in stages on top of the already-tested financial engine.",
       },
       screenshots: [
+        { src: "assets/projects/nexo-cover.webp", caption: { pt: "Página inicial", en: "Home page" } },
         { src: "assets/projects/nexo-lancamentos.webp", caption: { pt: "Lançamentos com filtros e resumo", en: "Entries with filters and summary" } },
         { src: "assets/projects/nexo-cartoes.webp", caption: { pt: "Cartões, faturas e limites", en: "Cards, invoices and limits" } },
         { src: "assets/projects/nexo-assinaturas.webp", caption: { pt: "Assinaturas e custo mensal", en: "Subscriptions and monthly cost" } },
@@ -1192,7 +1193,7 @@ const PROJECTS = [
       pt: ["Idealização", "Design da interface", "Desenvolvimento front-end", "Fluxo de agendamento"],
       en: ["Concept", "Interface design", "Front-end development", "Booking flow"],
     },
-    image: "assets/projects/chapula/cover.webp",
+    image: "assets/projects/chapula-capa.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/barbearia-chapula-demo/", github: "https://github.com/lorenzo-or7/barbearia-chapula-demo" },
     placeholder: { url: "barbeariachapula", bg: "#0B0B0B", ink: "#F3EEE2", accent: "#E2BA24" },
@@ -1246,6 +1247,7 @@ const PROJECTS = [
         en: "Personal project. I used several AI tools as support throughout every stage — planning, design, development, code review and problem solving. The decisions, adaptations and final implementation were led by me. A working prototype, published as a demo on GitHub Pages, with its code open on GitHub.",
       },
       screenshots: [
+        { src: "assets/projects/chapula/cover.webp", caption: { pt: "Página inicial", en: "Home page" } },
         { src: "assets/projects/chapula/agendamento.webp", caption: { pt: "Agendamento em etapas com resumo e confirmação", en: "Step-by-step booking with summary and confirmation" } },
         { src: "assets/projects/chapula/planos.webp", caption: { pt: "Planos mensais com comparação de economia", en: "Monthly plans with savings comparison" } },
         { src: "assets/projects/chapula/avaliacoes.webp", caption: { pt: "Avaliações de clientes", en: "Customer reviews" } },
@@ -1299,7 +1301,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/maca/cover.webp",
+    image: "assets/projects/maca-capa.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/maca-padaria-demo/", github: "https://github.com/lorenzo-or7/maca-padaria-demo" },
     placeholder: { url: "macapadaria", bg: "#FEF9E5", ink: "#231A18", accent: "#ED1F29" },
@@ -1351,6 +1353,7 @@ const PROJECTS = [
         en: "Personal project. I used several AI tools as support — brainstorming, organizing ideas, writing and reviewing code, creating and editing visual elements and refining the design. Decisions on structure, visual identity, features and the final result were defined and refined by me. A working demo, published on GitHub Pages: some features are illustrative and could be connected to real systems in a final version.",
       },
       screenshots: [
+        { src: "assets/projects/maca/cover.webp", caption: { pt: "Página inicial", en: "Home page" } },
         { src: "assets/projects/maca/sonhos.webp", caption: { pt: "A especialidade: sonhos", en: "The specialty: sonhos" } },
         { src: "assets/projects/maca/favoritos.webp", caption: { pt: "Favoritos da casa com filtros (tema claro)", en: "House favorites with filters (light theme)" } },
         { src: "assets/projects/maca/cada-hora.webp", caption: { pt: "Momentos do dia", en: "Moments of the day" } },
