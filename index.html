@@ -56,7 +56,6 @@
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/easter-egg.css">
 </head>
 
 <body>
@@ -78,7 +77,6 @@
           <li><a class="nav__link" href="#education" data-i18n="nav.education">Education</a></li>
           <li><a class="nav__link" href="#english" data-i18n="nav.english">English</a></li>
           <li><a class="nav__link" href="#github" data-i18n="nav.github">GitHub</a></li>
-          <li id="beyond-nav-item" hidden><a class="nav__link nav__link--beyond" href="#beyond-code"><span data-i18n="nav.beyond">Beyond</span> <span aria-hidden="true">✦</span></a></li>
           <li><a class="nav__link" href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </nav>
@@ -254,12 +252,20 @@
 
           <div class="featured-list" id="featured-projects"></div>
 
-          <div class="subsection" id="concepts">
+          <div class="subsection" id="prototypes">
             <header class="subsection__head" data-reveal>
-              <h3 class="subsection__title"><span class="accent mono" aria-hidden="true">{ }</span> <span data-i18n="concepts.title">Web Design &amp; Development Concepts</span></h3>
-              <p class="section-intro" data-i18n="concepts.intro"></p>
+              <h3 class="subsection__title"><span class="accent mono" aria-hidden="true">{ }</span> <span data-i18n="prototypes.title">Prototypes &amp; Demonstrations</span></h3>
+              <p class="section-intro" data-i18n="prototypes.intro"></p>
             </header>
-            <div class="concept-grid" id="concept-projects"></div>
+            <div class="concept-grid" id="prototype-projects"></div>
+          </div>
+
+          <div class="subsection subsection--scopes" id="scopes">
+            <header class="subsection__head" data-reveal>
+              <h3 class="subsection__title"><span class="accent mono" aria-hidden="true">[ ]</span> <span data-i18n="scopes.title">Generic Scopes</span></h3>
+              <p class="section-intro" data-i18n="scopes.intro"></p>
+            </header>
+            <div class="scope-showcase" id="generic-scopes"></div>
           </div>
         </section>
 
@@ -305,21 +311,10 @@
           <div class="github" id="github-content"></div>
         </section>
 
-        <!-- ===================== BEYOND CODE (EASTER EGG) ===================== -->
-        <section class="section beyond" id="beyond-code" aria-labelledby="beyond-title" hidden>
-          <header class="section-head" data-reveal>
-            <span class="section-head__index">07</span>
-            <h2 class="section-head__title" id="beyond-title" data-i18n="beyond.title">Beyond Code</h2>
-            <span class="section-head__file">outside-code.js</span>
-          </header>
-          <p class="section-intro" data-i18n="beyond.intro" data-reveal></p>
-          <div class="beyond__grid" id="beyond-grid"></div>
-        </section>
-
         <!-- ===================== CONTATO ===================== -->
         <section class="section section--contact" id="contact" aria-labelledby="contact-title">
           <header class="section-head" data-reveal>
-            <span class="section-head__index">08</span>
+            <span class="section-head__index">07</span>
             <h2 class="visually-hidden" data-i18n="nav.contact">Contact</h2>
             <span class="section-head__file">contact.sh</span>
           </header>
@@ -345,8 +340,6 @@
       <a class="site-footer__top mono" href="#hero" data-i18n="footer.top">Back to top</a>
     </div>
   </footer>
-
-  <div class="unlock-overlay" id="unlock-overlay" aria-hidden="true"><span class="unlock-overlay__core"></span><span class="unlock-overlay__scan"></span></div>
 
   <!-- ===================== MODAL: ESTUDO DE CASO ===================== -->
   <dialog class="case" id="case-dialog" aria-labelledby="case-title">
@@ -382,7 +375,6 @@
   <script src="js/utils.js" defer></script>
   <script src="js/projects.js" defer></script>
   <script src="js/github.js" defer></script>
-  <script src="js/easter-egg.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
