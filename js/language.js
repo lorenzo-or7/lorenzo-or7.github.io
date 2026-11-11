@@ -25,6 +25,7 @@ const I18N = (() => {
       "nav.education": "Formação",
       "nav.english": "Inglês",
       "nav.github": "GitHub",
+      "nav.beyond": "Além do Código",
       "nav.contact": "Contato",
       "nav.open": "Abrir menu",
       "nav.close": "Fechar menu",
@@ -96,7 +97,6 @@ const I18N = (() => {
       "status.completed": "Concluído",
       "status.prototype": "Protótipo",
       "status.concept": "Conceito",
-      "status.discontinued": "Descontinuado",
 
       "type.website-concept": "Website Concept",
       "type.concept-project": "Concept Project",
@@ -157,6 +157,11 @@ const I18N = (() => {
       "gh.contribOn": "contribuições em",
       "gh.contribSource": "Dados públicos do perfil no GitHub",
 
+      "beyond.title": "Além do Código",
+      "beyond.intro": "Nem tudo gira em torno de código. Estas são algumas das coisas que gosto quando estou longe do editor.",
+      "beyond.outro": "Código é o que eu construo. Essas são algumas das coisas que me inspiram fora dele.",
+      "beyond.code": "Interesses de Lorenzo em formato de código",
+
       "contact.title": "Vamos criar alguma coisa.",
       "contact.text": "Estou sempre interessado em novos projetos, oportunidades de estágio e experiências que me ajudem a evoluir como desenvolvedor. Se quiser conversar, é só chamar.",
       "contact.linkedin": "Conecte-se comigo no LinkedIn",
@@ -181,6 +186,7 @@ const I18N = (() => {
       "nav.education": "Education",
       "nav.english": "English",
       "nav.github": "GitHub",
+      "nav.beyond": "Beyond Code",
       "nav.contact": "Contact",
       "nav.open": "Open menu",
       "nav.close": "Close menu",
@@ -252,7 +258,6 @@ const I18N = (() => {
       "status.completed": "Completed",
       "status.prototype": "Prototype",
       "status.concept": "Concept",
-      "status.discontinued": "Discontinued",
 
       "type.website-concept": "Website Concept",
       "type.concept-project": "Concept Project",
@@ -312,6 +317,11 @@ const I18N = (() => {
       "gh.more": "More",
       "gh.contribOn": "contributions on",
       "gh.contribSource": "Public data from the GitHub profile",
+
+      "beyond.title": "Beyond Code",
+      "beyond.intro": "There's more to me than code. These are some of the things I enjoy when I'm away from the editor.",
+      "beyond.outro": "Code is what I build. These are some of the things that inspire me outside of it.",
+      "beyond.code": "Lorenzo's interests written as code",
 
       "contact.title": "Let's build something.",
       "contact.text": "I'm always interested in new projects, internship opportunities and experiences that help me grow as a developer. If you'd like to talk, just reach out.",
