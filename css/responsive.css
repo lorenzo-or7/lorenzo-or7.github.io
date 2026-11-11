@@ -134,6 +134,8 @@
   .profile__facts { border-top: 1px solid var(--border); padding-top: 16px; }
 
   .concept-grid { grid-template-columns: minmax(0, 1fr); }
+  .scope-grid { grid-template-columns: minmax(0, 1fr); }
+  .scope-intro-card { grid-template-columns: minmax(0, 1fr); }
   .feature__details { grid-template-columns: minmax(0, 1fr); }
   .feature__main,
   .feature__details { padding: 24px; }
@@ -200,6 +202,8 @@
   .feature__media { aspect-ratio: 4 / 3; }
   .feature__actions .btn,
   .concept__actions .btn:not(.btn--text) { flex: 1 1 auto; }
+  .scope-intro-card { padding: 22px; }
+  .scope-intro-card__steps li { min-height: 64px; padding: 12px 14px; }
 
   .frame { font-size: 1.35cqi; }
   .frame__canvas { padding: 3em 4em 4em; }

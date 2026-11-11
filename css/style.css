@@ -967,7 +967,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-3);
 }
 
-/* Conceitos */
+/* Protótipos, demonstrações e escopos */
 .subsection { margin-top: 88px; }
 .subsection__head { margin-bottom: 28px; }
 .subsection__title {
@@ -1008,6 +1008,114 @@ a { color: inherit; text-decoration: none; }
 .concept__title span { font-weight: 400; color: var(--text-3); }
 .concept__desc { font-size: 0.93rem; color: var(--text-2); }
 .concept__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 8px; }
+
+
+.subsection--scopes {
+  padding-top: 4px;
+}
+
+.scope-showcase {
+  margin-top: 24px;
+}
+
+.scope-intro-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  gap: clamp(28px, 5vw, 64px);
+  padding: clamp(28px, 5vw, 52px);
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--surface)), var(--surface) 55%),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.scope-intro-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--accent);
+}
+.scope-intro-card__copy {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 14px;
+  max-width: 680px;
+}
+.scope-intro-card__eyebrow,
+.scope-card__type {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.scope-intro-card__title,
+.scope-card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -.035em;
+}
+.scope-intro-card__title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  line-height: 1.08;
+}
+.scope-intro-card__text,
+.scope-card__desc {
+  color: var(--text-2);
+}
+.scope-intro-card__steps {
+  display: grid;
+  align-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--bg-2) 72%, transparent);
+}
+.scope-intro-card__steps li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.scope-intro-card__steps li:last-child { border-bottom: 0; }
+.scope-intro-card__steps span {
+  font-size: .76rem;
+  color: var(--accent-ink);
+}
+.scope-intro-card__steps strong {
+  font-size: .95rem;
+  font-weight: 500;
+}
+
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.scope-card {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.scope-card__media {
+  aspect-ratio: 16 / 10;
+  border-bottom: 1px solid var(--border);
+}
+.scope-card__body {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+}
+.scope-card__title { font-size: 1.3rem; }
+.scope-card__tagline { color: var(--accent-ink); font-weight: 500; }
+.scope-card__actions { margin-top: 4px; }
 
 /* ---------- 11. Stack ---------- */
 .stack {

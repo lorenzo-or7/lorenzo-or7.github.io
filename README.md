@@ -78,8 +78,8 @@ Abra `js/data.js`, copie um bloco de `PROJECTS` e edite:
 ```js
 {
   id: "meu-projeto",                 // único, sem espaços (usado no link #project/meu-projeto)
-  category: "featured",              // "featured" = Projetos em Destaque | "concept" = Conceitos de Websites
-  type: "website-concept",           // só para concepts: "website-concept" | "concept-project" | "prototype"
+  category: "featured",              // "featured" = Projetos em Destaque | "concept" = Protótipos e Demonstrações
+  type: "website-concept",           // só para protótipos: "website-concept" | "concept-project" | "prototype" | "website-demo" | "commercial-website"
   name: "Meu Projeto",
   tagline: { pt: "Subtítulo", en: "Subtitle" },
   status: "in-progress",             // "in-progress" | "completed" | "prototype" | "concept"
@@ -88,7 +88,7 @@ Abra `js/data.js`, copie um bloco de `PROJECTS` e edite:
   features: { pt: ["..."], en: ["..."] },
   role:     { pt: ["..."], en: ["..."] },
   image: "assets/projects/meu-projeto/cover.webp",
-  video: "",                          // opcional (concepts): toca ao passar o mouse
+  video: "",                          // opcional (protótipos): toca ao passar o mouse
   links: { demo: "https://...", github: "https://github.com/..." },
   placeholder: { url: "meuprojeto", bg: "#FFFFFF", ink: "#111111", accent: "#4928C2" },
   caseStudy: {
@@ -109,7 +109,28 @@ Abra `js/data.js`, copie um bloco de `PROJECTS` e edite:
 - Links vazios aparecem como botão tracejado **"em breve"**.
 - Sem `image`, o card mostra uma prévia ilustrada com as cores de `placeholder`.
 
-> ⚠️ Os textos de **Desafios / Soluções / O que aprendi** do VotAI e as descrições dos conceitos são **rascunhos** baseados nas informações fornecidas. Revise-os com a sua experiência real antes de publicar.
+> ⚠️ Os textos de **Desafios / Soluções / O que aprendi** do VotAI e as descrições dos protótipos são **rascunhos** baseados nas informações fornecidas. Revise-os com a sua experiência real antes de publicar.
+
+## Como adicionar um escopo genérico
+
+Os escopos genéricos ficam no array `GENERIC_SCOPES` em `js/data.js`. Eles são demonstrações autorais por segmento, sem vínculo com uma empresa real.
+
+Enquanto o array estiver vazio, o site exibe um bloco explicando a proposta dos escopos e direciona o visitante para contato. Quando houver escopos cadastrados, eles passam a aparecer como cards automaticamente.
+
+Exemplo:
+
+```js
+{
+  id: "restaurante-premium",
+  name: "Restaurante Premium",
+  tagline: { pt: "Experiência digital para gastronomia", en: "Digital experience for hospitality" },
+  description: { pt: "...", en: "..." },
+  status: "concept",
+  technologies: ["HTML", "CSS", "JavaScript"],
+  image: "assets/scopes/restaurante-premium.webp",
+  links: { demo: "https://...", github: "" }
+}
+```
 
 ## Como modificar informações pessoais
 

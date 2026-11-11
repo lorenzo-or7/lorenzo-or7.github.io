@@ -1,5 +1,5 @@
 /* =============================================================
-   projects.js — projetos em destaque, conceitos e estudo de caso
+   projects.js — projetos em destaque, protótipos, escopos e estudo de caso
    -------------------------------------------------------------
    Tudo é gerado a partir de PROJECTS (js/data.js).
    Para adicionar um projeto, edite apenas data.js.
@@ -11,10 +11,12 @@ const Projects = (() => {
   const pick = (v) => I18N.pick(v);
 
   const featured = () => PROJECTS.filter((p) => p.category === "featured");
-  const concepts = () => {
+  const prototypes = () => {
     const priority = { live: 0, "in-progress": 1, completed: 2, prototype: 3, concept: 4, discontinued: 5 };
     return PROJECTS.filter((p) => p.category === "concept").sort((a, b) => (priority[a.status] ?? 9) - (priority[b.status] ?? 9));
   };
+
+  const scopes = () => (typeof GENERIC_SCOPES !== "undefined" && Array.isArray(GENERIC_SCOPES) ? GENERIC_SCOPES : []);
 
   const statusBadge = (status) =>
     `<span class="status status--${esc(status)}"><span class="status__dot" aria-hidden="true"></span>${esc(t("status." + status))}</span>`;
@@ -75,12 +77,12 @@ const Projects = (() => {
       .join("");
   }
 
-  /* ---------- Conceitos de websites ---------- */
-  function renderConcepts() {
-    const root = document.getElementById("concept-projects");
+  /* ---------- Protótipos e demonstrações ---------- */
+  function renderPrototypes() {
+    const root = document.getElementById("prototype-projects");
     if (!root) return;
 
-    root.innerHTML = concepts()
+    root.innerHTML = prototypes()
       .map(
         (p) => `
         <article class="concept${p.status === "discontinued" ? " is-discontinued" : ""}" data-reveal aria-labelledby="c-${esc(p.id)}-title">
@@ -115,6 +117,52 @@ const Projects = (() => {
       card.addEventListener("focusin", play);
       card.addEventListener("focusout", stop);
     });
+  }
+
+  /* ---------- Escopos genéricos ---------- */
+  function renderScopes() {
+    const root = document.getElementById("generic-scopes");
+    if (!root) return;
+
+    const items = scopes();
+    if (!items.length) {
+      const href = PROFILE.instagram || "#contact";
+      const external = Boolean(PROFILE.instagram);
+      root.innerHTML = `
+        <article class="scope-intro-card" data-reveal>
+          <div class="scope-intro-card__copy">
+            <p class="scope-intro-card__eyebrow mono">${esc(t("scopes.eyebrow"))}</p>
+            <h4 class="scope-intro-card__title">${esc(t("scopes.cardTitle"))}</h4>
+            <p class="scope-intro-card__text">${esc(t("scopes.cardText"))}</p>
+            <a class="btn btn--ghost btn--sm" href="${esc(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>
+              ${esc(t("scopes.cta"))} ${U.icon(external ? "external" : "arrow", "btn__icon")}
+            </a>
+          </div>
+          <ol class="scope-intro-card__steps" aria-label="${esc(t("scopes.title"))}">
+            <li><span class="mono">01</span><strong>${esc(t("scopes.step1"))}</strong></li>
+            <li><span class="mono">02</span><strong>${esc(t("scopes.step2"))}</strong></li>
+            <li><span class="mono">03</span><strong>${esc(t("scopes.step3"))}</strong></li>
+          </ol>
+        </article>`;
+      return;
+    }
+
+    root.innerHTML = `
+      <div class="scope-grid">
+        ${items.map((p) => `
+          <article class="scope-card" data-reveal>
+            <div class="scope-card__media media">${U.media(p)}</div>
+            <div class="scope-card__body">
+              <p class="scope-card__type mono">${esc(t("type.generic-scope"))}</p>
+              <h4 class="scope-card__title">${esc(p.name)}</h4>
+              <p class="scope-card__tagline">${esc(pick(p.tagline))}</p>
+              <p class="scope-card__desc">${esc(pick(p.description))}</p>
+              <ul class="tags tags--sm">${(p.technologies || []).map(U.techTag).join("")}</ul>
+              ${p.links?.demo ? `<div class="scope-card__actions">${U.linkButton({ href: p.links.demo, label: t("projects.demo"), iconId: "external" })}</div>` : ""}
+            </div>
+          </article>
+        `).join("")}
+      </div>`;
   }
 
   /* ---------- Modal: estudo de caso ---------- */
@@ -215,7 +263,8 @@ const Projects = (() => {
 
   function init() {
     renderFeatured();
-    renderConcepts();
+    renderPrototypes();
+    renderScopes();
 
     document.addEventListener("click", (e) => {
       const trigger = e.target.closest("[data-case]");
@@ -236,7 +285,8 @@ const Projects = (() => {
 
     document.addEventListener("langchange", () => {
       renderFeatured();
-      renderConcepts();
+      renderPrototypes();
+      renderScopes();
       U.observeReveal(document.getElementById("projects"), { instant: true });
       if (openId) {
         document.getElementById("case-content").innerHTML = renderCase(PROJECTS.find((x) => x.id === openId));
@@ -244,5 +294,5 @@ const Projects = (() => {
     });
   }
 
-  return { init, open, close, featured, concepts };
+  return { init, open, close, featured, prototypes, scopes };
 })();
