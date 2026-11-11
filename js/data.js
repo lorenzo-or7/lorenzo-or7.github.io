@@ -62,41 +62,6 @@ const PROFILE = {
   ],
 };
 
-/* Conteúdo pessoal desbloqueado pelo Konami Code. */
-const BEYOND_CODE = {
-  music: {
-    artists: ["Travis Scott", "A$AP Rocky", "Eminem", "Kendrick Lamar"],
-    genres: [
-      { pt: "Rap", en: "Rap" },
-      { pt: "Hip Hop", en: "Hip Hop" },
-      { pt: "Pop", en: "Pop" },
-      { pt: "Eletrônica", en: "Electronic" },
-      { pt: "Rock", en: "Rock" },
-      { pt: "R&B", en: "R&B" },
-    ],
-  },
-  games: ["Elden Ring", "Rocket League", "League of Legends", "Counter-Strike 2", "Minecraft", "Valorant", "Dead by Daylight"],
-  anime: ["Death Note", "Jujutsu Kaisen", "Hell's Paradise", "KonoSuba"],
-  movies: {
-    favorites: ["Transformers", "8 Mile", { pt: "Todo Mundo em Pânico", en: "Scary Movie" }],
-    genres: [{ pt: "Terror", en: "Horror" }, { pt: "Comédia", en: "Comedy" }],
-  },
-  series: ["You", "Game of Thrones"],
-  sports: {
-    favorites: [{ pt: "Basquete", en: "Basketball" }, { pt: "Futebol", en: "Football" }, { pt: "Vôlei", en: "Volleyball" }],
-    teams: ["Corinthians", "Miami Heat"],
-  },
-  favorites: {
-    artist: "Travis Scott",
-    game: "Elden Ring",
-    anime: "Death Note",
-    movie: "Transformers",
-    series: "You",
-    football: "Corinthians",
-    basketball: "Miami Heat",
-  },
-};
-
 /* Estatísticas que a API pública do GitHub não fornece.
    Deixe null para exibir "--". Preencha apenas com números reais. */
 const GITHUB_MANUAL_STATS = {
@@ -162,11 +127,11 @@ const MARQUEE = ["HTML", "CSS", "JavaScript", "PHP", "Python", "MySQL", "Git", "
    Para adicionar um projeto, copie um bloco { ... } e edite.
 
    category:  "featured" → Projetos em Destaque
-              "concept"  → Conceitos de Websites
+              "concept"  → Protótipos e demonstrações
    status:    "in-progress" | "completed" | "prototype" | "concept"
    image:     capa. Ex.: "assets/projects/votai/cover.webp"
               Vazio → exibe uma prévia ilustrada (placeholder).
-   video:     opcional (concepts). Ex.: "assets/projects/maca/preview.mp4"
+   video:     opcional (protótipos). Ex.: "assets/projects/maca/preview.mp4"
    links:     demo / github. Vazio → botão aparece como "Em breve".
    placeholder: cores da prévia ilustrada, usada só quando não há imagem.
    caseStudy: conteúdo do modal "Ver detalhes". Seções vazias são ocultadas.
@@ -2009,7 +1974,27 @@ const PROJECTS = [
 ];
 
 /* -------------------------------------------------------------
-   4. FORMAÇÃO
+   4. ESCOPOS GENÉRICOS
+   -------------------------------------------------------------
+   Demonstrações autorais sem vínculo com uma empresa real.
+   Adicione novos escopos aqui quando forem criados.
+
+   Estrutura sugerida:
+   {
+     id: "restaurante-premium",
+     name: "Restaurante Premium",
+     tagline: { pt: "...", en: "..." },
+     description: { pt: "...", en: "..." },
+     status: "concept",
+     technologies: ["HTML", "CSS", "JavaScript"],
+     image: "assets/scopes/restaurante-premium.webp",
+     links: { demo: "", github: "" }
+   }
+   ------------------------------------------------------------- */
+const GENERIC_SCOPES = [];
+
+/* -------------------------------------------------------------
+   5. FORMAÇÃO
    -------------------------------------------------------------
    Datas e semestre ficam vazios até você preencher.
    Itens com  optional: true  só aparecem quando "date" é preenchido.
@@ -2062,7 +2047,7 @@ const EDUCATION = {
 };
 
 /* -------------------------------------------------------------
-   5. IDIOMAS
+   6. IDIOMAS
    ------------------------------------------------------------- */
 const LANGUAGES = [
   {
