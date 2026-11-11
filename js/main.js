@@ -248,7 +248,7 @@
     const pad = (n) => String(n).padStart(2, "0");
     $("#profile-stats").innerHTML = [
       [pad(Projects.featured().length), t("profile.featured")],
-      [pad(Projects.concepts().length), t("profile.concepts")],
+      [pad(Projects.prototypes().length), t("profile.prototypes")],
       [pad(Object.keys(TECHNOLOGIES).length), t("profile.tech")],
     ].map(([n, l]) => `<li><span class="mono">${n}</span>${esc(l)}</li>`).join("");
 
