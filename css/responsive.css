@@ -114,11 +114,6 @@
   .timeline-wrap { padding: 12px 4px 0; }
 }
 
-/* ---------- Além do código: código acima dos cards ---------- */
-@media (max-width: 1280px) {
-  .beyond { grid-template-columns: minmax(0, 1fr); }
-}
-
 /* ---------- Tablet ---------- */
 @media (max-width: 768px) {
   .profile__card {
@@ -231,7 +226,6 @@
   .gh-stat__value { font-size: 1.5rem; }
   .gh-recent a { flex-wrap: wrap; gap: 4px 12px; }
 
-  .beyond__grid { grid-template-columns: minmax(0, 1fr); }
   .contact__links { display: grid; grid-template-columns: minmax(0, 1fr); }
   .email-box { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
 

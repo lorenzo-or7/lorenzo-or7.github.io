@@ -11,7 +11,10 @@ const Projects = (() => {
   const pick = (v) => I18N.pick(v);
 
   const featured = () => PROJECTS.filter((p) => p.category === "featured");
-  const concepts = () => PROJECTS.filter((p) => p.category === "concept");
+  const concepts = () => {
+    const priority = { live: 0, "in-progress": 1, completed: 2, prototype: 3, concept: 4, discontinued: 5 };
+    return PROJECTS.filter((p) => p.category === "concept").sort((a, b) => (priority[a.status] ?? 9) - (priority[b.status] ?? 9));
+  };
 
   const statusBadge = (status) =>
     `<span class="status status--${esc(status)}"><span class="status__dot" aria-hidden="true"></span>${esc(t("status." + status))}</span>`;
@@ -49,7 +52,7 @@ const Projects = (() => {
 
               <div class="feature__actions">
                 ${U.linkButton({ href: p.links.demo, label: t("projects.view"), iconId: "external", variant: "primary" })}
-                ${U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" })}
+                ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
                 <button type="button" class="btn btn--text btn--sm" data-case="${esc(p.id)}">
                   ${esc(t("projects.case"))} ${U.icon("arrow", "btn__icon")}
                 </button>
@@ -80,18 +83,18 @@ const Projects = (() => {
     root.innerHTML = concepts()
       .map(
         (p) => `
-        <article class="concept" data-reveal aria-labelledby="c-${esc(p.id)}-title">
+        <article class="concept${p.status === "discontinued" ? " is-discontinued" : ""}" data-reveal aria-labelledby="c-${esc(p.id)}-title">
           <div class="concept__media media${p.video ? " has-video" : ""}">
             ${U.media(p)}
           </div>
           <div class="concept__body">
-            <p class="concept__type mono">${esc(t("type." + (p.type || "website-concept")))}</p>
+            <p class="concept__type mono">${esc(t("type." + (p.type || "website-concept")))} ${statusBadge(p.status)}</p>
             <h4 class="concept__title" id="c-${esc(p.id)}-title">${esc(p.name)} <span>${esc(pick(p.tagline))}</span></h4>
             <p class="concept__desc">${esc(pick(p.description))}</p>
             <ul class="tags tags--sm">${p.technologies.map(U.techTag).join("")}</ul>
             <div class="concept__actions">
               ${U.linkButton({ href: p.links.demo, label: t("projects.demo"), iconId: "external" })}
-              ${U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" })}
+              ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
               <button type="button" class="btn btn--text btn--sm" data-case="${esc(p.id)}">
                 ${esc(t("projects.more"))} ${U.icon("arrow", "btn__icon")}
               </button>
@@ -148,7 +151,7 @@ const Projects = (() => {
 
     const links = `<div class="case__links">
         ${U.linkButton({ href: p.links.demo, label: t(p.category === "featured" ? "projects.view" : "projects.demo"), iconId: "external", variant: "primary" })}
-        ${U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" })}
+        ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
       </div>`;
 
     const projectBody = `<p>${esc(pick(p.description))}</p>${p.context ? `<p class="case__role mono">${esc(t("case.context"))}: <span class="accent">${esc(pick(p.context))}</span></p>` : ""}${p.role ? `<p class="case__role mono">${esc(t("case.role"))}:</p>${list(pick(p.role), "chips")}` : ""}`;

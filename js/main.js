@@ -30,6 +30,7 @@
     if (gh) items.push({ href: gh, label: "GitHub", id: "github" });
     items.push({ href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin" });
     if (PROFILE.instagram) items.push({ href: PROFILE.instagram, label: "Instagram", id: "instagram" });
+    if (PROFILE.twitter) items.push({ href: PROFILE.twitter, label: "X (Twitter)", id: "x" });
     if (PROFILE.discord) items.push({ href: PROFILE.discord, label: "Discord", id: "discord" });
     if (PROFILE.spotify) items.push({ href: PROFILE.spotify, label: "Spotify", id: "spotify" });
     if (PROFILE.email) items.push({ href: `mailto:${PROFILE.email}`, label: t("contact.email"), id: "mail", internal: true });
@@ -76,8 +77,7 @@
      Abas do editor (código / terminal)
      ----------------------------------------------------------- */
   function initEditorTabs() {
-    // Só as abas reais (role="tab"); a aba decorativa de "outside-code.js" fica de fora.
-    const tabs = [...document.querySelectorAll('.editor__tab[role="tab"]')];
+    const tabs = [...document.querySelectorAll(".editor__tab")];
     const lang = $(".editor__lang");
     const select = (tab, focus = false) => {
       tabs.forEach((tb) => {
@@ -239,6 +239,7 @@
       gh && ["github", `<a href="${esc(gh)}"${ext}>${esc(gh.replace("https://", ""))}</a>`],
       ["linkedin", `<a href="${esc(PROFILE.linkedin)}"${ext}>in/${esc(PROFILE.linkedin.split("/in/")[1].replace(/\/$/, ""))}</a>`],
       PROFILE.instagram && ["instagram", `<a href="${esc(PROFILE.instagram)}"${ext}>@${esc(PROFILE.instagram.replace(/\/$/, "").split("/").pop())}</a>`],
+      PROFILE.twitter && ["x", `<a href="${esc(PROFILE.twitter)}"${ext}>@${esc(PROFILE.twitter.replace(/\/$/, "").split("/").pop())}</a>`],
       PROFILE.discord && ["discord", `<a href="${esc(PROFILE.discord)}"${ext}>Discord</a>`],
       PROFILE.spotify && ["spotify", `<a href="${esc(PROFILE.spotify)}"${ext}>Spotify</a>`],
     ].filter(Boolean);
@@ -270,6 +271,7 @@
       { href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin", color: "#0A66C2" },
       gh && { href: gh, label: "GitHub", id: "github", color: "#24292F" },
       PROFILE.instagram && { href: PROFILE.instagram, label: "Instagram", id: "instagram", color: "#C13584" },
+      PROFILE.twitter && { href: PROFILE.twitter, label: "X", id: "x", color: "#000000" },
       PROFILE.discord && { href: PROFILE.discord, label: "Discord", id: "discord", color: "#5865F2" },
       PROFILE.spotify && { href: PROFILE.spotify, label: "Spotify", id: "spotify", color: "#1DB954" },
       PROFILE.email && { href: `mailto:${PROFILE.email}`, label: "Gmail", id: "mail", color: "#C5221F", internal: true },
@@ -371,52 +373,6 @@
             <span class="lang-item__level">${esc(pick(l.level))}</span>
           </li>`).join("")}
       </ul>`;
-  }
-
-  /* -----------------------------------------------------------
-     Além do código (seção secundária)
-     ----------------------------------------------------------- */
-  function renderBeyond() {
-    const root = $("#beyond-content");
-    if (!root || typeof PERSONAL_INTERESTS === "undefined") return;
-    const name = (it) => pick(it.name);
-
-    // Painel de código: os nomes ficam em inglês, como no lorenzo.js do topo
-    const sv = (v) => `<span class="tk-str">"${esc(v)}"</span>`;
-    const pu = (v) => `<span class="tk-pun">${v}</span>`;
-    const enName = (it) => (typeof it.name === "string" ? it.name : it.name.en);
-    const lines = [`<span class="tk-kw">const</span> <span class="tk-var">outsideCode</span> ${pu("=")} ${pu("{")}`];
-    INTEREST_CATEGORIES.forEach((c, ki) => {
-      const k = c.key;
-      const items = PERSONAL_INTERESTS[k] || [];
-      const comma = ki < INTEREST_CATEGORIES.length - 1 ? pu(",") : "";
-      if (c.single && items.length) {
-        lines.push(`  <span class="tk-prop">${k}</span>${pu(":")} ${sv(enName(items[0]))}${comma}`);
-        return;
-      }
-      lines.push(`  <span class="tk-prop">${k}</span>${pu(":")} ${pu("[")}`);
-      items.forEach((it, i) => lines.push(`    ${sv(enName(it))}${i < items.length - 1 ? pu(",") : ""}`));
-      lines.push(`  ${pu("]")}${comma}`);
-    });
-    lines.push(pu("};"));
-
-    const cards = INTEREST_CATEGORIES.map((c, i) => {
-      const items = PERSONAL_INTERESTS[c.key] || [];
-      return `
-        <article class="interest" data-reveal style="--i:${i}">
-          <h3 class="interest__title mono">${icon(c.icon, "interest__icon")}<span>${esc(pick(c.label))}</span><span class="interest__count">${String(items.length).padStart(2, "0")}</span></h3>
-          <ul class="interest__list">
-            ${items.map((it) => `<li class="interest__chip">${it.image ? `<img src="${esc(it.image)}" alt="" width="20" height="20" loading="lazy" decoding="async" onerror="this.remove()">` : ""}${esc(name(it))}</li>`).join("")}
-          </ul>
-        </article>`;
-    }).join("");
-
-    root.innerHTML = `
-      <div class="editor editor--static beyond__code" data-reveal role="region" aria-label="${esc(t("beyond.code"))}">
-        <div class="editor__tabs"><span class="editor__tab" aria-selected="true"><span class="editor__tab-ext">JS</span> outside-code.js</span></div>
-        <pre class="code"><code>${lines.map((l) => `<span class="code__line">${l || " "}</span>`).join("")}</code></pre>
-      </div>
-      <div class="beyond__grid">${cards}</div>`;
   }
 
   /* -----------------------------------------------------------
@@ -548,7 +504,6 @@
     renderStack();
     renderEducation();
     renderLanguages();
-    renderBeyond();
     renderContact();
     renderFooter();
   }
@@ -584,7 +539,7 @@
       const photo = document.querySelector(".avatar__img");
       if (photo) photo.alt = t("profile.photoAlt");
       applyLinks(); renderCode(); renderProfile(); renderAbout(); renderStack();
-      renderEducation(); renderLanguages(); renderBeyond(); renderContact(); renderFooter();
+      renderEducation(); renderLanguages(); renderContact(); renderFooter();
       U.observeReveal(document, { instant: true });
     });
   }

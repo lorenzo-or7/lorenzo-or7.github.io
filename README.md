@@ -196,13 +196,3 @@ Teste o compartilhamento no [LinkedIn Post Inspector](https://www.linkedin.com/p
 ---
 
 Designed & Developed by **Lorenzo Orsetti**
-
-## Atualização — Beyond Code e status de projetos
-
-- A seção **Beyond Code** é um easter egg: `↑ ↑ ↓ ↓ ← → ← → B A`.
-- O desbloqueio usa `localStorage` na chave `beyondCodeUnlocked`.
-- Após desbloquear, o link **Beyond ✦ / Além ✦** aparece no header.
-- O conteúdo pessoal fica centralizado em `BEYOND_CODE`, dentro de `js/data.js`.
-- Projetos agora exibem status: `No ar`, `Em desenvolvimento`, `Concluído`, `Protótipo` e `Descontinuado`.
-- Os projetos web são ordenados automaticamente por status, priorizando os que estão no ar e em desenvolvimento.
-- Instagram profissional configurado para `@or7.dev`.

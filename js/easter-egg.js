@@ -1,186 +1,131 @@
 /* =============================================================
-   easter-egg.js — Konami Code (↑ ↑ ↓ ↓ ← → ← → B A)
-   -------------------------------------------------------------
-   • Ao completar a sequência: animação fullscreen roxa (sem texto),
-     libera a seção #beyond-code e mostra o link "Beyond ✦" no menu.
-   • O desbloqueio vale só para a página aberta: ao recarregar,
-     é preciso digitar o código de novo (nada é salvo).
-   • O link e a seção já existem no index.html com o atributo
-     [hidden] (não ocupam espaço); aqui só controlamos o estado.
+   easter-egg.js — Konami Code + Beyond Code
+   ↑ ↑ ↓ ↓ ← → ← → B A
    ============================================================= */
-
-const EasterEgg = (() => {
-  const LEGACY_STORAGE_KEY = "beyondCodeUnlocked"; // versão antiga salvava o desbloqueio
-  const SECTION_ID = "beyond-code";
-
-  const KONAMI_CODE = [
-    "arrowup", "arrowup",
-    "arrowdown", "arrowdown",
-    "arrowleft", "arrowright",
-    "arrowleft", "arrowright",
-    "b", "a",
+(() => {
+  const STORAGE_KEY = "beyondCodeUnlocked";
+  const sequence = [
+    "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
+    "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a",
   ];
+  let index = 0;
+  let animating = false;
 
-  // Teclas que não quebram a sequência (Shift para digitar "B", por exemplo).
-  const IGNORED_KEYS = new Set(["shift", "capslock"]);
+  const pick = (v) => I18N.pick(v);
+  const esc = (v) => U.esc(String(v));
+  const normalize = (key) => key.length === 1 ? key.toLowerCase() : key;
+  const ignoredTarget = (el) => el?.matches?.("input, textarea, select, [contenteditable='true']");
 
-  const ANIMATION_MS = 1500;
-  const REDUCED_ANIMATION_MS = 700;
-
-  let buffer = [];
-  let isUnlocked = false;
-  let isAnimating = false;
-
-  /* ---------------------------------------------------------- utils */
-
-  const reducedMotion = () =>
-    !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
-  function clearLegacyUnlock() {
-    try { localStorage.removeItem(LEGACY_STORAGE_KEY); } catch (_) {}
+  function chipList(items) {
+    return `<ul class="beyond__chips">${items.map((x) => `<li>${esc(pick(x))}</li>`).join("")}</ul>`;
   }
 
-  function isEditable(el) {
-    if (!el || el.nodeType !== 1) return false;
-    if (el.isContentEditable) return true;
-    return /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+  function renderBeyond() {
+    const root = document.getElementById("beyond-grid");
+    if (!root || typeof BEYOND_CODE === "undefined") return;
+
+    const cards = [
+      ["music", I18N.t("beyond.music"), `
+        <div class="beyond__sub"><span>${esc(I18N.t("beyond.artists"))}</span>${chipList(BEYOND_CODE.music.artists)}</div>
+        <div class="beyond__sub"><span>${esc(I18N.t("beyond.genres"))}</span>${chipList(BEYOND_CODE.music.genres)}</div>`],
+      ["games", I18N.t("beyond.games"), chipList(BEYOND_CODE.games)],
+      ["anime", I18N.t("beyond.anime"), chipList(BEYOND_CODE.anime)],
+      ["movies", I18N.t("beyond.movies"), `
+        ${chipList(BEYOND_CODE.movies.favorites)}
+        <div class="beyond__sub"><span>${esc(I18N.t("beyond.genres"))}</span>${chipList(BEYOND_CODE.movies.genres)}</div>`],
+      ["series", I18N.t("beyond.series"), chipList(BEYOND_CODE.series)],
+      ["sports", I18N.t("beyond.sports"), `
+        ${chipList(BEYOND_CODE.sports.favorites)}
+        <div class="beyond__sub"><span>${esc(I18N.t("beyond.teams"))}</span>${chipList(BEYOND_CODE.sports.teams)}</div>`],
+    ];
+
+    const fav = BEYOND_CODE.favorites;
+    const favoriteRows = [
+      [I18N.t("beyond.artists"), fav.artist],
+      [I18N.t("beyond.games"), fav.game],
+      [I18N.t("beyond.anime"), fav.anime],
+      [I18N.t("beyond.movies"), fav.movie],
+      [I18N.t("beyond.series"), fav.series],
+      [I18N.lang === "pt" ? "Futebol" : "Football", fav.football],
+      [I18N.lang === "pt" ? "Basquete" : "Basketball", fav.basketball],
+    ];
+
+    root.innerHTML = `
+      <div class="beyond__cards">
+        ${cards.map(([id, title, body], i) => `
+          <article class="beyond-card beyond-card--${id}" data-reveal style="--i:${i}">
+            <p class="beyond-card__file mono">${esc(id)}.json</p>
+            <h3 class="beyond-card__title">${esc(title)}</h3>
+            ${body}
+          </article>`).join("")}
+      </div>
+      <aside class="beyond-favorites" data-reveal>
+        <p class="beyond-card__file mono">favorites.json</p>
+        <h3 class="beyond-card__title">${esc(I18N.t("beyond.favorites"))}</h3>
+        <dl>${favoriteRows.map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+      </aside>`;
+
+    U.observeReveal?.(document.getElementById("beyond-code"), { instant: true });
   }
 
-  /* ---------------------------------------------------- konami input */
+  function showUnlockedState({ focus = false } = {}) {
+    const nav = document.getElementById("beyond-nav-item");
+    const section = document.getElementById("beyond-code");
+    if (nav) nav.hidden = false;
+    if (section) section.hidden = false;
+    document.documentElement.classList.add("beyond-unlocked");
+    renderBeyond();
+    if (focus) nav?.querySelector("a")?.focus({ preventScroll: true });
+  }
 
-  function handleKonamiInput(event) {
-    if (isUnlocked || isAnimating) return;
-    if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
+  function playUnlockAnimation() {
+    const overlay = document.getElementById("unlock-overlay");
+    if (!overlay || animating) return Promise.resolve();
+    animating = true;
+    overlay.classList.remove("is-active");
+    void overlay.offsetWidth;
+    overlay.classList.add("is-active");
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        overlay.classList.remove("is-active");
+        animating = false;
+        resolve();
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 450 : 1500);
+    });
+  }
 
-    // Digitando no terminal ou em qualquer campo: ignora e zera.
-    if (isEditable(event.target) || isEditable(document.activeElement)) {
-      buffer = [];
+  async function unlock() {
+    if (localStorage.getItem(STORAGE_KEY) === "true") {
+      showUnlockedState();
       return;
     }
-
-    const key = typeof event.key === "string" ? event.key.toLowerCase() : "";
-    if (!key || IGNORED_KEYS.has(key)) return;
-
-    // Janela deslizante com as últimas N teclas: uma tecla errada
-    // reinicia a sequência e "↑ ↑ ↑ ↓ ↓ …" continua valendo.
-    buffer.push(key);
-    if (buffer.length > KONAMI_CODE.length) buffer.shift();
-
-    if (buffer.length === KONAMI_CODE.length && buffer.every((k, i) => k === KONAMI_CODE[i])) {
-      buffer = [];
-      unlockBeyondCode(true);
-    }
+    localStorage.setItem(STORAGE_KEY, "true");
+    await playUnlockAnimation();
+    showUnlockedState({ focus: true });
   }
 
-  /* ---------------------------------------------------------- unlock */
-
-  function unlockBeyondCode(withAnimation) {
-    if (isUnlocked) return;
-    isUnlocked = true;
-    document.removeEventListener("keydown", handleKonamiInput);
-
-    if (!withAnimation) {
-      revealSection();
-      showBeyondButton(false);
+  function onKeydown(event) {
+    if (ignoredTarget(event.target)) return;
+    const key = normalize(event.key);
+    if (key === sequence[index]) {
+      index += 1;
+      if (index === sequence.length) {
+        index = 0;
+        unlock();
+      }
       return;
     }
+    index = key === sequence[0] ? 1 : 0;
+  }
 
-    playUnlockAnimation({
-      onCovered: revealSection,            // troca o layout enquanto a tela está coberta
-      onDone: () => showBeyondButton(true),
+  function init() {
+    if (localStorage.getItem(STORAGE_KEY) === "true") showUnlockedState();
+    document.addEventListener("keydown", onKeydown);
+    document.addEventListener("langchange", () => {
+      if (localStorage.getItem(STORAGE_KEY) === "true") renderBeyond();
     });
   }
 
-  function revealSection() {
-    const section = document.getElementById(SECTION_ID);
-    if (section) {
-      section.hidden = false;
-      section.removeAttribute("aria-hidden");
-    }
-    // Renumera as seções seguintes (Contato 07 → 08).
-    document.querySelectorAll("[data-index-unlocked]").forEach((el) => {
-      el.textContent = el.dataset.indexUnlocked;
-    });
-  }
-
-  /* ------------------------------------------------------- animation */
-
-  function playUnlockAnimation({ onCovered, onDone }) {
-    isAnimating = true;
-
-    const reduced = reducedMotion();
-    const duration = reduced ? REDUCED_ANIMATION_MS : ANIMATION_MS;
-    const root = document.documentElement;
-
-    const overlay = document.createElement("div");
-    overlay.className = "ee-overlay";
-    overlay.setAttribute("aria-hidden", "true");
-
-    if (reduced) {
-      overlay.innerHTML = '<div class="ee-fade"></div>';
-    } else {
-      overlay.innerHTML =
-        '<div class="ee-flood"></div>' +
-        '<div class="ee-ring"></div>' +
-        '<div class="ee-core"></div>' +
-        '<div class="ee-scan"></div>' +
-        '<div class="ee-sweep"></div>' +
-        '<div class="ee-flash"></div>';
-      overlay.appendChild(createGlitchBlocks(7));
-      root.classList.add("ee-glitching");
-    }
-
-    document.body.appendChild(overlay);
-
-    window.setTimeout(onCovered, duration * (reduced ? 0.35 : 0.45));
-    window.setTimeout(onDone, duration * (reduced ? 0.6 : 0.85));
-    window.setTimeout(() => {
-      overlay.remove();
-      root.classList.remove("ee-glitching");
-      isAnimating = false;
-    }, duration + 80);
-  }
-
-  function createGlitchBlocks(count) {
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const block = document.createElement("span");
-      block.className = "ee-block" + (i % 3 === 0 ? " ee-block--light" : "");
-      const w = 4 + Math.random() * 22;    // vw
-      const h = 0.4 + Math.random() * 2.2; // vh
-      block.style.left = (Math.random() * (100 - w)).toFixed(2) + "vw";
-      block.style.top = (Math.random() * 96).toFixed(2) + "vh";
-      block.style.width = w.toFixed(2) + "vw";
-      block.style.height = h.toFixed(2) + "vh";
-      block.style.setProperty("--d", Math.round(Math.random() * 90) + "ms");
-      block.style.setProperty("--x", Math.round((Math.random() * 2 - 1) * 24) + "px");
-      frag.appendChild(block);
-    }
-    return frag;
-  }
-
-  /* ----------------------------------------------------- header link */
-
-  function showBeyondButton(animate) {
-    document.querySelectorAll("[data-beyond-nav]").forEach((item) => {
-      item.hidden = false;
-      if (!animate) return;
-      item.classList.add(reducedMotion() ? "nav-beyond--fade" : "nav-beyond--enter");
-      item.addEventListener("animationend", () => {
-        item.classList.remove("nav-beyond--enter", "nav-beyond--fade");
-      }, { once: true });
-    });
-  }
-
-  /* ------------------------------------------------------------ init */
-
-  function initKonamiCode() {
-    clearLegacyUnlock();
-    document.addEventListener("keydown", handleKonamiInput);
-  }
-
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initKonamiCode);
-  else initKonamiCode();
-
-  return { init: initKonamiCode };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else init();
 })();
