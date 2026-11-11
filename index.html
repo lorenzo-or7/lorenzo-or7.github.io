@@ -77,6 +77,7 @@
           <li><a class="nav__link" href="#education" data-i18n="nav.education">Education</a></li>
           <li><a class="nav__link" href="#english" data-i18n="nav.english">English</a></li>
           <li><a class="nav__link" href="#github" data-i18n="nav.github">GitHub</a></li>
+          <li id="beyond-nav-item" hidden><a class="nav__link nav__link--beyond" href="#beyond-code"><span data-i18n="nav.beyond">Beyond</span> <span aria-hidden="true">✦</span></a></li>
           <li><a class="nav__link" href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </nav>
@@ -133,7 +134,7 @@
               <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-linkedin"/></svg>
               LinkedIn
             </a>
-            <a class="btn btn--ghost" data-link="instagram" href="https://www.instagram.com/lorenzo.or7/" target="_blank" rel="noopener noreferrer">
+            <a class="btn btn--ghost" data-link="instagram" href="https://www.instagram.com/or7.dev/" target="_blank" rel="noopener noreferrer">
               <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-instagram"/></svg>
               Instagram
             </a>
@@ -303,10 +304,22 @@
           <div class="github" id="github-content"></div>
         </section>
 
+
+        <!-- ===================== BEYOND CODE (EASTER EGG) ===================== -->
+        <section class="section beyond" id="beyond-code" aria-labelledby="beyond-title" hidden>
+          <header class="section-head" data-reveal>
+            <span class="section-head__index">07</span>
+            <h2 class="section-head__title" id="beyond-title" data-i18n="beyond.title">Beyond Code</h2>
+            <span class="section-head__file">outside-code.js</span>
+          </header>
+          <p class="section-intro" data-i18n="beyond.intro" data-reveal></p>
+          <div class="beyond__grid" id="beyond-grid"></div>
+        </section>
+
         <!-- ===================== CONTATO ===================== -->
         <section class="section section--contact" id="contact" aria-labelledby="contact-title">
           <header class="section-head" data-reveal>
-            <span class="section-head__index">07</span>
+            <span class="section-head__index">08</span>
             <h2 class="visually-hidden" data-i18n="nav.contact">Contact</h2>
             <span class="section-head__file">contact.sh</span>
           </header>
@@ -332,6 +345,8 @@
       <a class="site-footer__top mono" href="#hero" data-i18n="footer.top">Back to top</a>
     </div>
   </footer>
+
+  <div class="unlock-overlay" id="unlock-overlay" aria-hidden="true"><span class="unlock-overlay__core"></span><span class="unlock-overlay__scan"></span></div>
 
   <!-- ===================== MODAL: ESTUDO DE CASO ===================== -->
   <dialog class="case" id="case-dialog" aria-labelledby="case-title">
@@ -367,6 +382,7 @@
   <script src="js/utils.js" defer></script>
   <script src="js/projects.js" defer></script>
   <script src="js/github.js" defer></script>
+  <script src="js/easter-egg.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
