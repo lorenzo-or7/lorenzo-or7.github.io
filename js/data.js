@@ -2035,7 +2035,7 @@ const PROJECTS = [
      description: { pt: "...", en: "..." },
      status: "concept",
      technologies: ["HTML", "CSS", "JavaScript"],
-     image: "assets/scopes/restaurante-premium.webp",
+     image: "https://lorenzo-or7.github.io/restaurant-premium-demo/images/hero-1600.webp",
      links: { demo: "", github: "" }
    }
    ------------------------------------------------------------- */
@@ -2053,7 +2053,7 @@ const GENERIC_SCOPES = [
     },
     status: "concept",
     technologies: ["TypeScript", "React", "CSS"],
-    image: "assets/scopes/cafeteria-artesanal.webp",
+    image: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/images/hero-cup-1600.webp",
     links: {
       demo: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/",
       github: "https://github.com/lorenzo-or7/cafeteria-artesanal-demo",
@@ -2072,7 +2072,7 @@ const GENERIC_SCOPES = [
     },
     status: "concept",
     technologies: ["TypeScript", "React", "Tailwind"],
-    image: "assets/scopes/restaurante-contemporaneo.webp",
+    image: "https://images.unsplash.com/photo-1767065584562-0127cdec486d?auto=format&fit=crop&w=1600&h=1200&q=88",
     links: {
       demo: "https://lorenzo-or7.github.io/restaurant-contemporaneo-demo/",
       github: "https://github.com/lorenzo-or7/restaurant-contemporaneo-demo",

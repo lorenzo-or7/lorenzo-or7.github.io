@@ -77,7 +77,7 @@ const U = (() => {
     }
     if (p.image) {
       return `<img class="media__img" src="${esc(p.image)}" alt="${esc(alt)}" loading="lazy" decoding="async"
-                onerror="this.replaceWith(U.fromHTML(U.placeholder(PROJECTS.find(x=>x.id==='${esc(p.id)}'))))">`;
+                onerror="this.replaceWith(U.fromHTML(U.placeholder((typeof PROJECTS!=='undefined' && PROJECTS.find(x=>x.id==='${esc(p.id)}')) || (typeof GENERIC_SCOPES!=='undefined' && GENERIC_SCOPES.find(x=>x.id==='${esc(p.id)}')) || p)))">`;
     }
     return placeholder(p);
   }
