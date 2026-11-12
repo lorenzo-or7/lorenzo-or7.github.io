@@ -356,6 +356,54 @@ const PROJECTS = [
     },
   },
   {
+    id: "dark-pool",
+    category: "featured",
+    name: "Dark Pool",
+    tagline: {
+      pt: "Plataforma de pesquisa, simulação e análise para traders",
+      en: "Research, simulation and analytics platform for traders",
+    },
+    status: "in-progress",
+    context: {
+      pt: "Projeto autoral · em desenvolvimento",
+      en: "Original project · in development",
+    },
+    description: {
+      pt: "Laboratório de pesquisa quantitativa para explorar o mercado, testar hipóteses, simular cenários e analisar estratégias com dados históricos. O projeto é voltado a pesquisa e simulação, sem corretora conectada ou envio de ordens reais.",
+      en: "A quantitative research lab for exploring markets, testing hypotheses, simulating scenarios and analyzing strategies with historical data. The project is research- and simulation-focused, with no connected broker or real order execution.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Python", "Supabase"],
+    features: {
+      pt: [
+        "Time Machine para reconstrução e simulação de sessões históricas",
+        "Market Scanner para varredura de ativos",
+        "Strategy Lab para criação e comparação de regras",
+        "Analytics com métricas de desempenho e risco",
+        "Trading Journal para hipóteses, erros e aprendizados",
+        "Frontend React com backend FastAPI e dados persistidos no Supabase",
+      ],
+      en: [
+        "Time Machine for reconstructing and simulating historical sessions",
+        "Market Scanner for scanning assets",
+        "Strategy Lab for building and comparing rules",
+        "Analytics with performance and risk metrics",
+        "Trading Journal for hypotheses, mistakes and learnings",
+        "React frontend with FastAPI backend and Supabase persistence",
+      ],
+    },
+    role: {
+      pt: ["Idealização", "Arquitetura", "UX/UI", "Frontend", "Backend", "Testes"],
+      en: ["Concept", "Architecture", "UX/UI", "Frontend", "Backend", "Testing"],
+    },
+    image: "assets/projects/dark-pool-capa.webp",
+    links: {
+      demo: "https://lorenzo-or7.github.io/dark-pool/",
+      github: "https://github.com/lorenzo-or7/dark-pool",
+    },
+    placeholder: { url: "dark-pool", bg: "#04111A", ink: "#F5F7F8", accent: "#FF5A00" },
+    caseStudy: {},
+  },
+  {
     id: "duskdex",
     category: "concept",
     type: "concept-project",
