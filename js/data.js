@@ -1991,7 +1991,65 @@ const PROJECTS = [
      links: { demo: "", github: "" }
    }
    ------------------------------------------------------------- */
-const GENERIC_SCOPES = [];
+const GENERIC_SCOPES = [
+  {
+    id: "cafeteria-artesanal",
+    name: "Cafeteria Artesanal",
+    tagline: {
+      pt: "Torra — experiência digital para cafeteria contemporânea",
+      en: "Torra — digital experience for a contemporary coffee shop",
+    },
+    description: {
+      pt: "Escopo autoral completo para cafeterias, com cardápio interativo, experiências, reservas e pedido online em uma jornada web e mobile. Marca fictícia criada exclusivamente para demonstração.",
+      en: "A complete authorial scope for coffee shops, combining an interactive menu, experiences, reservations and online ordering in a web and mobile journey. Fictional brand created exclusively for demonstration.",
+    },
+    status: "concept",
+    technologies: ["TypeScript", "React", "CSS"],
+    image: "assets/scopes/cafeteria-artesanal.webp",
+    links: {
+      demo: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/",
+      github: "https://github.com/lorenzo-or7/cafeteria-artesanal-demo",
+    },
+  },
+  {
+    id: "restaurante-contemporaneo",
+    name: "Restaurante Contemporâneo",
+    tagline: {
+      pt: "Séria — experiência editorial para gastronomia contemporânea",
+      en: "Séria — editorial experience for contemporary dining",
+    },
+    description: {
+      pt: "Escopo autoral para restaurantes de experiência, com narrativa gastronômica, cardápio, experiências, eventos e fluxo de reservas responsivo. Marca fictícia criada exclusivamente para demonstração.",
+      en: "An authorial scope for experience-led restaurants, with culinary storytelling, menu, experiences, events and a responsive reservation flow. Fictional brand created exclusively for demonstration.",
+    },
+    status: "concept",
+    technologies: ["TypeScript", "React", "Tailwind"],
+    image: "assets/scopes/restaurante-contemporaneo.webp",
+    links: {
+      demo: "https://lorenzo-or7.github.io/restaurant-contemporaneo-demo/",
+      github: "https://github.com/lorenzo-or7/restaurant-contemporaneo-demo",
+    },
+  },
+  {
+    id: "restaurante-premium",
+    name: "Restaurante Premium",
+    tagline: {
+      pt: "Lume — presença digital para alta gastronomia",
+      en: "Lume — premium digital presence for fine dining",
+    },
+    description: {
+      pt: "Escopo autoral para restaurantes de alta experiência, com direção editorial, galeria, cardápio, reservas e presença digital sofisticada para desktop e mobile. Marca fictícia criada exclusivamente para demonstração.",
+      en: "An authorial scope for fine-dining restaurants, with editorial direction, gallery, menu, reservations and a sophisticated desktop and mobile presence. Fictional brand created exclusively for demonstration.",
+    },
+    status: "concept",
+    technologies: ["TypeScript", "React", "CSS"],
+    image: "assets/scopes/restaurante-premium.webp",
+    links: {
+      demo: "https://lorenzo-or7.github.io/restaurant-premium-demo/",
+      github: "https://github.com/lorenzo-or7/restaurant-premium-demo",
+    },
+  },
+];
 
 /* -------------------------------------------------------------
    5. FORMAÇÃO
