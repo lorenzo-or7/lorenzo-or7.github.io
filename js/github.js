@@ -124,34 +124,33 @@ const GitHub = (() => {
     const user = PROFILE.githubUsername;
     const url = U.githubUrl();
 
+    // Só números que dizem algo sobre a atividade; sem dado → item oculto
+    const lastPush = apiData && apiData.repos.length ? apiData.repos[0].pushed : null;
     const stats = [
-      { label: t("gh.projects"), value: PROJECTS.length },
-      { label: t("gh.repos"), value: apiData ? apiData.user.public_repos : null },
-      { label: t("gh.tech"), value: Object.keys(TECHNOLOGIES).length },
       { label: t("gh.contributions"), value: GITHUB_MANUAL_STATS.contributions ?? (contrib ? contrib.total : null) },
-      { label: t("gh.commits"), value: GITHUB_MANUAL_STATS.commits },
-    ];
+      { label: t("gh.repos"), value: apiData ? apiData.user.public_repos : null },
+      { label: t("gh.lastPush"), text: lastPush ? new Date(lastPush).toLocaleDateString(I18N.lang === "pt" ? "pt-BR" : "en-US", { day: "2-digit", month: "short" }) : null },
+    ].filter((s) => s.value != null || s.text);
 
     const statsHTML = stats
-      .map((s) => `<li class="gh-stat${s.value == null ? " is-empty" : ""}"><span class="gh-stat__value mono">${fmt(s.value)}</span><span class="gh-stat__label">${esc(s.label)}</span></li>`)
+      .map((s) => `<li class="gh-stat"><span class="gh-stat__value mono">${s.text ? esc(s.text) : fmt(s.value)}</span><span class="gh-stat__label">${esc(s.label)}</span></li>`)
       .join("");
 
-    // Cartões no estilo "pinned repositories", gerados a partir dos projetos
-    const pinned = PROJECTS.slice(0, 6)
+    // Repositórios dos projetos em destaque (apenas os públicos)
+    const pinned = PROJECTS.filter((p) => p.featured && p.links.github)
+      .sort((a, b) => a.featured - b.featured)
       .map((p) => {
-        const repoName = p.links.github ? p.links.github.split("/").filter(Boolean).pop() : p.name;
-        // Linguagem principal exibida no cartão: PHP > JavaScript > primeira da lista
-        const main = U.tech(["PHP", "JavaScript"].find((k) => p.technologies.includes(k)) || p.technologies[0]);
-        const tag = p.links.github ? "a" : "div";
-        const attrs = p.links.github ? ` href="${esc(p.links.github)}" target="_blank" rel="noopener noreferrer"` : "";
+        const repoName = p.links.github.split("/").filter(Boolean).pop();
+        const main = U.tech(["TypeScript", "PHP", "JavaScript"].find((k) => p.technologies.includes(k)) || p.technologies[0]);
         return `
         <li>
-          <${tag} class="repo"${attrs}>
+          <a class="repo" href="${esc(p.links.github)}" target="_blank" rel="noopener noreferrer" data-spotlight>
             <p class="repo__name mono">${icon("repo", "repo__icon")}<span>${esc(repoName)}</span>
               <span class="repo__vis">${esc(I18N.t("status." + p.status))}</span></p>
-            <p class="repo__desc">${esc(I18N.pick(p.tagline))}</p>
+            <p class="repo__desc">${esc(p.name)} · ${esc(I18N.pick(p.tagline))}</p>
             <p class="repo__meta mono"><span class="tag__dot" style="--dot:${main.color}" aria-hidden="true"></span>${esc(main.label)}</p>
-          </${tag}>
+            <span class="visually-hidden"> ${esc(t("external"))}</span>
+          </a>
         </li>`;
       })
       .join("");
@@ -183,7 +182,7 @@ const GitHub = (() => {
     }
 
     root.innerHTML = `
-      <div class="gh-card" data-reveal>
+      <div class="gh-card" data-reveal="rise">
         <div class="gh-card__head">
           <p class="gh-card__user mono">${icon("github", "gh-card__logo")}
             <span>${user ? `github.com/<b>${esc(user)}</b>` : "GitHub"}</span>
@@ -192,15 +191,15 @@ const GitHub = (() => {
             ? `<a class="btn btn--primary btn--sm" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${icon("github", "btn__icon")}${esc(t("gh.visit"))}<span class="visually-hidden"> ${esc(t("external"))}</span></a>`
             : U.linkButton({ href: "", label: t("gh.visit"), iconId: "github", variant: "primary" })}
         </div>
-        <ul class="gh-stats">${statsHTML}</ul>
+        ${statsHTML ? `<ul class="gh-stats" style="--cols:${stats.length}">${statsHTML}</ul>` : ""}
         ${contribHTML()}
       </div>
 
-      <div class="gh-block" data-reveal>
+      ${pinned ? `<div class="gh-block" data-reveal="rise">
         <h3 class="gh-block__title mono">${esc(t("gh.pinned"))}</h3>
         <ul class="repo-grid">${pinned}</ul>
-      </div>
-      ${apiHTML ? `<div data-reveal>${apiHTML}</div>` : ""}`;
+      </div>` : ""}
+      ${apiHTML ? `<div data-reveal="rise">${apiHTML}</div>` : ""}`;
   }
 
   function init() {

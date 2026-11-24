@@ -1,12 +1,23 @@
 /* =============================================================
-   main.js — montagem das seções e interações gerais
+   main.js — inicialização comum + seções da Home
+   -------------------------------------------------------------
+   Todas as páginas: idioma, tema, header/nav, footer, cursor.
+   Home (data-page="home"): editor/terminal, perfil, sobre,
+   stack, formação, inglês, GitHub e contato.
+   Projetos / Modelos: delegam para projects.js / showcase.js.
    ============================================================= */
 
 (() => {
   const { esc, icon } = U;
-  const t = (k) => I18N.t(k);
+  const t = (k, v) => I18N.t(k, v);
   const pick = (v) => I18N.pick(v);
   const $ = (sel, root = document) => root.querySelector(sel);
+  const PAGE = I18N.page;
+  const ROOT = document.documentElement.dataset.root || "";
+
+  const liveCount = () => PROJECTS.filter((p) => p.status === "live").length;
+  const showcaseCount = () => (typeof SHOWCASE !== "undefined" ? SHOWCASE.length : 0);
+  const segmentCount = () => (typeof SHOWCASE !== "undefined" ? new Set(SHOWCASE.map((m) => m.category)).size : 0);
 
   /* -----------------------------------------------------------
      Links globais (hero, perfil, contato, rodapé)
@@ -14,7 +25,7 @@
   function applyLinks() {
     const gh = U.githubUrl();
     document.querySelectorAll('[data-link="github"]').forEach((a) => {
-      if (gh) { a.href = gh; a.classList.remove("is-disabled"); a.removeAttribute("aria-disabled"); a.removeAttribute("tabindex"); }
+      if (gh) { a.href = gh; a.classList.remove("is-disabled"); a.removeAttribute("aria-disabled"); }
       else { a.removeAttribute("href"); a.classList.add("is-disabled"); a.setAttribute("aria-disabled", "true"); }
     });
     document.querySelectorAll('[data-link="linkedin"]').forEach((a) => { a.href = PROFILE.linkedin; });
@@ -29,7 +40,7 @@
     const gh = U.githubUrl();
     if (gh) items.push({ href: gh, label: "GitHub", id: "github" });
     items.push({ href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin" });
-    if (PROFILE.instagram) items.push({ href: PROFILE.instagram, label: "Instagram", id: "instagram" });
+    if (PROFILE.instagram) items.push({ href: PROFILE.instagram, label: "Instagram Or7", id: "instagram" });
     if (PROFILE.twitter) items.push({ href: PROFILE.twitter, label: "X (Twitter)", id: "x" });
     if (PROFILE.discord) items.push({ href: PROFILE.discord, label: "Discord", id: "discord" });
     if (PROFILE.spotify) items.push({ href: PROFILE.spotify, label: "Spotify", id: "spotify" });
@@ -63,7 +74,7 @@
       `  ${k("university")}${p(":")} ${s(EDUCATION.institution)}${p(",")}`,
       `  ${k("location")}${p(":")} ${s(PROFILE.location.en)}${p(",")}`,
       ...arr("interests", PROFILE.interests.map((i) => i.en)),
-      ...arr("technologies", ["HTML", "CSS", "JavaScript", "PHP", "Python", "MySQL"]),
+      ...arr("technologies", ["HTML", "CSS", "JavaScript", "TypeScript", "React", "PHP", "MySQL"]),
       `  ${k("openToOpportunities")}${p(":")} <span class="tk-bool">${PROFILE.openToOpportunities}</span>${p(",")}`,
       `${p("};")}`,
       ``,
@@ -78,6 +89,7 @@
      ----------------------------------------------------------- */
   function initEditorTabs() {
     const tabs = [...document.querySelectorAll(".editor__tab")];
+    if (!tabs.length) return;
     const lang = $(".editor__lang");
     const select = (tab, focus = false) => {
       tabs.forEach((tb) => {
@@ -121,13 +133,21 @@
 
     const commands = {
       help: () => {
-        const names = ["whoami", "stack", "projects", "education", "english", "contact", "theme", "lang", "clear"];
+        const names = ["whoami", "stack", "projects", "showcase", "education", "english", "contact", "theme", "lang", "clear"];
         print(`<span class="muted">${esc(t("term.help"))}</span>`);
         print(names.map((n) => `  <span class="accent">${n.padEnd(10)}</span> <span class="muted">${esc(t("term.cmd." + n))}</span>`).join("\n"), "pre");
       },
       whoami: () => print(`&gt; ${esc(t("hero.role1"))}\n&gt; ${esc(t("hero.role2").replace(/^&\s*/, ""))}`, "pre"),
       stack: () => print(STACK.map((c) => `<span class="accent">${esc(pick(c.label)).padEnd(24)}</span>${c.items.map((i) => esc(U.tech(i).label)).join(", ")}`).join("\n"), "pre"),
-      projects: () => print(PROJECTS.map((p) => `<span class="accent">•</span> ${esc(p.name)} <span class="muted">— ${esc(pick(p.tagline))}</span>`).join("\n"), "pre"),
+      projects: () => {
+        print(PROJECTS.map((p) => `<span class="accent">•</span> ${esc(p.name)} <span class="muted">— ${esc(t("status." + p.status))}</span>`).join("\n"), "pre");
+        print(`<a href="${ROOT}projects/">→ ${esc(t("term.openProjects"))}</a>`);
+      },
+      showcase: () => {
+        const counts = SHOWCASE_CATEGORIES.map((c) => `${esc(pick(c.label))} <span class="muted">${SHOWCASE.filter((m) => m.category === c.id).length}</span>`).join("  ");
+        print(`<span class="accent">${SHOWCASE.length}</span> ${esc(t("profile.models"))}\n${counts}`, "pre");
+        print(`<a href="${ROOT}showcase/">→ ${esc(t("term.openShowcase"))}</a>`);
+      },
       education: () => print(`${esc(pick(EDUCATION.course))} @ ${esc(EDUCATION.institution)} <span class="muted">(${esc(pick(EDUCATION.status))})</span>`),
       english: () => print(LANGUAGES.map((l) => `${esc(l.code)}  ${esc(pick(l.name))} <span class="muted">— ${esc(pick(l.level))}${l.qualifier ? " · " + esc(pick(l.qualifier)) : ""}</span>`).join("\n"), "pre"),
       contact: () => {
@@ -146,6 +166,8 @@
     };
     commands.ls = commands.projects;
     commands.about = commands.whoami;
+    commands.models = commands.showcase;
+    commands.modelos = commands.showcase;
 
     function run(raw) {
       const cmd = raw.trim().toLowerCase();
@@ -167,20 +189,20 @@
     function init() {
       const form = $("#term-form");
       const input = $("#term-input");
+      if (!form) return;
       const history = [];
       let hIndex = 0;
-      form?.addEventListener("submit", (e) => {
+      form.addEventListener("submit", (e) => {
         e.preventDefault();
         if (input.value.trim()) history.push(input.value);
         hIndex = history.length;
         run(input.value);
         input.value = "";
       });
-      input?.addEventListener("keydown", (e) => {
+      input.addEventListener("keydown", (e) => {
         if (e.key === "ArrowUp" && history.length) { e.preventDefault(); hIndex = Math.max(0, hIndex - 1); input.value = history[hIndex]; }
         if (e.key === "ArrowDown" && history.length) { e.preventDefault(); hIndex = Math.min(history.length, hIndex + 1); input.value = history[hIndex] || ""; }
       });
-      // Clicar em qualquer área do terminal foca o input
       $("#panel-term")?.addEventListener("click", (e) => { if (!e.target.closest("a")) input.focus({ preventScroll: true }); });
     }
 
@@ -196,10 +218,9 @@
     const group = (hidden) =>
       `<ul class="marquee__group"${hidden ? ' aria-hidden="true"' : ""}>${MARQUEE.map((k) => {
         const tc = U.tech(k);
-        const img = tc.icon ? `<img class="marquee__icon" src="${esc(tc.icon)}" alt="" width="24" height="24" loading="lazy" decoding="async">` : "";
+        const img = tc.icon ? `<img class="marquee__icon" src="${esc(U.iconSrc(tc.icon))}" alt="" width="24" height="24" loading="lazy" decoding="async">` : "";
         return `<li><span class="marquee__sep" aria-hidden="true">/</span>${img}${esc(tc.label.replace(/\d$/, ""))}</li>`;
       }).join("")}</ul>`;
-    // Duas cópias para o loop contínuo; a segunda é ignorada por leitores de tela
     track.innerHTML = group(false) + group(true) + group(true);
   }
 
@@ -212,7 +233,7 @@
     box.querySelector("img")?.remove();
     if (!PROFILE.photo) return;
     const img = new Image();
-    img.src = PROFILE.photo;
+    img.src = U.asset(PROFILE.photo);
     img.alt = t("profile.photoAlt");
     img.width = 240; img.height = 240;
     img.decoding = "async";
@@ -223,6 +244,7 @@
   }
 
   function renderProfile() {
+    if (!$("#profile-facts")) return;
     const handle = $("#profile-handle");
     if (PROFILE.githubUsername) { handle.textContent = "@" + PROFILE.githubUsername; handle.hidden = false; }
 
@@ -247,25 +269,25 @@
 
     const pad = (n) => String(n).padStart(2, "0");
     $("#profile-stats").innerHTML = [
-      [pad(Projects.featured().length), t("profile.featured")],
-      [pad(Projects.prototypes().length), t("profile.prototypes")],
-      [pad(Object.keys(TECHNOLOGIES).length), t("profile.tech")],
-    ].map(([n, l]) => `<li><span class="mono">${n}</span>${esc(l)}</li>`).join("");
+      [pad(PROJECTS.length), t("profile.projects"), `${ROOT}projects/`],
+      [pad(showcaseCount()), t("profile.models"), `${ROOT}showcase/`],
+      [pad(Object.keys(TECHNOLOGIES).length), t("profile.tech"), "#stack"],
+    ].map(([n, l, href]) => `<li><a href="${href}"><span class="mono">${n}</span>${esc(l)}</a></li>`).join("");
 
-    const current = Projects.featured().find((p) => p.status === "in-progress" || p.status === "live");
+    const current = PROJECTS.filter((p) => p.featured && p.status === "live").sort((a, b) => a.featured - b.featured)[0];
     $("#profile-branch").innerHTML = current
       ? `${icon("branch", "icon icon--sm")} main <span class="muted">·</span> ${esc(t("profile.building"))} <span class="accent">${esc(current.name)}</span>`
       : "";
   }
 
   /* -----------------------------------------------------------
-     Sobre
+     Sobre + acessos ao trabalho (Projetos / Modelos)
      ----------------------------------------------------------- */
   function renderAbout() {
+    if (!$("#about-interests")) return;
     $("#about-interests").innerHTML = PROFILE.interests.map((i) => `<li>${esc(pick(i))}</li>`).join("");
     $("#about-now").innerHTML = PROFILE.now.map((i) => `<li>${esc(pick(i))}</li>`).join("");
 
-    // Badges "Connect with me" (estilo shields.io)
     const gh = U.githubUrl();
     const badges = [
       { href: PROFILE.linkedin, label: "LinkedIn", id: "linkedin", color: "#0A66C2" },
@@ -283,20 +305,38 @@
       </a></li>`).join("");
   }
 
+  function renderWork() {
+    const root = $("#work-links");
+    if (!root) return;
+    const door = (href, key, meta, ic) => `
+      <a class="door" href="${href}" data-spotlight>
+        <span class="door__icon" aria-hidden="true">${icon(ic)}</span>
+        <span class="door__body">
+          <span class="door__title">${esc(t(`work.${key}.title`))}</span>
+          <span class="door__text">${esc(t(`work.${key}.text`))}</span>
+          <span class="door__meta mono">${esc(meta)}</span>
+        </span>
+        <span class="door__arrow" aria-hidden="true">${icon("arrow")}</span>
+      </a>`;
+    root.innerHTML =
+      door(`${ROOT}projects/`, "projects", t("work.projectsMeta", { n: PROJECTS.length, live: liveCount() }), "briefcase") +
+      door(`${ROOT}showcase/`, "showcase", t("work.showcaseMeta", { n: showcaseCount(), c: segmentCount() }), "grid");
+  }
+
   /* -----------------------------------------------------------
-     Tech stack
+     Stack
      ----------------------------------------------------------- */
   function renderStack() {
     const root = $("#stack-grid");
     if (!root) return;
     root.innerHTML = STACK.map((cat, ci) => `
-      <div class="stack__group" data-reveal style="--i:${ci}">
+      <div class="stack__group" style="--i:${ci}">
         <h3 class="stack__title"><span class="mono muted">${esc(cat.file)}/</span>${esc(pick(cat.label))}</h3>
         <ul class="stack__list">
           ${cat.items.map((key, i) => {
             const tc = U.tech(key);
             const tipId = `tip-${ci}-${i}`;
-            return `<li class="tech" tabindex="0" aria-describedby="${tipId}">
+            return `<li class="tech" tabindex="0" aria-describedby="${tipId}" style="--t:${ci * 4 + i}">
               ${U.techIcon(key)}
               <span class="tech__name">${esc(tc.label)}</span>
               <span class="tooltip" role="tooltip" id="${tipId}">${esc(pick(tc.tip))}</span>
@@ -316,7 +356,7 @@
     const items = EDUCATION.timeline.filter((it) => !(it.optional && !it.date));
 
     root.innerHTML = `
-      <article class="edu-card" data-reveal>
+      <article class="edu-card" data-reveal="rise">
         <p class="edu-card__inst mono">${esc(EDUCATION.institution)}</p>
         <h3 class="edu-card__course">${esc(pick(EDUCATION.course))}</h3>
         <p class="edu-card__full">${esc(EDUCATION.institutionFull)}</p>
@@ -328,7 +368,7 @@
         <ul class="chips">${EDUCATION.areas.map((a) => `<li>${esc(pick(a))}</li>`).join("")}</ul>
       </article>
 
-      <div class="timeline-wrap" data-reveal>
+      <div class="timeline-wrap" data-reveal="rise">
         <h3 class="timeline__heading mono">${esc(t("edu.timeline"))}</h3>
         <ol class="timeline">
           ${items.map((it) => `
@@ -342,7 +382,7 @@
   }
 
   /* -----------------------------------------------------------
-     Idiomas / inglês
+     Inglês
      ----------------------------------------------------------- */
   function renderLanguages() {
     const root = $("#languages-content");
@@ -352,7 +392,7 @@
 
     root.innerHTML = `
       ${en ? `
-      <article class="lang-feature" data-reveal>
+      <article class="lang-feature" data-reveal="rise">
         <div class="lang-feature__code" aria-hidden="true">${esc(en.code)}</div>
         <div class="lang-feature__body">
           <h3 class="lang-feature__name">${esc(pick(en.name))}</h3>
@@ -365,7 +405,7 @@
           </p>
         </div>
       </article>` : ""}
-      <ul class="lang-list" data-reveal>
+      <ul class="lang-list" data-reveal="rise">
         ${others.map((l) => `
           <li class="lang-item">
             <span class="lang-item__code mono" aria-hidden="true">${esc(l.code)}</span>
@@ -376,25 +416,43 @@
   }
 
   /* -----------------------------------------------------------
-     Contato
+     Contato: duas intenções (oportunidade / projeto)
      ----------------------------------------------------------- */
   function renderContact() {
     const root = $("#contact-links");
     if (!root) return;
     const gh = U.githubUrl();
+    const ext = ` target="_blank" rel="noopener noreferrer"`;
+    const sr = `<span class="visually-hidden"> ${esc(t("external"))}</span>`;
     root.innerHTML = `
-      <a class="btn btn--primary" href="${esc(PROFILE.linkedin)}" target="_blank" rel="noopener noreferrer">
-        ${icon("linkedin", "btn__icon")}${esc(t("contact.linkedin"))}<span class="visually-hidden"> ${esc(t("external"))}</span>
-      </a>
-      ${gh ? `<a class="btn btn--ghost" href="${esc(gh)}" target="_blank" rel="noopener noreferrer">${icon("github", "btn__icon")}GitHub<span class="visually-hidden"> ${esc(t("external"))}</span></a>` : ""}
-      ${PROFILE.instagram ? `<a class="btn btn--ghost" href="${esc(PROFILE.instagram)}" target="_blank" rel="noopener noreferrer">${icon("instagram", "btn__icon")}Instagram<span class="visually-hidden"> ${esc(t("external"))}</span></a>` : ""}
+      <div class="intent" data-spotlight>
+        <span class="intent__icon" aria-hidden="true">${icon("briefcase")}</span>
+        <h3 class="intent__title">${esc(t("contact.jobTitle"))}</h3>
+        <p class="intent__text">${esc(t("contact.jobText"))}</p>
+        <div class="intent__actions">
+          <a class="btn btn--primary btn--sm" href="${esc(PROFILE.linkedin)}"${ext} data-magnetic>${icon("linkedin", "btn__icon")}${esc(t("contact.jobCta"))}${sr}</a>
+          ${gh ? `<a class="btn btn--ghost btn--sm" href="${esc(gh)}"${ext}>${icon("github", "btn__icon")}GitHub${sr}</a>` : ""}
+        </div>
+      </div>
+      <div class="intent intent--or7" data-spotlight>
+        <span class="intent__icon" aria-hidden="true">${icon("spark")}</span>
+        <h3 class="intent__title">${esc(t("contact.projectTitle"))}</h3>
+        <p class="intent__text">${esc(t("contact.projectText"))}</p>
+        <div class="intent__actions">
+          ${PROFILE.instagram ? `<a class="btn btn--primary btn--sm" href="${esc(PROFILE.instagram)}"${ext} data-magnetic>${icon("instagram", "btn__icon")}${esc(t("contact.projectCta"))}${sr}</a>` : ""}
+          <a class="btn btn--ghost btn--sm" href="${ROOT}showcase/">${icon("grid", "btn__icon")}${esc(t("nav.showcase"))}</a>
+        </div>
+      </div>
       ${PROFILE.email ? `
+      <div class="contact__other">
+        <span class="contact__other-label mono">${esc(t("contact.other"))}</span>
         <div class="email-box">
           <a class="email-box__addr mono" href="mailto:${esc(PROFILE.email)}">${icon("mail", "btn__icon")}${esc(PROFILE.email)}</a>
           <button type="button" class="email-box__copy" data-copy-email>
             ${icon("copy", "btn__icon")}<span data-copy-label>${esc(t("contact.copy"))}</span>
           </button>
-        </div>` : ""}`;
+        </div>
+      </div>` : ""}`;
   }
 
   async function copyEmail(btn) {
@@ -412,17 +470,21 @@
   }
 
   function renderFooter() {
-    $("#footer-social").innerHTML = socialList();
-    $("#year").textContent = new Date().getFullYear();
+    const social = $("#footer-social");
+    if (social) social.innerHTML = socialList();
+    const year = $("#year");
+    if (year) year.textContent = new Date().getFullYear();
   }
 
   /* -----------------------------------------------------------
-     Navegação: menu mobile, seção ativa, header
+     Navegação: menu mobile, página/seção ativa, indicador animado
      ----------------------------------------------------------- */
   function initNav() {
     const header = $(".site-header");
     const toggle = $("#menu-toggle");
     const nav = $("#site-nav");
+    const list = $(".nav__list");
+    const links = [...document.querySelectorAll(".nav__link")];
 
     const setOpen = (open) => {
       toggle.setAttribute("aria-expanded", String(open));
@@ -436,23 +498,52 @@
     });
     window.matchMedia("(min-width: 961px)").addEventListener?.("change", (e) => { if (e.matches) setOpen(false); });
 
-    // Sombra/borda do header após rolar
     const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Destaca o link da seção visível
-    const links = [...document.querySelectorAll(".nav__link")];
-    const sections = links.map((l) => document.querySelector(l.getAttribute("href"))).filter(Boolean);
-    if ("IntersectionObserver" in window) {
+    /* Indicador deslizante (desktop): acompanha o link ativo e o hover */
+    const indicator = document.createElement("span");
+    indicator.className = "nav__indicator";
+    indicator.setAttribute("aria-hidden", "true");
+    list?.appendChild(indicator);
+    let activeLink = null;
+    const moveTo = (el) => {
+      if (!el || !list || getComputedStyle(indicator).display === "none") { indicator.classList.remove("is-on"); return; }
+      const a = el.getBoundingClientRect(), b = list.getBoundingClientRect();
+      indicator.style.setProperty("--x", `${a.left - b.left + 10}px`);
+      indicator.style.setProperty("--w", `${Math.max(0, a.width - 20)}px`);
+      indicator.classList.add("is-on");
+    };
+    const setActive = (el, current = "true") => {
+      links.forEach((l) => {
+        const on = l === el;
+        l.classList.toggle("is-active", on);
+        if (on) l.setAttribute("aria-current", current); else l.removeAttribute("aria-current");
+      });
+      activeLink = el;
+      moveTo(el);
+    };
+    links.forEach((l) => {
+      l.addEventListener("mouseenter", () => moveTo(l));
+      l.addEventListener("focus", () => moveTo(l));
+    });
+    list?.addEventListener("mouseleave", () => moveTo(activeLink));
+    window.addEventListener("resize", () => moveTo(activeLink), { passive: true });
+    document.addEventListener("langchange", () => requestAnimationFrame(() => moveTo(activeLink)));
+    document.fonts?.ready.then(() => moveTo(activeLink));
+
+    // Páginas internas: o item da página atual fica marcado
+    const pageLink = links.find((l) => l.dataset.nav === PAGE);
+    if (pageLink) { setActive(pageLink, "page"); return; }
+
+    // Home: destaca a seção visível
+    const sections = links.map((l) => document.getElementById(l.dataset.section || "")).filter(Boolean);
+    if ("IntersectionObserver" in window && sections.length) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
           if (!e.isIntersecting) return;
-          links.forEach((l) => {
-            const on = l.getAttribute("href") === "#" + e.target.id;
-            l.classList.toggle("is-active", on);
-            if (on) l.setAttribute("aria-current", "true"); else l.removeAttribute("aria-current");
-          });
+          setActive(links.find((l) => l.dataset.section === e.target.id) || null);
         });
       }, { rootMargin: "-40% 0px -55% 0px" });
       sections.forEach((s) => io.observe(s));
@@ -492,33 +583,58 @@
   }
 
   /* -----------------------------------------------------------
-     Renderização geral + eventos
+     Renderização + eventos
      ----------------------------------------------------------- */
-  function renderAll() {
-    applyLinks();
+  function renderHome() {
     renderCode();
     renderMarquee();
     renderAvatar();
     renderProfile();
     renderAbout();
+    renderWork();
     renderStack();
     renderEducation();
     renderLanguages();
     renderContact();
-    renderFooter();
   }
 
   function init() {
     I18N.apply();
     Theme.init();
-    Projects.init();
-    renderAll();
-    GitHub.init();
-    initEditorTabs();
-    Terminal.init();
+    applyLinks();
+    renderFooter();
+
+    if (PAGE === "home") {
+      // Links antigos (#project/votai, #projects, #scopes) agora apontam para páginas próprias.
+      // O <head> cobre o carregamento; aqui cobrimos mudanças de hash na mesma página.
+      window.addEventListener("hashchange", () => {
+        const h = location.hash;
+        if (/^#project\//.test(h) || h === "#projects" || h === "#prototypes") location.replace(`projects/${h.startsWith("#project/") ? h : ""}`);
+        else if (h === "#scopes") location.replace("showcase/");
+      });
+      renderHome();
+      if (typeof GitHub !== "undefined") GitHub.init();
+      initEditorTabs();
+      Terminal.init();
+    }
+    if (PAGE === "projects" && typeof Projects !== "undefined") Projects.init();
+    if (PAGE === "showcase" && typeof Showcase !== "undefined") Showcase.init();
+
     initNav();
     initCursor();
+    if (typeof Motion !== "undefined") Motion.init();
     U.observeReveal();
+
+    // Vindo de outra página (ex.: /projects/ → /#education): as seções são preenchidas
+    // via JS, então o salto do navegador para a âncora se perde. Reaplica após renderizar.
+    if (PAGE === "home" && /^#[\w-]+$/.test(location.hash)) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) {
+        const jump = () => target.scrollIntoView({ behavior: "instant", block: "start" });
+        jump();
+        document.fonts?.ready.then(jump);
+      }
+    }
 
     document.querySelectorAll("[data-lang-option]").forEach((btn) =>
       btn.addEventListener("click", () => I18N.set(btn.dataset.langOption))
@@ -536,10 +652,14 @@
     });
 
     document.addEventListener("langchange", () => {
-      const photo = document.querySelector(".avatar__img");
-      if (photo) photo.alt = t("profile.photoAlt");
-      applyLinks(); renderCode(); renderProfile(); renderAbout(); renderStack();
-      renderEducation(); renderLanguages(); renderContact(); renderFooter();
+      applyLinks();
+      renderFooter();
+      if (PAGE === "home") {
+        const photo = document.querySelector(".avatar__img");
+        if (photo) photo.alt = t("profile.photoAlt");
+        renderCode(); renderProfile(); renderAbout(); renderWork(); renderStack();
+        renderEducation(); renderLanguages(); renderContact();
+      }
       U.observeReveal(document, { instant: true });
     });
   }

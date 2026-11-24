@@ -1,0 +1,257 @@
+/* =============================================================
+   motion.css — movimento com função (transform / opacity)
+   -------------------------------------------------------------
+   1. Transição entre páginas      6. Spotlight e profundidade nos cards
+   2. Revelação na rolagem         7. Borda animada (destaque principal)
+   3. Nome do hero (split text)    8. Navegação: indicador + progresso
+   4. Fundo do hero                9. Bloco comercial
+   5. Editor com profundidade     10. Movimento reduzido / toque
+   ============================================================= */
+
+/* ---------- 1. Transição entre páginas (View Transitions, progressivo) ---------- */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+::view-transition-old(root) { animation: vt-out 0.2s ease both; }
+::view-transition-new(root) { animation: vt-in 0.42s var(--ease) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+
+/* Entrada das páginas internas (também em navegadores sem View Transitions) */
+.page-hero .container > * { animation: rise 0.75s var(--ease) both; }
+.page-hero .container > :nth-child(2) { animation-delay: 0.05s; }
+.page-hero .container > :nth-child(3) { animation-delay: 0.12s; }
+.page-hero .container > :nth-child(4) { animation-delay: 0.18s; }
+.page-hero .container > :nth-child(5) { animation-delay: 0.24s; }
+.page-hero__title { animation-name: title-in !important; }
+@keyframes title-in {
+  from { opacity: 0; transform: translateY(0.35em); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 -0.2em 0); }
+}
+
+/* Hero principal: entrada curta (o texto acima da dobra aparece rápido = LCP melhor) */
+.hero__text > * { animation-duration: 0.6s; }
+.hero__text > :nth-child(2) { animation-delay: 0.04s; }
+.hero__text > :nth-child(3) { animation-delay: 0.08s; }
+.hero__text > :nth-child(4) { animation-delay: 0.12s; }
+.hero__text > :nth-child(5) { animation-delay: 0.16s; }
+.hero__text > :nth-child(6) { animation-delay: 0.2s; }
+.hero__text > :nth-child(7) { animation-delay: 0.24s; }
+.editor { animation-duration: 0.6s; animation-delay: 0.1s; }
+
+/* ---------- 2. Revelação na rolagem ---------- */
+/* clip: títulos de seção entram por máscara, de baixo para cima.
+   A máscara fica nos filhos: o elemento observado precisa continuar
+   "visível" para o IntersectionObserver. */
+.js [data-reveal="clip"] { opacity: 1; transform: none; }
+.js [data-reveal="clip"] > * {
+  transform: translateY(0.6em);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.js [data-reveal="clip"] > :nth-child(2) { transition-delay: 60ms; }
+.js [data-reveal="clip"] > :nth-child(3) { transition-delay: 120ms; }
+.js [data-reveal="clip"].is-visible > * { transform: none; clip-path: inset(-0.3em -0.3em -0.5em -0.3em); }
+
+/* rise: blocos e cards sobem com leve atraso em cascata */
+.js [data-reveal="rise"] { transform: translateY(22px); }
+.pgrid > :nth-child(3n + 2), .mgrid > :nth-child(3n + 2) { transition-delay: 70ms; }
+.pgrid > :nth-child(3n + 3), .mgrid > :nth-child(3n + 3) { transition-delay: 140ms; }
+.spot-row > :nth-child(2) { transition-delay: 90ms; }
+
+/* Imagem da capa: revela de baixo e assenta a escala */
+/* Imagem da capa: assenta a escala ao entrar (só transform/opacity, sem clip-path) */
+.js [data-reveal] [data-reveal-media] .media__img { scale: 1.06; transition: scale 0.7s var(--ease), transform 0.45s var(--ease), filter 0.4s, opacity 0.4s; }
+.js [data-reveal].is-visible [data-reveal-media] .media__img { scale: 1; }
+
+/* ---------- 3. Nome do hero (split text por máscara) ---------- */
+.hero__name.is-splitting .split-line {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.06em;
+  margin-top: -0.06em;
+}
+.hero__name.is-splitting .split-char {
+  display: inline-block;
+  transform: translateY(108%);
+  animation: char-in 0.6s var(--ease) forwards;
+  animation-delay: calc(var(--ci) * 24ms + 60ms);
+}
+@keyframes char-in { to { transform: none; } }
+.hero__name.is-splitting { animation: none; }
+
+/* Títulos das páginas internas (Projetos / Modelos): mesma máscara do nome */
+.page-hero__title.is-split { animation: none !important; }
+[data-split] .split-line { display: inline-block; overflow: hidden; padding: 0.06em 0.02em 0.08em; margin: -0.06em -0.02em -0.08em; vertical-align: bottom; }
+[data-split] .split-char { display: inline-block; }
+[data-split].is-splitting .split-char {
+  transform: translateY(110%);
+  animation: char-in 0.62s var(--ease) forwards;
+  animation-delay: calc(var(--ci) * 34ms + 80ms);
+}
+[data-split].is-split::after { display: inline-block; }
+[data-split].is-splitting::after { animation: dot-in 0.45s var(--ease) 0.5s both; }
+@keyframes dot-in { from { opacity: 0; transform: scale(0.2) translateY(0.2em); } }
+
+/* Hero de Modelos: capas entram em sequência e reagem levemente ao ponteiro/rolagem */
+/* Entrada usa as propriedades individuais translate/scale: não briga com a
+   inclinação de cada card (transform) nem com o deslocamento da camada (JS). */
+.sc-card { animation: card-in 0.6s var(--ease) both; animation-delay: calc(0.18s + var(--i, 0) * 80ms); }
+@keyframes card-in { from { opacity: 0; translate: 0 24px; scale: 0.96; } }
+.sc-layer { transition: transform 0.6s var(--ease); }
+.sc-hero__stats .sc-stat { animation: rise 0.6s var(--ease) both; }
+.sc-hero__stats .sc-stat:nth-child(2) { animation-delay: 0.08s; }
+.sc-hero__stats .sc-stat:nth-child(3) { animation-delay: 0.16s; }
+.sc-hero__copy > :not(.page-hero__title):not(.sc-hero__stats) { animation: rise 0.6s var(--ease) both; }
+.sc-hero__copy > .sc-hero__kicker { animation-delay: 0.18s; }
+.sc-hero__copy > .sc-hero__lead { animation-delay: 0.26s; }
+.sc-hero__copy > .sc-hero__note { animation-delay: 0.4s; }
+
+/* CTAs magnéticos: volta suave ao soltar */
+[data-magnetic] { transition: transform 0.22s var(--ease), background-color 0.2s, border-color 0.2s, color 0.2s; }
+
+/* Stack: itens entram em cascata; ícone ganha luz ao passar o mouse */
+.js .stack[data-reveal] .tech { opacity: 0; transform: translateY(8px); transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), border-color 0.2s; transition-delay: calc(var(--t, 0) * 22ms); }
+.js .stack[data-reveal].is-visible .tech { opacity: 1; transform: none; }
+.js .stack[data-reveal].is-visible .tech:hover,
+.js .stack[data-reveal].is-visible .tech:focus-visible { transform: translateY(-2px); transition-delay: 0s; }
+.tech-icon { transition: box-shadow 0.22s var(--ease), border-color 0.22s var(--ease); }
+.tech:hover .tech-icon,
+.tech:focus-visible .tech-icon { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 6px 14px -8px rgba(0, 0, 0, 0.45); border-color: var(--accent-line); }
+
+/* ---------- 4. Fundo do hero: grade com foco + fibras de luz ---------- */
+.hero > .container,
+.hero > .marquee { position: relative; z-index: 1; }
+.hero__bg {
+  /* camada da luz: maior que o hero para o microparallax não revelar bordas */
+  position: absolute;
+  inset: -40px;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 0.9s var(--ease);
+}
+.hero__bg::after {
+  /* luz roxa muito leve atrás do editor */
+  content: "";
+  position: absolute;
+  top: -10%; right: -6%;
+  width: 70%; height: 120%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 12%, transparent), transparent 72%);
+}
+[data-theme="light"] .hero__bg::after { background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent 72%); }
+.hero { overflow: hidden; }
+
+/* ---------- 5. Editor com profundidade sutil ---------- */
+.editor {
+  /* a inclinação é escrita direto em style.transform (motion.js) */
+  animation-fill-mode: backwards;
+  transition: transform 0.7s var(--ease);
+}
+
+/* ---------- 6. Spotlight e profundidade nos cards ---------- */
+.repo { position: relative; overflow: hidden; }
+@media (hover: hover) and (pointer: fine) {
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--sx, 50%) var(--sy, 50%), color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+[data-spotlight]:hover::after { opacity: 1; }
+}
+
+.media__img { transition: transform 0.8s var(--ease); }
+.spot:hover .media__img,
+.pcard:hover .media__img,
+.mcard:hover .media__img { transform: scale(1.035); }
+
+/* ---------- 7. Borda animada (apenas o destaque principal) ---------- */
+@property --spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.spot--lead::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(from var(--spin), transparent 0 70%, var(--accent) 82%, transparent 94%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.spot--lead:hover::before { opacity: 1; animation: spin 4.5s linear infinite; }
+@keyframes spin { to { --spin: 360deg; } }
+
+/* ---------- 8. Navegação: indicador deslizante + progresso ---------- */
+.nav__list { position: relative; }
+.nav__link::after { display: none; }
+.nav__indicator {
+  position: absolute;
+  left: 0; bottom: 3px;
+  width: var(--w, 0);
+  height: 1.5px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: translateX(var(--x, 0));
+  opacity: 0;
+  transition: transform 0.45s var(--ease), width 0.45s var(--ease), opacity 0.25s;
+  pointer-events: none;
+}
+.nav__indicator.is-on { opacity: 1; }
+.nav__link[aria-current="page"] { color: var(--text); }
+
+.scroll-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Loops só rodam quando visíveis (motion.js marca .is-offscreen) */
+.marquee.is-offscreen .marquee__track,
+.hero.is-offscreen .status-pill__dot::after,
+.hero.is-offscreen .caret { animation-play-state: paused; }
+
+/* ---------- 9. Bloco comercial: destaque ao escolher uma direção ---------- */
+.direction.is-pulsing { animation: pulse-ring 1.1s var(--ease); }
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--accent-line); }
+  100% { box-shadow: 0 0 0 18px transparent; }
+}
+
+/* ---------- 10. Movimento reduzido / toque ---------- */
+@media (hover: none), (max-width: 960px) {
+  .editor { transform: none !important; }
+  .hero__bg { transform: none !important; }
+  .spot--lead:hover::before { animation: none; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .js [data-reveal="clip"] > * { clip-path: none; transform: none; }
+  .js [data-reveal] [data-reveal-media] .media__img { scale: 1; }
+  .hero__name.is-splitting .split-char,
+  [data-split].is-splitting .split-char { transform: none; animation: none; }
+  [data-split].is-splitting::after, .sc-card, .sc-hero__stats .sc-stat, .sc-hero__copy > * { animation: none; }
+  .sc-layer, .hero__bg { transform: none !important; }
+  .js .stack[data-reveal] .tech { opacity: 1; transform: none; }
+  [data-magnetic] { transform: none !important; }
+  .editor { transform: none !important; }
+  .spot--lead::before { display: none; }
+  .spot:hover .media__img, .pcard:hover .media__img, .mcard:hover .media__img { transform: none; }
+  .pcard:hover, .mcard:hover, .door:hover { transform: none; }
+}

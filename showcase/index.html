@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-page="showcase" data-root="../">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Website Showcase by Industry | Lorenzo Orsetti</title>
+  <meta name="description" content="29 complete website concepts for restaurants, clinics, gyms, hotels, real estate and other industries. Fictional brands, real demos.">
+  <meta name="author" content="Lorenzo Orsetti">
+  <meta name="theme-color" content="#040607">
+
+  <link rel="canonical" href="https://lorenzo-or7.github.io/showcase/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Lorenzo Orsetti">
+  <meta property="og:title" content="Website Showcase by Industry | Lorenzo Orsetti">
+  <meta property="og:description" content="29 complete website concepts for restaurants, clinics, gyms, hotels, real estate and other industries. Fictional brands, real demos.">
+  <meta property="og:url" content="https://lorenzo-or7.github.io/showcase/">
+  <meta property="og:image" content="https://lorenzo-or7.github.io/assets/images/og-showcase.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Showcase — Lorenzo Orsetti">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pt_BR">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Website Showcase by Industry | Lorenzo Orsetti">
+  <meta name="twitter:description" content="29 complete website concepts for restaurants, clinics, gyms, hotels, real estate and other industries. Fictional brands, real demos.">
+  <meta name="twitter:image" content="https://lorenzo-or7.github.io/assets/images/og-showcase.png">
+
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+
+  <script>
+    (function () {
+      // Transição entre páginas (View Transitions): se o navegador pular a animação,
+      // as promessas são tratadas aqui para não gerar erro no console.
+      var quiet = function (e) { var v = e.viewTransition; if (!v) return; [v.ready, v.finished, v.updateCallbackDone].forEach(function (p) { p && p.catch(function () {}); }); };
+      window.addEventListener("pagereveal", quiet);
+      window.addEventListener("pageswap", quiet);
+      window.addEventListener("unhandledrejection", function (e) {
+        var r = e.reason;
+        if (r && r.name === "InvalidStateError" && /Transition was (aborted|skipped)/.test(r.message)) e.preventDefault();
+      });
+      var d = document.documentElement, t, l;
+      d.classList.add("js");
+      try { t = localStorage.getItem("lo-theme"); l = localStorage.getItem("lo-lang"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      d.dataset.theme = t;
+      if (l !== "pt" && l !== "en") l = (navigator.language || "en").toLowerCase().indexOf("pt") === 0 ? "pt" : "en";
+      d.lang = l === "pt" ? "pt-BR" : "en";
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/motion.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="top">
+    <div class="site-header__inner container">
+      <a class="brand" href="../" aria-label="Lorenzo Orsetti">
+        <span class="brand__prompt" aria-hidden="true">&gt;_</span>
+        <span class="brand__name">LORENZO ORSETTI</span>
+      </a>
+
+      <nav class="nav" id="site-nav" data-i18n-attr="aria-label:nav.label" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="../#about" data-section="about" data-i18n="nav.about">About</a></li>
+          <li><a class="nav__link nav__link--page" href="../projects/" data-nav="projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a class="nav__link nav__link--page" href="./" data-nav="showcase" data-i18n="nav.showcase">Showcase</a></li>
+          <li><a class="nav__link" href="../#stack" data-section="stack" data-i18n="nav.stack">Stack</a></li>
+          <li><a class="nav__link" href="../#education" data-section="education" data-i18n="nav.education">Education</a></li>
+          <li><a class="nav__link" href="../#english" data-section="english" data-i18n="nav.english">English</a></li>
+          <li><a class="nav__link" href="../#github" data-section="github" data-i18n="nav.github">GitHub</a></li>
+          <li><a class="nav__link" href="../#contact" data-section="contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-controls">
+        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
+          <button type="button" class="lang-switch__btn" data-lang-option="pt" aria-pressed="false" lang="pt-BR">PT</button>
+          <span class="lang-switch__sep" aria-hidden="true">/</span>
+          <button type="button" class="lang-switch__btn" data-lang-option="en" aria-pressed="true" lang="en">EN</button>
+        </div>
+
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Switch to light theme">
+          <span class="theme-toggle__track" aria-hidden="true">
+            <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+            <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+            <span class="theme-toggle__thumb"></span>
+          </span>
+        </button>
+
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-controls="site-nav" aria-expanded="false" data-i18n-attr="aria-label:nav.open" aria-label="Open menu">
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main" class="page">
+    <!-- ===================== HERO DE MODELOS ===================== -->
+    <section class="page-hero sc-hero" aria-labelledby="page-title">
+      <div class="container sc-hero__grid">
+        <div class="sc-hero__copy">
+          <nav class="crumb mono" data-i18n-attr="aria-label:crumb.label" aria-label="You are here">
+            <ol>
+              <li><a href="../">Lorenzo</a></li>
+              <li aria-current="page" data-i18n="nav.showcase">Showcase</li>
+            </ol>
+          </nav>
+          <h1 class="page-hero__title" id="page-title" data-i18n="showcase.title" data-split>Showcase</h1>
+          <p class="sc-hero__kicker" data-i18n="showcase.kicker">Digital directions for every kind of business.</p>
+          <p class="sc-hero__lead" data-i18n="showcase.lead"></p>
+          <dl class="sc-hero__stats" id="showcase-stats"></dl>
+          <p class="sc-hero__note">
+            <svg class="icon icon--sm" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-spark"/></svg>
+            <span data-i18n="showcase.note">Every model is an original demo project with a fictional brand.</span>
+          </p>
+        </div>
+
+        <!-- Composição com capas reais dos modelos (decorativa: os mesmos modelos estão na grade abaixo) -->
+        <div class="sc-hero__visual" id="showcase-hero-covers" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ===================== GRADE DE MODELOS ===================== -->
+    <section class="container catalog catalog--showcase" data-i18n-attr="aria-label:nav.showcase" aria-label="Showcase">
+      <div class="catalog__bar">
+        <div class="filters" id="showcase-filters" role="group" data-i18n-attr="aria-label:showcase.filterLabel" aria-label="Filter models by industry"></div>
+        <p class="catalog__count mono" id="showcase-showing" aria-live="polite"></p>
+      </div>
+      <div class="mgrid" id="showcase-grid"></div>
+    </section>
+
+    <!-- ===================== BLOCO COMERCIAL (Or7) ===================== -->
+    <section class="container direction-wrap" aria-labelledby="direction-title">
+      <div class="direction" id="direction" data-reveal="rise">
+        <div class="direction__copy">
+          <p class="direction__eyebrow mono" data-i18n="showcase.ctaEyebrow">For businesses</p>
+          <h2 class="direction__title" id="direction-title" tabindex="-1" data-i18n="showcase.ctaTitle">Like one of these directions?</h2>
+          <p class="direction__text" data-i18n="showcase.ctaText"></p>
+        </div>
+        <div class="direction__side">
+          <p class="direction__chosen" id="direction-chosen" aria-live="polite" hidden></p>
+          <div class="direction__actions" id="direction-actions"></div>
+          <a class="direction__handle mono" data-link="instagram" href="https://www.instagram.com/or7.dev/" target="_blank" rel="noopener noreferrer">@or7.dev</a>
+        </div>
+      </div>
+    </section>
+
+    <aside class="container crosslink" data-reveal="rise">
+      <p><span data-i18n="showcase.toProjects">Want to see what is already live?</span>
+        <a class="link-btn" href="../projects/"><span data-i18n="showcase.toProjectsLink">View projects</span>
+          <svg class="btn__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+    </aside>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__credit">
+        <span class="mono accent" aria-hidden="true">&lt;/&gt;</span>
+        <span data-i18n="footer.credit">Designed &amp; Developed by Lorenzo Orsetti</span>
+      </p>
+      <ul class="social social--footer" id="footer-social"></ul>
+      <p class="site-footer__copy mono">© <span id="year"></span> Lorenzo Orsetti</p>
+      <a class="site-footer__top mono" href="#top" data-i18n="footer.top">Back to top</a>
+    </div>
+  </footer>
+
+
+  <script src="../js/icons.js" defer></script>
+  <script src="../js/data.js" defer></script>
+  <script src="../js/language.js" defer></script>
+  <script src="../js/theme.js" defer></script>
+  <script src="../js/utils.js" defer></script>
+  <script src="../js/showcase.js" defer></script>
+  <script src="../js/motion.js" defer></script>
+  <script src="../js/main.js" defer></script>
+</body>
+</html>

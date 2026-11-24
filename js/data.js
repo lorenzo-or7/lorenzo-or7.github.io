@@ -57,8 +57,8 @@ const PROFILE = {
   // O que você está fazendo agora (bloco "No momento" do Sobre).
   now: [
     { pt: "Cursando Engenharia de Software na PUCPR", en: "Studying Software Engineering at PUCPR" },
-    { pt: "Evoluindo o VotAI, já no ar em planosdegoverno.com.br", en: "Improving VotAI, now live at planosdegoverno.com.br" },
-    { pt: "Criando propostas de sites para negócios locais de Curitiba", en: "Building website proposals for local businesses in Curitiba" },
+    { pt: "Evoluindo o Or7 Table e o VotAI, os dois já no ar", en: "Improving Or7 Table and VotAI, both already live" },
+    { pt: "Criando modelos de sites para segmentos comerciais na Or7", en: "Building website models for different industries at Or7" },
   ],
 };
 
@@ -106,14 +106,20 @@ const TECHNOLOGIES = {
   NextJS:     { name: "Next.js",    short: "Nx", icon: "assets/icons/nextjs.webp", color: "#888888", tip: { pt: "Framework React com renderização no servidor", en: "React framework with server rendering" } },
   Tailwind:   { name: "Tailwind CSS", short: "Tw", icon: "assets/icons/tailwind.webp", color: "#38BDF8", tip: { pt: "Estilização com classes utilitárias", en: "Utility-first styling" } },
   Supabase:   { name: "Supabase",   short: "Sb", icon: "assets/icons/supabase.webp", color: "#3ECF8E", tip: { pt: "PostgreSQL, autenticação e armazenamento", en: "PostgreSQL, auth and storage" } },
+  Vite:       { name: "Vite",       short: "Vi", icon: "assets/icons/vite.webp", color: "#9468FF", tip: { pt: "Build e servidor de desenvolvimento", en: "Build tool and dev server" } },
+  Motion:     { name: "Motion",     short: "Mo", icon: "assets/icons/motion.webp", color: "#F5D547", tip: { pt: "Animações e transições em React", en: "Animation and transitions in React" } },
+  GSAP:       { name: "GSAP",       short: "GS", icon: "assets/icons/gsap.webp", color: "#88CE02", tip: { pt: "Animações guiadas por rolagem e timelines", en: "Scroll-driven animation and timelines" } },
+  ThreeJS:    { name: "Three.js",   short: "3D", icon: "assets/icons/threejs.webp", color: "#B4B4C8", tip: { pt: "Cenas 3D com WebGL no navegador", en: "WebGL 3D scenes in the browser" } },
 };
 
-/* Categorias da seção "Tech Stack" (usam as chaves de TECHNOLOGIES). */
+/* Categorias da seção "Stack" (usam as chaves de TECHNOLOGIES).
+   Sem porcentagens: cada grupo mostra o que uso de fato nos projetos. */
 const STACK = [
-  { label: { pt: "Frontend", en: "Frontend" }, file: "frontend", items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "NextJS", "Tailwind"] },
-  { label: { pt: "Backend & linguagens", en: "Backend & languages" }, file: "backend", items: ["PHP", "Python"] },
-  { label: { pt: "Banco de dados", en: "Database" }, file: "database", items: ["MySQL", "Supabase"] },
-  { label: { pt: "Ferramentas", en: "Tools" }, file: "tools", items: ["VSCode", "Git", "GitHub", "Figma", "Astah"] },
+  { label: { pt: "Front-end", en: "Front-end" }, file: "frontend", items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "NextJS", "Tailwind"] },
+  { label: { pt: "Back-end", en: "Back-end" }, file: "backend", items: ["PHP", "Python"] },
+  { label: { pt: "Banco / Serviços", en: "Database / Services" }, file: "data", items: ["MySQL", "Supabase"] },
+  { label: { pt: "UI / Motion", en: "UI / Motion" }, file: "ui", items: ["Figma", "Motion", "GSAP", "ThreeJS"] },
+  { label: { pt: "Ferramentas", en: "Tools" }, file: "tools", items: ["VSCode", "Git", "GitHub", "Vite", "Astah"] },
   { label: { pt: "Engenharia de Software", en: "Software Engineering" }, file: "engineering", items: ["DBModeling", "Requirements", "SWModeling"] },
   { label: { pt: "Inteligência Artificial", en: "AI tools" }, file: "ai", items: ["ChatGPT", "Claude", "Gemini", "Copilot", "Lovable", "Antigravity"] },
 ];
@@ -124,23 +130,114 @@ const MARQUEE = ["HTML", "CSS", "JavaScript", "PHP", "Python", "MySQL", "Git", "
 /* -------------------------------------------------------------
    3. PROJETOS
    -------------------------------------------------------------
-   Para adicionar um projeto, copie um bloco { ... } e edite.
+   Página /projects/. Para adicionar um projeto, copie um bloco { ... } e edite.
 
-   category:  "featured" → Projetos em Destaque
-              "concept"  → Protótipos e demonstrações
-   status:    "in-progress" | "completed" | "prototype" | "concept"
-   image:     capa. Ex.: "assets/projects/votai/cover.webp"
-              Vazio → exibe uma prévia ilustrada (placeholder).
-   video:     opcional (protótipos). Ex.: "assets/projects/maca/preview.mp4"
+   status:    "live" (No ar) | "in-progress" (Em desenvolvimento) |
+              "completed" (Concluído) | "prototype" (Protótipo) |
+              "discontinued" (Descontinuado)
+   summary:   descrição curta do card (1–3 linhas). Obrigatória.
+   kind:      opcional — "own-product" (Produto próprio) | "authorial"
+              (Projeto autoral) | "commercial" (Projeto comercial)
+   featured:  opcional — 1 a 5 define a ordem do bloco de destaque.
+   cover:     capa OFICIAL. Ex.: "assets/covers/projects/votai.webp"
+              (+ versão "-800.webp" para telas menores). Sem capa →
+              estado "capa oficial pendente" (nunca uma imagem genérica).
    links:     demo / github. Vazio → botão aparece como "Em breve".
-   placeholder: cores da prévia ilustrada, usada só quando não há imagem.
-   caseStudy: conteúdo do modal "Ver detalhes". Seções vazias são ocultadas.
+   caseStudy: conteúdo do estudo de caso. Seções vazias são ocultadas.
    ------------------------------------------------------------- */
 const PROJECTS = [
   {
+    id: "or7-table",
+    name: "Or7 Table",
+    summary: {
+      pt: "Plataforma de cardápios digitais em que cada restaurante tem identidade própria. O cliente abre pelo QR Code, sem aplicativo, e o dono atualiza produtos e preços pelo painel.",
+      en: "A digital menu platform where every restaurant gets its own identity. Guests open it with a QR code, no app needed, and owners update products and prices from their dashboard.",
+    },
+    kind: "own-product",
+    featured: 1,
+    tagline: { pt: "Cardápios digitais exclusivos por QR Code", en: "Custom digital menus via QR code" },
+    status: "live",
+    context: { pt: "Produto próprio da Or7 · no ar em or7table.com.br", en: "Or7's own product · live at or7table.com.br" },
+    description: {
+      pt: "SaaS de cardápios digitais da Or7. Cada restaurante ganha um cardápio com identidade própria, acessado por QR Code, e um painel para gerenciar produtos, categorias e preços. As mudanças aparecem na hora para quem está na mesa.",
+      en: "Or7's digital menu SaaS. Each restaurant gets a menu with its own identity, opened by QR code, and a dashboard to manage products, categories and prices. Changes show up instantly for whoever is at the table.",
+    },
+    technologies: ["React", "TypeScript", "Vite", "Tailwind", "Motion", "Supabase"],
+    features: {
+      pt: [
+        "Cardápio com identidade visual própria para cada restaurante",
+        "Acesso por QR Code, sem instalar aplicativo",
+        "Gestão de produtos, categorias e preços",
+        "Painel do restaurante e área de administração central",
+        "Autenticação com Supabase e MFA por TOTP nas áreas administrativas",
+        "Dados de cada restaurante isolados com Row Level Security",
+        "Experiências de demonstração, como Casa Maré e La Brasa",
+      ],
+      en: [
+        "A menu with its own visual identity for each restaurant",
+        "QR code access, no app to install",
+        "Product, category and price management",
+        "Restaurant dashboard and a central admin area",
+        "Supabase authentication with TOTP MFA on admin areas",
+        "Each restaurant's data isolated with Row Level Security",
+        "Demo experiences such as Casa Maré and La Brasa",
+      ],
+    },
+    role: {
+      pt: ["Idealização do produto", "Direção visual", "UX/UI", "Front-end", "Banco e segurança (Supabase)", "Publicação"],
+      en: ["Product concept", "Visual direction", "UX/UI", "Front-end", "Database and security (Supabase)", "Publishing"],
+    },
+    cover: "assets/covers/projects/or7-table.webp",
+    video: "",
+    links: { demo: "https://or7table.com.br/", github: "https://github.com/lorenzo-or7/or7-table" },
+    caseStudy: {
+      problem: {
+        pt: "Cardápio em PDF ou em plataforma genérica deixa todo restaurante com a mesma cara, e cada mudança de preço ou de produto vira retrabalho.",
+        en: "A PDF menu or a generic platform makes every restaurant look the same, and each price or product change turns into rework.",
+      },
+      idea: {
+        pt: "Um cardápio digital que parece parte da marca do restaurante, aberto por QR Code, com um painel simples para o dono atualizar tudo sozinho.",
+        en: "A digital menu that feels like part of the restaurant's brand, opened by QR code, with a simple dashboard so owners can update everything themselves.",
+      },
+      challenges: {
+        pt: [
+          "Manter os dados de cada restaurante separados e seguros.",
+          "Proteger as áreas administrativas sem complicar o uso do painel.",
+          "Dar identidade própria a cada cardápio sem reescrever a plataforma para cada cliente.",
+        ],
+        en: [
+          "Keeping each restaurant's data separate and secure.",
+          "Protecting admin areas without making the dashboard harder to use.",
+          "Giving each menu its own identity without rewriting the platform for every client.",
+        ],
+      },
+      solutions: {
+        pt: [
+          "Postgres no Supabase com Row Level Security isolando os dados por restaurante.",
+          "Sessões autenticadas com MFA (TOTP) para recursos administrativos; chaves secretas nunca ficam no cliente.",
+          "Experiências de cardápio como camadas visuais sobre a mesma base de produtos e categorias.",
+        ],
+        en: [
+          "Postgres on Supabase with Row Level Security isolating data per restaurant.",
+          "Authenticated sessions with TOTP MFA for admin features; secret keys never reach the client.",
+          "Menu experiences built as visual layers on top of the same product and category base.",
+        ],
+      },
+      process: {
+        pt: "Produto próprio da Or7, idealizado e desenvolvido por mim, do conceito à publicação em or7table.com.br. Usei ferramentas de IA como apoio no código e na revisão; as decisões de produto, arquitetura e interface foram minhas.",
+        en: "Or7's own product, conceived and built by me, from concept to launch at or7table.com.br. I used AI tools as support for coding and review; product, architecture and interface decisions were mine.",
+      },
+    },
+  },
+  {
     id: "votai",
-    category: "featured",
     name: "VotAI",
+    summary: {
+      pt: "Plataforma apartidária que organiza as 1.866 propostas das 13 candidaturas à Presidência em 2026. Você escolhe um tema e compara, lado a lado, o que cada uma propõe, com o trecho do plano oficial.",
+      en: "A non-partisan platform that organizes the 1,866 proposals from the 13 presidential candidates in Brazil's 2026 election. Pick a topic and compare, side by side, what each one proposes, with the excerpt from the official plan.",
+    },
+    kind: "authorial",
+    featured: 2,
     tagline: {
       pt: "Plataforma de Informações e Comparação Eleitoral",
       en: "Electoral Information & Comparison Platform",
@@ -190,7 +287,7 @@ const PROJECTS = [
       pt: ["Idealização do projeto", "Definição das funcionalidades", "Modelagem do banco de dados", "Backend em PHP", "Interface", "Implementação", "GitHub"],
       en: ["Project concept", "Feature definition", "Database modeling", "PHP backend", "Interface", "Implementation", "GitHub"],
     },
-    image: "assets/projects/votai-capa.webp",
+    cover: "assets/covers/projects/votai.webp",
     links: { demo: "https://planosdegoverno.com.br/", github: "https://github.com/lorenzo-or7/VotAI" },
     placeholder: { url: "votai", bg: "#F7F5FF", ink: "#1B1530", accent: "#4928C2" },
 
@@ -260,8 +357,13 @@ const PROJECTS = [
   /* ---------- CONCEITOS DE WEBSITES ---------- */
   {
     id: "nexo",
-    category: "featured",
     name: "NEXO",
+    summary: {
+      pt: "App de finanças pessoais que junta contas, cartões, faturas, parcelas e assinaturas para projetar o saldo dia a dia e mostrar quanto ainda dá para gastar no mês.",
+      en: "A personal finance app that brings accounts, cards, invoices, installments and subscriptions together to project the balance day by day and show how much is still safe to spend this month.",
+    },
+    kind: "authorial",
+    featured: 3,
     tagline: { pt: "Gestão financeira pessoal", en: "Personal finance app" },
     status: "live",
     context: { pt: "Projeto pessoal · aplicação web completa", en: "Personal project · full web application" },
@@ -296,7 +398,7 @@ const PROJECTS = [
       pt: ["Idealização do produto", "Regras financeiras", "Modelagem do banco e segurança (RLS)", "Interface", "Implementação", "Testes"],
       en: ["Product concept", "Financial rules", "Database modeling and security (RLS)", "Interface", "Implementation", "Testing"],
     },
-    image: "assets/projects/nexo-capa.webp",
+    cover: "assets/covers/projects/nexo.webp",
     links: { demo: "https://nexo-gamma-one.vercel.app", github: "https://github.com/lorenzo-or7/nexo" },
     placeholder: { url: "nexo", bg: "#1A0B14", ink: "#F7EDF3", accent: "#E8336D" },
     caseStudy: {
@@ -357,8 +459,12 @@ const PROJECTS = [
   },
   {
     id: "dark-pool",
-    category: "featured",
     name: "Dark Pool",
+    summary: {
+      pt: "Laboratório de pesquisa para traders: reconstrói sessões históricas, testa estratégias e mede risco e desempenho. É só simulação, sem corretora conectada.",
+      en: "A research lab for traders: it rebuilds historical sessions, tests strategies and measures risk and performance. Simulation only, with no broker connected.",
+    },
+    kind: "authorial",
     tagline: {
       pt: "Plataforma de pesquisa, simulação e análise para traders",
       en: "Research, simulation and analytics platform for traders",
@@ -395,7 +501,7 @@ const PROJECTS = [
       pt: ["Idealização", "Arquitetura", "UX/UI", "Frontend", "Backend", "Testes"],
       en: ["Concept", "Architecture", "UX/UI", "Frontend", "Backend", "Testing"],
     },
-    image: "assets/projects/dark-pool-capa.webp",
+    cover: "assets/covers/projects/dark-pool.webp",
     links: {
       demo: "https://lorenzo-or7.github.io/dark-pool/",
       github: "https://github.com/lorenzo-or7/dark-pool",
@@ -405,9 +511,12 @@ const PROJECTS = [
   },
   {
     id: "duskdex",
-    category: "concept",
-    type: "concept-project",
     name: "DuskDex",
+    summary: {
+      pt: "Plataforma para colecionadores de Pokémon TCG, com catálogo internacional, fichários, decks, wishlist e trocas. Funciona direto no navegador ou com conta.",
+      en: "A platform for Pokémon TCG collectors, with an international catalog, binders, decks, wishlist and trades. It works straight in the browser or with an account.",
+    },
+    kind: "authorial",
     tagline: { pt: "Plataforma para colecionadores de Pokémon TCG", en: "A platform for Pokémon TCG collectors" },
     status: "in-progress",
     context: { pt: "Projeto em desenvolvimento", en: "Project in development" },
@@ -444,7 +553,7 @@ const PROJECTS = [
       pt: ["Idealização do produto", "Design da interface", "Front-end (SPA em JavaScript)", "API em PHP e banco MySQL", "Segurança e moderação", "Testes"],
       en: ["Product concept", "Interface design", "Front-end (JavaScript SPA)", "PHP API and MySQL database", "Security and moderation", "Testing"],
     },
-    image: "assets/projects/duskdex-capa.webp",
+    cover: "assets/covers/projects/duskdex.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/duskdex/", github: "https://github.com/lorenzo-or7/duskdex" },
     placeholder: { url: "duskdex", bg: "#0D0B12", ink: "#F3EDF4", accent: "#9E79BC", serif: true },
@@ -512,9 +621,11 @@ const PROJECTS = [
   },
   {
     id: "retrama",
-    category: "concept",
-    type: "website-demo",
     name: "re.trama | Ateliê de Crochê",
+    summary: {
+      pt: "Vitrine para o re.trama, ateliê de crochê: coleções com fotos e preços reais, um passo a passo para encomendas personalizadas e pedido pronto no WhatsApp.",
+      en: "A storefront for re.trama, a crochet studio: collections with real photos and prices, a step-by-step flow for custom orders and a ready-made WhatsApp request.",
+    },
     tagline: { pt: "Ateliê de crochê feito à mão", en: "Handmade crochet studio" },
     status: "in-progress",
     context: { pt: "Projeto em desenvolvimento", en: "Project in development" },
@@ -551,7 +662,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Fotos e catálogo", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Photos and catalog", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/retrama-capa.webp",
+    cover: "assets/covers/projects/retrama.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/retrama/", github: "https://github.com/lorenzo-or7/retrama" },
     placeholder: { url: "retrama", bg: "#EBEFF2", ink: "#0E619E", accent: "#D23C6E", serif: true },
@@ -599,9 +710,11 @@ const PROJECTS = [
   },
   {
     id: "saiso",
-    category: "concept",
-    type: "website-demo",
     name: "Saiso – Korean Food Market",
+    summary: {
+      pt: "Site para um restaurante e mercado coreano do Centro de Curitiba, com cardápio pesquisável, vitrine do K-market, galeria e reserva de mesa.",
+      en: "A website for a Korean restaurant and market in downtown Curitiba, with a searchable menu, a K-market showcase, gallery and table booking.",
+    },
     tagline: { pt: "Restaurante e mercado coreano", en: "Korean restaurant & market" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -638,7 +751,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/saiso-capa.webp",
+    cover: "assets/covers/projects/saiso.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/saiso-demo/", github: "https://github.com/lorenzo-or7/saiso-demo" },
     placeholder: { url: "saiso", bg: "#211B1A", ink: "#F8E2D1", accent: "#B75D4D", serif: true },
@@ -686,9 +799,12 @@ const PROJECTS = [
   },
   {
     id: "mkt",
-    category: "concept",
-    type: "concept-project",
     name: "MKT — A Bolsa da Internet",
+    summary: {
+      pt: "Bolsa de valores fictícia da cultura da internet. Criadores, jogos, marcas e memes viram ativos, e os preços reagem ao hype e às notícias.",
+      en: "A fictional stock exchange for internet culture. Creators, games, brands and memes become assets, and prices react to hype and news.",
+    },
+    kind: "authorial",
     tagline: { pt: "Jogo de mercado fictício", en: "Fictional market game" },
     status: "completed",
     context: { pt: "Projeto autoral · concluído", en: "Original project · completed" },
@@ -725,7 +841,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/mkt-capa.webp",
+    cover: "assets/covers/projects/mkt.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/mkt/", github: "https://github.com/lorenzo-or7/mkt" },
     placeholder: { url: "mkt", bg: "#050505", ink: "#F7F7F7", accent: "#FF342B" },
@@ -771,9 +887,11 @@ const PROJECTS = [
   },
   {
     id: "namba",
-    category: "concept",
-    type: "website-demo",
     name: "Cine Camera Service Namba",
+    summary: {
+      pt: "Site e sistema para uma assistência técnica Canon de São Paulo: consulta de ordem de serviço, carta de envio, assistente virtual e painel da equipe.",
+      en: "A website and system for a Canon repair service in São Paulo: service order lookup, shipping letter, virtual assistant and a staff dashboard.",
+    },
     tagline: { pt: "Assistência técnica Canon", en: "Canon repair service" },
     status: "in-progress",
     context: { pt: "Projeto em desenvolvimento", en: "Project in development" },
@@ -810,7 +928,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/namba-capa.webp",
+    cover: "assets/covers/projects/namba.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/namba-demo/", github: "https://github.com/lorenzo-or7/namba-demo" },
     placeholder: { url: "namba", bg: "#F5F6F5", ink: "#1C2220", accent: "#C8161E", serif: true },
@@ -856,9 +974,11 @@ const PROJECTS = [
   },
   {
     id: "capim-leao",
-    category: "concept",
-    type: "website-demo",
     name: "Capim Leão – Bar & Brasa",
+    summary: {
+      pt: "Proposta para um bar e restaurante do Água Verde, em Curitiba: cardápio em abas, guia do ponto da carne, happy hour e reserva de mesa.",
+      en: "A proposal for a bar and grill in Água Verde, Curitiba: tabbed menu, a guide to meat doneness, happy hour and table booking.",
+    },
     tagline: { pt: "Bar, brasa e coquetelaria", en: "Bar, grill & cocktails" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -895,7 +1015,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/capim-leao-capa.webp",
+    cover: "assets/covers/projects/capim-leao.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/capim-leao-demo/", github: "https://github.com/lorenzo-or7/capim-leao-demo" },
     placeholder: { url: "capimleao", bg: "#0E0E18", ink: "#F9F5C8", accent: "#EBD951", serif: true },
@@ -941,9 +1061,11 @@ const PROJECTS = [
   },
   {
     id: "studio-astra",
-    category: "concept",
-    type: "website-demo",
     name: "Studio Astra Pilates",
+    summary: {
+      pt: "Proposta para um estúdio de Pilates de Curitiba, com guia de objetivos, galeria do espaço, informações do Wellhub e agendamento de aula experimental.",
+      en: "A proposal for a Pilates studio in Curitiba, with a goals guide, space gallery, Wellhub info and trial class booking.",
+    },
     tagline: { pt: "Estúdio de Pilates", en: "Pilates studio" },
     status: "discontinued",
     context: { pt: "Projeto descontinuado", en: "Discontinued project" },
@@ -980,7 +1102,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/studio-astra-capa.webp",
+    cover: "assets/covers/projects/studio-astra.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/studio-astra-demo/", github: "https://github.com/lorenzo-or7/studio-astra-demo" },
     placeholder: { url: "studioastra", bg: "#FAF6F2", ink: "#444645", accent: "#9D838C", serif: true },
@@ -1026,9 +1148,11 @@ const PROJECTS = [
   },
   {
     id: "eloplus",
-    category: "concept",
-    type: "website-demo",
     name: "EloPlus",
+    summary: {
+      pt: "Site para um serviço voltado a jogadores de Valorant, com preços por divisão, calculadora de orçamento e uma experiência de ranks animada pela rolagem.",
+      en: "A website for a service aimed at Valorant players, with per-division pricing, a quote calculator and a rank experience driven by scrolling.",
+    },
     tagline: { pt: "Serviço para jogadores de Valorant", en: "Service for Valorant players" },
     status: "discontinued",
     context: { pt: "Projeto descontinuado", en: "Discontinued project" },
@@ -1065,7 +1189,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/eloplus-capa.webp",
+    cover: "assets/covers/projects/eloplus.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/eloplus-demo/", github: "https://github.com/lorenzo-or7/eloplus-demo" },
     placeholder: { url: "eloplus", bg: "#0D1323", ink: "#FFFFFF", accent: "#6CB7FF" },
@@ -1111,9 +1235,12 @@ const PROJECTS = [
   },
   {
     id: "contlup",
-    category: "concept",
-    type: "commercial-website",
     name: "ContLup Studio Contábil",
+    summary: {
+      pt: "Site do escritório de contabilidade ContLup, de Pedreira/SP. Apresenta as áreas de atuação, responde às dúvidas mais comuns e leva o visitante direto ao pedido de proposta.",
+      en: "The website of ContLup, an accounting firm in Pedreira, SP. It presents the practice areas, answers the most common questions and takes visitors straight to a proposal request.",
+    },
+    kind: "commercial",
     tagline: { pt: "Escritório de contabilidade", en: "Accounting firm" },
     status: "live",
     context: { pt: "Projeto comercial · no ar em contlup.com.br", en: "Commercial project · live at contlup.com.br" },
@@ -1150,7 +1277,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/contlup-capa.webp",
+    cover: "assets/covers/projects/contlup.webp",
     video: "",
     links: { demo: "https://contlup.com.br/", github: "https://github.com/lorenzo-or7/contlup-demo" },
     placeholder: { url: "contlup", bg: "#070C1C", ink: "#EEF0FA", accent: "#7357F0" },
@@ -1196,9 +1323,11 @@ const PROJECTS = [
   },
   {
     id: "chapula",
-    category: "concept",
-    type: "website-demo",
     name: "Barbearia Chapula",
+    summary: {
+      pt: "Site próprio para a Barbearia Chapula, de Curitiba, pensado como alternativa ao AppBarber: serviços, planos, avaliações e agendamento completo.",
+      en: "A custom website for Barbearia Chapula in Curitiba, designed as an alternative to AppBarber: services, plans, reviews and a full booking flow.",
+    },
     tagline: { pt: "Site próprio com agendamento online", en: "Custom website with online booking" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -1241,7 +1370,7 @@ const PROJECTS = [
       pt: ["Idealização", "Design da interface", "Desenvolvimento front-end", "Fluxo de agendamento"],
       en: ["Concept", "Interface design", "Front-end development", "Booking flow"],
     },
-    image: "assets/projects/chapula-capa.webp",
+    cover: "assets/covers/projects/chapula.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/barbearia-chapula-demo/", github: "https://github.com/lorenzo-or7/barbearia-chapula-demo" },
     placeholder: { url: "barbeariachapula", bg: "#0B0B0B", ink: "#F3EEE2", accent: "#E2BA24" },
@@ -1306,9 +1435,11 @@ const PROJECTS = [
   },
   {
     id: "maca",
-    category: "concept",
-    type: "website-demo",
     name: "Maçã Padaria Artesanal",
+    summary: {
+      pt: "Proposta de site para a Maçã, padaria artesanal de Curitiba, mostrando como a identidade da marca poderia virar uma experiência digital com delivery, unidades e história.",
+      en: "A website proposal for Maçã, an artisan bakery in Curitiba, showing how the brand's identity could become a digital experience with delivery, locations and story.",
+    },
     tagline: { pt: "Padaria artesanal brasileira", en: "Brazilian artisan bakery" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -1349,7 +1480,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/maca-capa.webp",
+    cover: "assets/covers/projects/maca.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/maca-padaria-demo/", github: "https://github.com/lorenzo-or7/maca-padaria-demo" },
     placeholder: { url: "macapadaria", bg: "#FEF9E5", ink: "#231A18", accent: "#ED1F29" },
@@ -1413,9 +1544,11 @@ const PROJECTS = [
   },
   {
     id: "theclub",
-    category: "concept",
-    type: "website-demo",
     name: "The Club Barbearia",
+    summary: {
+      pt: "Site para uma barbearia de Curitiba com agendamento online em etapas, área do cliente e planos de assinatura.",
+      en: "A website for a barbershop in Curitiba with step-by-step online booking, a customer area and membership plans.",
+    },
     tagline: { pt: "Barbearia, estética e bem-estar masculino", en: "Barbershop, grooming & men's wellness" },
     status: "discontinued",
     context: { pt: "Projeto pessoal · proposta para uma barbearia real de Curitiba · descontinuado", en: "Personal project · proposal for a real barbershop in Curitiba · discontinued" },
@@ -1452,7 +1585,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/theclub-capa.webp",
+    cover: "assets/covers/projects/theclub.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/theclub-demo/", github: "https://github.com/lorenzo-or7/theclub-demo" },
     placeholder: { url: "theclub", bg: "#070909", ink: "#F3F5F4", accent: "#00D9CC" },
@@ -1498,9 +1631,11 @@ const PROJECTS = [
   },
   {
     id: "face-doctor",
-    category: "concept",
-    type: "website-demo",
     name: "Face Doctor Água Verde",
+    summary: {
+      pt: "Site para uma clínica de estética de Curitiba, com visual editorial, comparador antes/depois e agendamento de avaliação em quatro etapas.",
+      en: "A website for an aesthetic clinic in Curitiba, with an editorial look, a before/after comparison and four-step appointment booking.",
+    },
     tagline: { pt: "Clínica de estética", en: "Aesthetic clinic" },
     status: "discontinued",
     context: { pt: "Projeto pessoal · proposta para uma clínica real de Curitiba · descontinuado", en: "Personal project · proposal for a real clinic in Curitiba · discontinued" },
@@ -1537,7 +1672,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/face-doctor-capa.webp",
+    cover: "assets/covers/projects/face-doctor.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/face-doctor-demo/", github: "https://github.com/lorenzo-or7/face-doctor-demo" },
     placeholder: { url: "facedoctor", bg: "#FAF7F3", ink: "#221D1C", accent: "#AF555F", serif: true },
@@ -1583,9 +1718,11 @@ const PROJECTS = [
   },
   {
     id: "auto-supremo",
-    category: "concept",
-    type: "website-demo",
     name: "Auto Supremo",
+    summary: {
+      pt: "Proposta para uma estética automotiva de Curitiba, com abertura interativa, fichas de serviço, comparador antes/depois e agendamento pelo WhatsApp.",
+      en: "A proposal for a car detailing studio in Curitiba, with an interactive intro, service cards, a before/after comparison and WhatsApp booking.",
+    },
     tagline: { pt: "Estética automotiva", en: "Car detailing" },
     status: "discontinued",
     context: { pt: "Projeto pessoal · proposta para uma estética automotiva real de Curitiba · descontinuado", en: "Personal project · proposal for a real car detailing shop in Curitiba · discontinued" },
@@ -1622,7 +1759,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/auto-supremo-capa.webp",
+    cover: "assets/covers/projects/auto-supremo.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/auto-supremo-demo/", github: "https://github.com/lorenzo-or7/auto-supremo-demo" },
     placeholder: { url: "autosupremo", bg: "#000000", ink: "#ECF1E9", accent: "#62EA4D" },
@@ -1668,9 +1805,11 @@ const PROJECTS = [
   },
   {
     id: "iguana",
-    category: "concept",
-    type: "website-demo",
     name: "Iguana Empório Pet",
+    summary: {
+      pt: "Proposta de presença digital para um pet shop de Curitiba, reunindo loja, banho e tosa, delivery, cashback e unidades.",
+      en: "A digital presence proposal for a pet shop in Curitiba, bringing together store, bath and grooming, delivery, cashback and locations.",
+    },
     tagline: { pt: "Pet shop, banho & tosa", en: "Pet shop, bath & grooming" },
     status: "discontinued",
     context: { pt: "Projeto pessoal · proposta para um pet shop real de Curitiba · descontinuado", en: "Personal project · proposal for a real pet shop in Curitiba · discontinued" },
@@ -1707,7 +1846,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development"],
     },
-    image: "assets/projects/iguana-capa.webp",
+    cover: "assets/covers/projects/iguana.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/iguana-emporio-pet-demo/", github: "https://github.com/lorenzo-or7/iguana-emporio-pet-demo" },
     placeholder: { url: "iguanapet", bg: "#FAF6EE", ink: "#1D3524", accent: "#5AAE32" },
@@ -1778,9 +1917,11 @@ const PROJECTS = [
   },
   {
     id: "casa-di-lucente",
-    category: "concept",
-    type: "website-demo",
     name: "Casa di Lucente",
+    summary: {
+      pt: "Proposta para uma gelateria, cafeteria e confeitaria de Curitiba ir além do Instagram e do Linktree, com cardápio, avaliações e um painel de gestão simulado.",
+      en: "A proposal to take a gelato shop, café and patisserie in Curitiba beyond Instagram and Linktree, with menu, reviews and a simulated management panel.",
+    },
     tagline: { pt: "Gelato, café e confeitaria", en: "Gelato, coffee & patisserie" },
     status: "discontinued",
     context: { pt: "Projeto pessoal · proposta para um estabelecimento real de Curitiba · descontinuado", en: "Personal project · proposal for a real business in Curitiba · discontinued" },
@@ -1819,7 +1960,7 @@ const PROJECTS = [
       pt: ["Idealização", "Identidade visual aplicada", "Design da interface", "Desenvolvimento front-end", "Textos"],
       en: ["Concept", "Applied visual identity", "Interface design", "Front-end development", "Copywriting"],
     },
-    image: "assets/projects/casa-di-lucente-capa.webp",
+    cover: "assets/covers/projects/casa-di-lucente.webp",
     video: "",
     links: { demo: "https://lorenzo-or7.github.io/casa-di-lucente-demo/", github: "https://github.com/lorenzo-or7/casa-di-lucente-demo" },
     placeholder: { url: "casadilucente", bg: "#5B1422", ink: "#F4E9D7", accent: "#F4E9D7", serif: true },
@@ -1883,9 +2024,12 @@ const PROJECTS = [
   },
   {
     id: "gordon-travel",
-    category: "concept",
-    type: "commercial-website",
     name: "Gordon Travel",
+    summary: {
+      pt: "Site oficial da Gordon Travel, agência especializada em Orlando, com Orlando Explorer, Travel Guide, uma jornada interativa em seis etapas e atendimento pelo WhatsApp.",
+      en: "The official website of Gordon Travel, an agency specialized in Orlando, with Orlando Explorer, a Travel Guide, a six-step interactive journey and WhatsApp support.",
+    },
+    kind: "commercial",
     tagline: { pt: "Agência de viagens especializada em Orlando", en: "Travel agency specialized in Orlando" },
     status: "live",
     context: { pt: "Projeto comercial · no ar em gordontravel.com.br", en: "Commercial project · live at gordontravel.com.br" },
@@ -1896,7 +2040,7 @@ const PROJECTS = [
     technologies: ["HTML", "CSS", "JavaScript"],
     features: { pt: ["Orlando Explorer", "Gordon Journey em seis etapas", "Travel Guide", "Cotação USD/BRL", "Contato pelo WhatsApp", "Experiência responsiva"], en: ["Orlando Explorer", "Six-step Gordon Journey", "Travel Guide", "USD/BRL reference rate", "WhatsApp contact", "Responsive experience"] },
     role: { pt: ["Planejamento", "Direção visual", "Desenvolvimento", "UX/UI", "Publicação"], en: ["Planning", "Visual direction", "Development", "UX/UI", "Publishing"] },
-    image: "assets/projects/gordon-travel-capa.webp",
+    cover: "assets/covers/projects/gordon-travel.webp",
     video: "",
     links: { demo: "https://gordontravel.com.br/", github: "" },
     placeholder: { url: "gordon-travel", bg: "#0E1A31", ink: "#F4EBDD", accent: "#C69B5D", serif: true },
@@ -1904,11 +2048,16 @@ const PROJECTS = [
   },
   {
     id: "rare-encounter",
-    category: "featured",
     name: "Rare Encounter",
+    summary: {
+      pt: "Quiz que cruza respostas de personalidade e afinidade para revelar três Pokémon compatíveis com você, com narrativa visual, motion e versões em português, inglês e espanhol.",
+      en: "A quiz that combines personality and affinity answers to reveal three Pokémon that match you, with visual storytelling, motion and Portuguese, English and Spanish versions.",
+    },
+    kind: "authorial",
+    featured: 4,
     tagline: { pt: "Quiz de afinidade Pokémon", en: "Pokémon affinity quiz" },
-    status: "completed",
-    context: { pt: "Projeto autoral · concluído", en: "Original project · completed" },
+    status: "live",
+    context: { pt: "Projeto autoral · no ar", en: "Original project · live" },
     description: {
       pt: "Experiência interativa que cruza respostas de personalidade e afinidade para revelar três Pokémon compatíveis, com narrativa visual, motion e suporte multilíngue.",
       en: "An interactive experience that combines personality and affinity answers to reveal three compatible Pokémon, with visual storytelling, motion and multilingual support."
@@ -1916,17 +2065,38 @@ const PROJECTS = [
     technologies: ["React", "TypeScript", "CSS", "JavaScript"],
     features: { pt: ["Quiz de personalidade", "Três resultados compatíveis", "PT/EN/ES", "Experiência responsiva", "Persistência local", "Motion e transições"], en: ["Personality quiz", "Three compatible results", "PT/EN/ES", "Responsive experience", "Local persistence", "Motion and transitions"] },
     role: { pt: ["Idealização", "Algoritmo", "Direção visual", "UX/UI", "Desenvolvimento"], en: ["Concept", "Algorithm", "Visual direction", "UX/UI", "Development"] },
-    image: "assets/projects/rare-encounter-capa.webp",
+    cover: "assets/covers/projects/rare-encounter.webp",
     video: "",
-    links: { demo: "https://lorenzo-or7.github.io/rare-encounter/", github: "" },
+    links: { demo: "https://lorenzo-or7.github.io/rare-encounter/", github: "https://github.com/lorenzo-or7/rare-encounter" },
     placeholder: { url: "rare-encounter", bg: "#080611", ink: "#F4F0FF", accent: "#8A5CFF", serif: false },
-    caseStudy: {}
+    caseStudy: {
+      idea: {
+        pt: "Um quiz que não premia o Pokémon mais popular: as respostas são comparadas com cada espécie elegível por pontuação ponderada e normalizada, e cada resultado vem com a explicação do porquê.",
+        en: "A quiz that doesn't reward the most popular Pokémon: answers are compared with every eligible species using normalized, weighted scores, and each result comes with an explanation of why.",
+      },
+      challenges: {
+        pt: [
+          "Deixar o resultado justo, sem bônus de popularidade.",
+          "Manter a experiência leve e clara em três idiomas.",
+        ],
+        en: [
+          "Keeping results fair, with no popularity bonus.",
+          "Keeping the experience light and clear in three languages.",
+        ],
+      },
+      process: {
+        pt: "Projeto autoral, desenvolvido em fases com aprovação a cada etapa: fundação, identidade visual, quiz, catálogo, motor de compatibilidade e resultados.",
+        en: "An original project built in phases, each one approved before the next: foundation, visual identity, quiz, catalog, matching engine and results.",
+      },
+    }
   },
   {
     id: "rb-carnes",
-    category: "concept",
-    type: "prototype",
     name: "RB Carnes",
+    summary: {
+      pt: "Site institucional para a distribuidora RB Carnes, com catálogo editorial de cortes, soluções para Food Service, história da empresa e contato comercial.",
+      en: "A corporate website for RB Carnes, a meat distributor, with an editorial cuts catalog, Food Service solutions, company history and sales contact.",
+    },
     tagline: { pt: "Distribuidora de carnes · experiência premium", en: "Meat distributor · premium experience" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -1934,15 +2104,17 @@ const PROJECTS = [
     technologies: ["React", "TypeScript", "CSS", "JavaScript"],
     features: { pt: ["Catálogo editorial", "Food Service", "Timeline da empresa", "Tema claro e escuro", "Contato comercial"], en: ["Editorial catalog", "Food Service", "Company timeline", "Light and dark themes", "Commercial contact"] },
     role: { pt: ["Planejamento", "Direção visual", "UX/UI", "Desenvolvimento"], en: ["Planning", "Visual direction", "UX/UI", "Development"] },
-    image: "assets/projects/rb-carnes-capa.webp", video: "",
+    cover: "assets/covers/projects/rb-carnes.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/rb-carnes/", github: "" },
     placeholder: { url: "rb-carnes", bg: "#0B0A09", ink: "#F7F3ED", accent: "#CBA46A", serif: true }, caseStudy: {}
   },
   {
     id: "clinica-haes",
-    category: "concept",
-    type: "prototype",
     name: "Clínica HAES",
+    summary: {
+      pt: "Site para clínica odontológica com tratamentos, equipe, avaliações, perguntas frequentes e pré-agendamento pelo WhatsApp.",
+      en: "A dental clinic website with treatments, team, reviews, FAQ and WhatsApp pre-booking.",
+    },
     tagline: { pt: "Odontologia premium", en: "Premium dentistry" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -1950,15 +2122,17 @@ const PROJECTS = [
     technologies: ["React", "TypeScript", "CSS", "JavaScript"],
     features: { pt: ["Catálogo de tratamentos", "Equipe", "Avaliações", "FAQ", "Localização", "Pré-agendamento"], en: ["Treatment catalog", "Team", "Reviews", "FAQ", "Location", "Pre-booking"] },
     role: { pt: ["Planejamento", "Direção visual", "UX/UI", "Desenvolvimento"], en: ["Planning", "Visual direction", "UX/UI", "Development"] },
-    image: "assets/projects/clinica-haes-capa.webp", video: "",
+    cover: "assets/covers/projects/clinica-haes.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/clinica-haes/", github: "" },
     placeholder: { url: "clinica-haes", bg: "#15372E", ink: "#F6F0E7", accent: "#A8C2B3", serif: true }, caseStudy: {}
   },
   {
     id: "master-frio",
-    category: "concept",
-    type: "website-demo",
     name: "Master Frio Climatização",
+    summary: {
+      pt: "Site para uma empresa de climatização residencial e comercial, com hero em vídeo, serviços, galeria, tema claro e escuro e contato pelo WhatsApp.",
+      en: "A website for a residential and commercial HVAC company, with a video hero, services, gallery, light and dark themes and WhatsApp contact.",
+    },
     tagline: { pt: "Climatização residencial e comercial", en: "Residential and commercial HVAC" },
     status: "discontinued",
     context: { pt: "Projeto descontinuado", en: "Discontinued project" },
@@ -1966,15 +2140,17 @@ const PROJECTS = [
     technologies: ["React", "TypeScript", "CSS", "JavaScript"],
     features: { pt: ["Hero em vídeo", "Serviços", "Galeria", "Tema claro e escuro", "WhatsApp"], en: ["Video hero", "Services", "Gallery", "Light and dark themes", "WhatsApp"] },
     role: { pt: ["Planejamento", "Direção visual", "UX/UI", "Desenvolvimento"], en: ["Planning", "Visual direction", "UX/UI", "Development"] },
-    image: "assets/projects/master-frio-capa.webp", video: "",
+    cover: "assets/covers/projects/master-frio.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/master-frio-demo/", github: "" },
     placeholder: { url: "master-frio", bg: "#0B1220", ink: "#E7EDF8", accent: "#5BA8FF", serif: false }, caseStudy: {}
   },
   {
     id: "odontologia-peixoto",
-    category: "concept",
-    type: "website-demo",
     name: "Odontologia Peixoto",
+    summary: {
+      pt: "Site institucional para consultório odontológico, organizado para apresentar a clínica, os tratamentos e os canais de contato.",
+      en: "A corporate website for a dental practice, organized to present the clinic, its treatments and contact channels.",
+    },
     tagline: { pt: "Website para clínica odontológica", en: "Dental clinic website" },
     status: "discontinued",
     context: { pt: "Projeto descontinuado", en: "Discontinued project" },
@@ -1982,15 +2158,17 @@ const PROJECTS = [
     technologies: ["HTML", "CSS", "JavaScript"],
     features: { pt: ["Apresentação institucional", "Tratamentos", "Responsividade", "Contato"], en: ["Institutional presentation", "Treatments", "Responsive layout", "Contact"] },
     role: { pt: ["Planejamento", "Design", "Desenvolvimento"], en: ["Planning", "Design", "Development"] },
-    image: "assets/projects/odontologia-peixoto-capa.webp", video: "",
+    cover: "assets/covers/projects/odontologia-peixoto.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/odontologia-peixoto/", github: "" },
     placeholder: { url: "odontologia-peixoto", bg: "#F3EFE7", ink: "#183348", accent: "#5F8BA7", serif: true }, caseStudy: {}
   },
   {
     id: "parana-implantes",
-    category: "concept",
-    type: "website-demo",
     name: "Paraná Implantes",
+    summary: {
+      pt: "Site para clínica focada em implantes e reabilitação oral, com procedimentos, estrutura da clínica e contato.",
+      en: "A website for a clinic focused on dental implants and oral rehabilitation, with procedures, facilities and contact.",
+    },
     tagline: { pt: "Implantodontia e reabilitação oral", en: "Implant dentistry and oral rehabilitation" },
     status: "discontinued",
     context: { pt: "Projeto descontinuado", en: "Discontinued project" },
@@ -1998,15 +2176,17 @@ const PROJECTS = [
     technologies: ["HTML", "CSS", "JavaScript"],
     features: { pt: ["Procedimentos", "Apresentação da clínica", "Responsividade", "Contato"], en: ["Procedures", "Clinic presentation", "Responsive layout", "Contact"] },
     role: { pt: ["Planejamento", "Design", "Desenvolvimento"], en: ["Planning", "Design", "Development"] },
-    image: "assets/projects/parana-implantes-capa.webp", video: "",
+    cover: "assets/covers/projects/parana-implantes.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/parana-implantes/", github: "" },
     placeholder: { url: "parana-implantes", bg: "#0C2335", ink: "#F5F7F8", accent: "#60AFC6", serif: false }, caseStudy: {}
   },
   {
     id: "super-dog-cwb",
-    category: "concept",
-    type: "prototype",
     name: "Super Dog CWB",
+    summary: {
+      pt: "Site para a Super Dog CWB, de alimentação pet, com identidade visual forte, apresentação dos produtos e caminhos diretos de contato.",
+      en: "A website for Super Dog CWB, a pet food brand, with a bold visual identity, product presentation and direct contact paths.",
+    },
     tagline: { pt: "Website para alimentação pet", en: "Pet food website" },
     status: "prototype",
     context: { pt: "Protótipo comercial", en: "Commercial prototype" },
@@ -2014,88 +2194,578 @@ const PROJECTS = [
     technologies: ["HTML", "CSS", "JavaScript"],
     features: { pt: ["Identidade de marca", "Produtos", "Responsividade", "Contato"], en: ["Brand identity", "Products", "Responsive layout", "Contact"] },
     role: { pt: ["Planejamento", "Design", "Desenvolvimento"], en: ["Planning", "Design", "Development"] },
-    image: "assets/projects/super-dog-cwb-capa.webp", video: "",
+    cover: "assets/covers/projects/super-dog-cwb.webp", video: "",
     links: { demo: "https://lorenzo-or7.github.io/super-dog-cwb/", github: "" },
     placeholder: { url: "super-dog-cwb", bg: "#F5C400", ink: "#111111", accent: "#ED1C24", serif: false }, caseStudy: {}
+  },
+  {
+    id: "pulse",
+    name: "Pulse",
+    summary: {
+      pt: "Site conceitual para uma marca de barras de proteína: a embalagem em 3D acompanha a rolagem, apresenta os seis sabores e termina num monte-seu-kit com carrinho demonstrativo.",
+      en: "A concept site for a protein bar brand: a 3D pack follows your scroll, walks through six flavors and ends in a build-your-own pack with a demo cart.",
+    },
+    kind: "authorial",
+    featured: 5,
+    tagline: { pt: "Energia que vira experiência", en: "Energy in every bite" },
+    status: "completed",
+    context: { pt: "Projeto autoral · conceito independente", en: "Original project · independent concept" },
+    description: {
+      pt: "Experiência web para uma barra de proteína, com um único palco WebGL em que o produto viaja do hero ao catálogo. Projeto conceitual independente, feito para portfólio, sem vínculo oficial com a marca BOLD.",
+      en: "A web experience for a protein bar, with a single WebGL stage where the product travels from the hero to the catalog. An independent concept made for my portfolio, with no official link to the BOLD brand.",
+    },
+    technologies: ["React", "TypeScript", "ThreeJS", "GSAP"],
+    features: {
+      pt: [
+        "Palco 3D persistente: a embalagem acompanha a jornada da página",
+        "Seis sabores com cores, imagens e informações de cada embalagem",
+        "Atos guiados pela rolagem na seção Feel the Pulse",
+        "Monte seu kit e carrinho demonstrativo (sem pagamento)",
+        "PT-BR e EN, com a escolha salva no navegador",
+      ],
+      en: [
+        "A persistent 3D stage: the pack follows the page journey",
+        "Six flavors with each pack's colors, images and facts",
+        "Scroll-driven acts in the Feel the Pulse section",
+        "Build-your-own pack and a demo cart (no payment)",
+        "PT-BR and EN, with the choice saved in the browser",
+      ],
+    },
+    role: {
+      pt: ["Conceito", "Direção visual", "3D e motion", "Desenvolvimento"],
+      en: ["Concept", "Visual direction", "3D and motion", "Development"],
+    },
+    cover: "assets/covers/projects/pulse.webp",
+    video: "",
+    links: { demo: "https://lorenzo-or7.github.io/pulse/", github: "https://github.com/lorenzo-or7/pulse" },
+    caseStudy: {
+      idea: {
+        pt: "Tratar o produto como protagonista: em vez de fotos soltas, uma única embalagem em 3D que conduz o visitante do primeiro impacto até a escolha do sabor.",
+        en: "Make the product the lead: instead of loose photos, a single 3D pack guides visitors from the first impression to picking a flavor.",
+      },
+      challenges: {
+        pt: [
+          "Manter um palco WebGL vivo durante toda a página sem pesar na rolagem.",
+          "Coordenar posição e pose do produto entre hero, interior e catálogo.",
+        ],
+        en: [
+          "Keeping a WebGL stage alive across the whole page without hurting scrolling.",
+          "Coordinating the product's position and pose across hero, inside and catalog.",
+        ],
+      },
+      solutions: {
+        pt: [
+          "Um único ProductStage persistente, com a geometria da embalagem gerada no código.",
+          "Uma camada de jornada que calcula as poses a partir do progresso da rolagem.",
+          "Imagens originais convertidas em WebP por script, separadas dos arquivos usados no site.",
+        ],
+        en: [
+          "A single persistent ProductStage, with the pack geometry generated in code.",
+          "A journey layer that computes poses from scroll progress.",
+          "Original images converted to WebP by script, kept apart from the files the site uses.",
+        ],
+      },
+      process: {
+        pt: "Projeto autoral e independente, sem vínculo oficial com a BOLD. O carrinho é demonstrativo e não processa pagamentos.",
+        en: "An independent original project with no official link to BOLD. The cart is a demo and processes no payments.",
+      },
+    },
+  },
+  {
+    id: "gimmy-cards",
+    name: "Gimmy Cards",
+    summary: {
+      pt: "Plataforma de leilões de cartas colecionáveis: lances registrados em ordem no servidor, arremate imediato, encerramento automático, pedidos e entregas acompanhados até o fim.",
+      en: "An auction platform for collectible cards: bids recorded in order on the server, buy-now, automatic closing, and orders and deliveries tracked to the end.",
+    },
+    tagline: { pt: "Leilões de cartas colecionáveis", en: "Collectible card auctions" },
+    status: "in-progress",
+    context: { pt: "Em desenvolvimento", en: "In development" },
+    description: {
+      pt: "Plataforma de leilões para a comunidade Gimmy Cards, com lances, arremate imediato, encerramento automático, pedidos, comprovantes, controle de inadimplência, cartas armazenadas, entregas e painel administrativo. Sem Supabase configurado, a demo roda em modo demonstração dentro do navegador.",
+      en: "An auction platform for the Gimmy Cards community, with bidding, buy-now, automatic closing, orders, payment proofs, overdue control, stored cards, deliveries and an admin panel. Without Supabase configured, the demo runs in a demonstration mode inside the browser.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion", "Supabase"],
+    features: {
+      pt: [
+        "Lances com ordem de registro no servidor",
+        "Arremate imediato e encerramento automático dos lotes",
+        "Pedidos, comprovantes e prazo oficial de pagamento",
+        "Cartas armazenadas e controle de entregas",
+        "Painel administrativo com papéis e auditoria",
+        "Modo demonstração com as migrations reais rodando no navegador",
+      ],
+      en: [
+        "Bids ordered by server-side registration",
+        "Buy-now and automatic lot closing",
+        "Orders, payment proofs and an official payment deadline",
+        "Stored cards and delivery tracking",
+        "Admin panel with roles and auditing",
+        "Demo mode with the real migrations running in the browser",
+      ],
+    },
+    role: {
+      pt: ["Produto", "UX/UI", "Front-end", "Banco e regras (Supabase)", "Testes"],
+      en: ["Product", "UX/UI", "Front-end", "Database and rules (Supabase)", "Testing"],
+    },
+    cover: "assets/covers/projects/gimmy-cards.webp",
+    video: "",
+    links: { demo: "https://lorenzo-or7.github.io/gimmy-cards/", github: "https://github.com/lorenzo-or7/gimmy-cards" },
+    caseStudy: {},
+  },
+  {
+    id: "nimbo",
+    name: "NIMBO",
+    summary: {
+      pt: "Perfumaria multimarcas fictícia com catálogo de 33 perfumes, Fragrance Finder, comparador e favoritos. É um protótipo: nenhuma compra é processada.",
+      en: "A fictional multi-brand perfumery with a 33-fragrance catalog, Fragrance Finder, comparison and favorites. It's a prototype: no purchase is processed.",
+    },
+    tagline: { pt: "Perfumaria multimarcas", en: "Multi-brand perfumery" },
+    status: "prototype",
+    context: { pt: "Protótipo demonstrativo · marca fictícia", en: "Demo prototype · fictional brand" },
+    description: {
+      pt: "Protótipo de e-commerce para uma perfumaria multimarcas fictícia, com galeria de fragrâncias no hero, catálogo, página de cada perfume, Fragrance Finder, comparador, favoritos e uma finalização apenas demonstrativa.",
+      en: "An e-commerce prototype for a fictional multi-brand perfumery, with a fragrance gallery hero, catalog, product pages, Fragrance Finder, comparison, favorites and a demo-only checkout.",
+    },
+    technologies: ["React", "TypeScript", "GSAP"],
+    features: {
+      pt: ["Catálogo com 33 perfumes", "Fragrance Finder", "Comparador", "Favoritos", "Finalização demonstrativa"],
+      en: ["33-fragrance catalog", "Fragrance Finder", "Comparison", "Favorites", "Demo checkout"],
+    },
+    role: {
+      pt: ["Direção visual", "UX/UI", "Motion", "Desenvolvimento"],
+      en: ["Visual direction", "UX/UI", "Motion", "Development"],
+    },
+    cover: "assets/covers/projects/nimbo.webp",
+    video: "",
+    links: { demo: "https://lorenzo-or7.github.io/nimbo-perfumaria/", github: "https://github.com/lorenzo-or7/nimbo-perfumaria" },
+    caseStudy: {},
   }
 
 ];
 
 /* -------------------------------------------------------------
-   4. ESCOPOS GENÉRICOS
+   4. MODELOS / SHOWCASE
    -------------------------------------------------------------
-   Demonstrações autorais sem vínculo com uma empresa real.
-   Adicione novos escopos aqui quando forem criados.
+   Página /showcase/. Conceitos completos criados para segmentos
+   comerciais. São projetos autorais com marcas fictícias — nunca
+   clientes reais.
 
-   Estrutura sugerida:
-   {
-     id: "restaurante-premium",
-     name: "Restaurante Premium",
-     tagline: { pt: "...", en: "..." },
-     description: { pt: "...", en: "..." },
-     status: "concept",
-     technologies: ["HTML", "CSS", "JavaScript"],
-     image: "https://lorenzo-or7.github.io/restaurant-premium-demo/images/hero-1600.webp",
-     links: { demo: "", github: "" }
-   }
+   Os códigos internos (ex.: 01.01) NÃO aparecem para o visitante.
+   cover: capa OFICIAL em assets/covers/showcase/<id>.webp
+          ("" → estado "capa oficial pendente", nunca imagem genérica)
+   brand: nome da marca fictícia usada na demonstração (opcional)
    ------------------------------------------------------------- */
-const GENERIC_SCOPES = [
+const SHOWCASE_CATEGORIES = [
+  { id: "food",        label: { pt: "Gastronomia",   en: "Food & Drink" } },
+  { id: "beauty",      label: { pt: "Beleza",        en: "Beauty" } },
+  { id: "fashion",     label: { pt: "Moda",          en: "Fashion" } },
+  { id: "automotive",  label: { pt: "Automotivo",    en: "Automotive" } },
+  { id: "health",      label: { pt: "Saúde",         en: "Health" } },
+  { id: "fitness",     label: { pt: "Fitness",       en: "Fitness" } },
+  { id: "real-estate", label: { pt: "Imóveis",       en: "Real Estate" } },
+  { id: "services",    label: { pt: "Serviços",      en: "Services" } },
+  { id: "hospitality", label: { pt: "Hospitalidade", en: "Hospitality" } },
+  { id: "pets",        label: { pt: "Pets",          en: "Pets" } },
+];
+
+const SHOWCASE = [
+  /* ---------- Gastronomia ---------- */
   {
-    id: "cafeteria-artesanal",
-    name: "Cafeteria Artesanal",
-    tagline: {
-      pt: "Torra — experiência digital para cafeteria contemporânea",
-      en: "Torra — digital experience for a contemporary coffee shop",
+    id: "restaurante-premium",
+    name: { pt: "Restaurante Premium", en: "Premium Restaurant" },
+    brand: "Lume",
+    category: "food",
+    summary: {
+      pt: "Cozinha de brasa contada em tom editorial, com cardápio interativo, galeria e pré-reserva pelo WhatsApp.",
+      en: "A fire-cooking kitchen told in an editorial voice, with an interactive menu, gallery and WhatsApp pre-booking.",
     },
-    description: {
-      pt: "Escopo autoral completo para cafeterias, com cardápio interativo, experiências, reservas e pedido online em uma jornada web e mobile. Marca fictícia criada exclusivamente para demonstração.",
-      en: "A complete authorial scope for coffee shops, combining an interactive menu, experiences, reservations and online ordering in a web and mobile journey. Fictional brand created exclusively for demonstration.",
-    },
-    status: "concept",
-    technologies: ["TypeScript", "React", "CSS"],
-    image: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/images/hero-cup-1600.webp",
-    links: {
-      demo: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/",
-      github: "https://github.com/lorenzo-or7/cafeteria-artesanal-demo",
-    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/restaurante-premium.webp",
+    demo: "https://lorenzo-or7.github.io/restaurant-premium-demo/",
   },
   {
     id: "restaurante-contemporaneo",
-    name: "Restaurante Contemporâneo",
-    tagline: {
-      pt: "Séria — experiência editorial para gastronomia contemporânea",
-      en: "Séria — editorial experience for contemporary dining",
+    name: { pt: "Restaurante Contemporâneo", en: "Contemporary Restaurant" },
+    brand: "Séria",
+    category: "food",
+    summary: {
+      pt: "Cardápio da estação, experiências gastronômicas e reserva de mesa para uma cozinha que se apresenta pela narrativa.",
+      en: "Seasonal menu, dining experiences and table booking for a kitchen that introduces itself through storytelling.",
     },
-    description: {
-      pt: "Escopo autoral para restaurantes de experiência, com narrativa gastronômica, cardápio, experiências, eventos e fluxo de reservas responsivo. Marca fictícia criada exclusivamente para demonstração.",
-      en: "An authorial scope for experience-led restaurants, with culinary storytelling, menu, experiences, events and a responsive reservation flow. Fictional brand created exclusively for demonstration.",
-    },
-    status: "concept",
-    technologies: ["TypeScript", "React", "Tailwind"],
-    image: "https://images.unsplash.com/photo-1767065584562-0127cdec486d?auto=format&fit=crop&w=1600&h=1200&q=88",
-    links: {
-      demo: "https://lorenzo-or7.github.io/restaurant-contemporaneo-demo/",
-      github: "https://github.com/lorenzo-or7/restaurant-contemporaneo-demo",
-    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/restaurante-contemporaneo.webp",
+    demo: "https://lorenzo-or7.github.io/restaurant-contemporaneo-demo/",
   },
   {
-    id: "restaurante-premium",
-    name: "Restaurante Premium",
-    tagline: {
-      pt: "Lume — presença digital para alta gastronomia",
-      en: "Lume — premium digital presence for fine dining",
+    id: "cafeteria-artesanal",
+    name: { pt: "Cafeteria Artesanal", en: "Artisan Coffee Shop" },
+    brand: "Torra",
+    category: "food",
+    summary: {
+      pt: "Cafés de origem e preparo artesanal, com um cardápio feito para explorar, experiências e pedido online.",
+      en: "Single-origin coffee and hand brewing, with a menu made for exploring, experiences and online ordering.",
     },
-    description: {
-      pt: "Escopo autoral para restaurantes de alta experiência, com direção editorial, galeria, cardápio, reservas e presença digital sofisticada para desktop e mobile. Marca fictícia criada exclusivamente para demonstração.",
-      en: "An authorial scope for fine-dining restaurants, with editorial direction, gallery, menu, reservations and a sophisticated desktop and mobile presence. Fictional brand created exclusively for demonstration.",
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/cafeteria-artesanal.webp",
+    demo: "https://lorenzo-or7.github.io/cafeteria-artesanal-demo/",
+  },
+  {
+    id: "bar-pub",
+    name: { pt: "Bar & Pub", en: "Bar & Pub" },
+    brand: "Cobre",
+    category: "food",
+    summary: {
+      pt: "Cardápio digital, agenda de eventos, happy hour e pré-reservas para um bar com cara de ponto de encontro.",
+      en: "Digital menu, events calendar, happy hour and pre-booking for a bar that feels like a meeting point.",
     },
-    status: "concept",
-    technologies: ["TypeScript", "React", "CSS"],
-    image: "assets/scopes/restaurante-premium.webp",
-    links: {
-      demo: "https://lorenzo-or7.github.io/restaurant-premium-demo/",
-      github: "https://github.com/lorenzo-or7/restaurant-premium-demo",
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/bar-pub.webp",
+    demo: "https://lorenzo-or7.github.io/bar-pub-demo/",
+  },
+
+  /* ---------- Beleza ---------- */
+  {
+    id: "barbearia",
+    name: { pt: "Barbearia", en: "Barbershop" },
+    brand: "Ofício",
+    category: "beauty",
+    summary: {
+      pt: "Serviços, galeria, equipe e planos de assinatura, com agendamento em seis etapas do serviço ao horário.",
+      en: "Services, gallery, team and membership plans, with six-step booking from service to time slot.",
     },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/barbearia.webp",
+    demo: "https://lorenzo-or7.github.io/barbearia-demo/",
+  },
+  {
+    id: "salao-de-beleza",
+    name: { pt: "Salão de Beleza", en: "Beauty Salon" },
+    brand: "Atelier",
+    category: "beauty",
+    summary: {
+      pt: "Serviços, galeria de transformações, equipe e pré-agendamento num visual de estúdio.",
+      en: "Services, a transformations gallery, team and pre-booking with a studio feel.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/salao-de-beleza.webp",
+    demo: "https://lorenzo-or7.github.io/salao-de-beleza-demo/",
+  },
+  {
+    id: "estetica-facial",
+    name: { pt: "Estética Facial", en: "Facial Aesthetics" },
+    brand: "AURA",
+    category: "beauty",
+    summary: {
+      pt: "Atelier de estética facial focado em cuidado individual, rejuvenescimento e beleza natural.",
+      en: "A facial aesthetics atelier focused on individual care, rejuvenation and natural beauty.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "GSAP"],
+    cover: "assets/covers/showcase/estetica-facial.webp",
+    demo: "https://lorenzo-or7.github.io/estetica-facial-demo/",
+  },
+
+  /* ---------- Moda ---------- */
+  {
+    id: "moda-feminina",
+    name: { pt: "Moda Feminina", en: "Womenswear" },
+    brand: "Maison Elle",
+    category: "fashion",
+    summary: {
+      pt: "Boutique feminina com curadoria editorial, coleções em destaque e uma vitrine que se lê como revista.",
+      en: "A womenswear boutique with editorial curation, featured collections and a storefront that reads like a magazine.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/moda-feminina.webp",
+    demo: "https://lorenzo-or7.github.io/moda-feminina-demo/",
+  },
+  {
+    id: "moda-masculina",
+    name: { pt: "Moda Masculina", en: "Menswear" },
+    brand: "Alvar",
+    category: "fashion",
+    summary: {
+      pt: "Moda masculina contemporânea organizada em três coleções: Essentials, Contemporary e After Hours.",
+      en: "Contemporary menswear organized into three collections: Essentials, Contemporary and After Hours.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/moda-masculina.webp",
+    demo: "https://lorenzo-or7.github.io/moda-masculina-demo/",
+  },
+
+  /* ---------- Automotivo ---------- */
+  {
+    id: "showroom-automotivo",
+    name: { pt: "Showroom Automotivo", en: "Car Showroom" },
+    brand: "Ferrum",
+    category: "automotive",
+    summary: {
+      pt: "Showroom digital com veículos de exemplo, fichas detalhadas e valores ilustrativos.",
+      en: "A digital showroom with sample vehicles, detailed spec sheets and illustrative prices.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/showroom-automotivo.webp",
+    demo: "https://lorenzo-or7.github.io/showroom-automotivo-demo/",
+  },
+  {
+    id: "locadora-de-veiculos",
+    name: { pt: "Locadora de Veículos", en: "Car Rental" },
+    brand: "VÉLOR",
+    category: "automotive",
+    summary: {
+      pt: "Frota, comparador de modelos e simulador de locação numa experiência de estúdio de mobilidade.",
+      en: "Fleet, model comparison and a rental simulator in a mobility-studio experience.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/locadora-de-veiculos.webp",
+    demo: "https://lorenzo-or7.github.io/locadora-de-veiculos-demo/",
+  },
+  {
+    id: "estetica-automotiva",
+    name: { pt: "Estética Automotiva", en: "Car Detailing" },
+    brand: "Lume",
+    category: "automotive",
+    summary: {
+      pt: "Catálogo de serviços, comparador antes/depois, processo, galeria e simulador de orçamento.",
+      en: "Service catalog, before/after comparison, process, gallery and a quote simulator.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/estetica-automotiva.webp",
+    demo: "https://lorenzo-or7.github.io/estetica-automotiva-demo/",
+  },
+  {
+    id: "oficina-mecanica",
+    name: { pt: "Oficina Mecânica", en: "Auto Repair Shop" },
+    brand: "TORQ",
+    category: "automotive",
+    summary: {
+      pt: "Diagnóstico eletrônico, revisão, freios, suspensão e motor explicados com clareza, com agendamento pelo WhatsApp.",
+      en: "Electronic diagnostics, servicing, brakes, suspension and engine explained clearly, with WhatsApp booking.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/oficina-mecanica.webp",
+    demo: "https://lorenzo-or7.github.io/oficina-mecanica-demo/",
+  },
+
+  /* ---------- Saúde ---------- */
+  {
+    id: "clinica-odontologica",
+    name: { pt: "Clínica Odontológica", en: "Dental Clinic" },
+    brand: "Alva Odontologia",
+    category: "health",
+    summary: {
+      pt: "Tratamentos, visita guiada pelo espaço, especialistas e agendamento online.",
+      en: "Treatments, a guided tour of the space, specialists and online booking.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "ThreeJS"],
+    cover: "assets/covers/showcase/clinica-odontologica.webp",
+    demo: "https://lorenzo-or7.github.io/clinica-odontologica-demo/",
+  },
+  {
+    id: "clinica-medica",
+    name: { pt: "Clínica Médica", en: "Medical Clinic" },
+    brand: "Clínica Áurea",
+    category: "health",
+    summary: {
+      pt: "Clínica particular de medicina contemporânea, com especialidades, equipe e agendamento online.",
+      en: "A private clinic for contemporary medicine, with specialties, team and online booking.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/clinica-medica.webp",
+    demo: "https://lorenzo-or7.github.io/clinica-medica-demo/",
+  },
+  {
+    id: "saude-wellness",
+    name: { pt: "Saúde Integrativa & Wellness", en: "Integrative Health & Wellness" },
+    brand: "AURA",
+    category: "health",
+    summary: {
+      pt: "Espaço de saúde integrativa com especialidades integradas, rituais de cuidado e equipe multidisciplinar.",
+      en: "An integrative health space with joined-up specialties, care rituals and a multidisciplinary team.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/saude-wellness.webp",
+    demo: "https://lorenzo-or7.github.io/saude-wellness-demo/",
+  },
+
+  /* ---------- Fitness ---------- */
+  {
+    id: "academia-comercial",
+    name: { pt: "Academia Comercial", en: "Gym" },
+    brand: "PULSE Training Club",
+    category: "fitness",
+    summary: {
+      pt: "Modalidades, grade de aulas, planos, simulador e agendamento de visita.",
+      en: "Classes, timetable, plans, a simulator and visit booking.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/academia-comercial.webp",
+    demo: "https://lorenzo-or7.github.io/academia-comercial-demo/",
+  },
+  {
+    id: "academia-premium",
+    name: { pt: "Academia Premium", en: "Premium Gym" },
+    brand: "VERTEX Performance Club",
+    category: "fitness",
+    summary: {
+      pt: "Modalidades, espaço, simulador de treino, planos, agenda e pré-agendamento pelo WhatsApp.",
+      en: "Classes, facilities, a training simulator, plans, schedule and WhatsApp pre-booking.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/academia-premium.webp",
+    demo: "https://lorenzo-or7.github.io/academia-premium-demo/",
+  },
+  {
+    id: "yoga-pilates",
+    name: { pt: "Yoga & Pilates", en: "Yoga & Pilates" },
+    brand: "",
+    category: "fitness",
+    summary: {
+      pt: "Estúdio boutique com modalidades, agenda da semana, aula experimental e planos, tudo num ritmo mais calmo.",
+      en: "A boutique studio with classes, a weekly schedule, a trial class and plans, all at a calmer pace.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/yoga-pilates.webp",
+    demo: "https://lorenzo-or7.github.io/yoga-pilates-demo/",
+  },
+
+  /* ---------- Imóveis ---------- */
+  {
+    id: "construtora",
+    name: { pt: "Construtora", en: "Construction Company" },
+    brand: "ATRIUM",
+    category: "real-estate",
+    summary: {
+      pt: "Empreendimentos, processo construtivo e materialidade para uma construtora de alto padrão.",
+      en: "Developments, building process and materials for a high-end construction company.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/construtora.webp",
+    demo: "https://lorenzo-or7.github.io/construtora-demo/",
+  },
+  {
+    id: "imobiliaria",
+    name: { pt: "Imobiliária", en: "Real Estate Agency" },
+    brand: "Atelier Imóveis",
+    category: "real-estate",
+    summary: {
+      pt: "Curadoria de imóveis escolhidos por arquitetura, luz, materiais e localização.",
+      en: "A curated selection of properties chosen for architecture, light, materials and location.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/imobiliaria.webp",
+    demo: "https://lorenzo-or7.github.io/imobiliaria-demo/",
+  },
+
+  /* ---------- Serviços ---------- */
+  {
+    id: "climatizacao",
+    name: { pt: "Climatização", en: "HVAC" },
+    brand: "AERON",
+    category: "services",
+    summary: {
+      pt: "Simulador de BTU, diagnóstico interativo, serviços e orçamento online.",
+      en: "BTU calculator, interactive diagnosis, services and an online quote.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/climatizacao.webp",
+    demo: "https://lorenzo-or7.github.io/climatizacao-demo/",
+  },
+  {
+    id: "energia-solar",
+    name: { pt: "Energia Solar", en: "Solar Energy" },
+    brand: "HELION",
+    category: "services",
+    summary: {
+      pt: "Energia solar para casas, empresas e indústrias, com simulação de economia e o processo do projeto explicado.",
+      en: "Solar energy for homes, businesses and industry, with a savings simulation and the project process explained.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/energia-solar.webp",
+    demo: "https://lorenzo-or7.github.io/energia-solar-demo/",
+  },
+
+  /* ---------- Hospitalidade ---------- */
+  {
+    id: "hotel-premium",
+    name: { pt: "Hotel Premium", en: "Premium Hotel" },
+    brand: "Maison Aurel",
+    category: "hospitality",
+    summary: {
+      pt: "Hotel boutique com arquitetura autoral, suítes privativas, gastronomia e experiências.",
+      en: "A boutique hotel with signature architecture, private suites, dining and experiences.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/hotel-premium.webp",
+    demo: "https://lorenzo-or7.github.io/hotel-premium-demo/",
+  },
+  {
+    id: "pousada-boutique",
+    name: { pt: "Pousada Boutique", en: "Boutique Inn" },
+    brand: "Casa Nativa",
+    category: "hospitality",
+    summary: {
+      pt: "Suítes acolhedoras, experiências, galeria e uma reserva simples, com tarifas ilustrativas.",
+      en: "Cozy suites, experiences, gallery and a simple booking flow, with illustrative rates.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/pousada-boutique.webp",
+    demo: "https://lorenzo-or7.github.io/pousada-boutique-demo/",
+  },
+
+  /* ---------- Pets ---------- */
+  {
+    id: "clinica-veterinaria",
+    name: { pt: "Clínica Veterinária", en: "Veterinary Clinic" },
+    brand: "NOMA",
+    category: "pets",
+    summary: {
+      pt: "Especialidades, equipe, área Meu Pet e pré-agendamento.",
+      en: "Specialties, team, a My Pet area and pre-booking.",
+    },
+    technologies: ["React", "TypeScript", "Motion"],
+    cover: "assets/covers/showcase/clinica-veterinaria.webp",
+    demo: "https://lorenzo-or7.github.io/clinica-veterinaria-demo/",
+  },
+  {
+    id: "pet-shop",
+    name: { pt: "Pet Shop & Banho e Tosa", en: "Pet Shop & Grooming" },
+    brand: "MIMO",
+    category: "pets",
+    summary: {
+      pt: "Banho, tosa e cuidados especiais para cães e gatos, com agendamento direto.",
+      en: "Bathing, grooming and special care for dogs and cats, with direct booking.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/pet-shop.webp",
+    demo: "https://lorenzo-or7.github.io/pet-shop-demo/",
+  },
+  /* ---------- Serviços (logística e indústria) ---------- */
+  {
+    id: "transportadora",
+    name: { pt: "Transportadora & Logística", en: "Transport & Logistics" },
+    brand: "Rotaxis",
+    category: "services",
+    summary: {
+      pt: "Cargas fracionadas e dedicadas, distribuição, armazenagem e logística integrada.",
+      en: "Less-than-truckload and dedicated freight, distribution, warehousing and integrated logistics.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/transportadora.webp",
+    demo: "https://lorenzo-or7.github.io/transportadora-demo/",
+  },
+  {
+    id: "solucoes-industriais",
+    name: { pt: "Soluções Industriais", en: "Industrial Solutions" },
+    brand: "AXIOM Industrial",
+    category: "services",
+    summary: {
+      pt: "Automação, manutenção, projetos de engenharia e otimização de processos para a indústria.",
+      en: "Automation, maintenance, engineering projects and process optimization for industry.",
+    },
+    technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+    cover: "assets/covers/showcase/solucoes-industriais.webp",
+    demo: "https://lorenzo-or7.github.io/solucoes-industriais-demo/",
   },
 ];
 
@@ -2168,14 +2838,14 @@ const LANGUAGES = [
     level: { pt: "Avançado", en: "Advanced" },
     qualifier: { pt: "Autoavaliado", en: "Self-assessed" },
     note: {
-      pt: "Proficiência desenvolvida por meio de aprendizado independente, contato com tecnologia, documentação de programação e consumo frequente de conteúdo em inglês.",
-      en: "English proficiency developed through independent learning, technology, programming documentation and daily exposure to English content.",
+      pt: "Aprendi de forma independente, lendo, assistindo e programando em inglês. Hoje é a língua em que leio documentação, pesquiso erros e acompanho o que acontece na área, além do uso no dia a dia.",
+      en: "I learned it on my own, by reading, watching and coding in English. Today it's the language I read documentation in, debug with and follow the industry through, on top of everyday use.",
     },
     contexts: [
       { pt: "Documentação técnica", en: "Technical documentation" },
-      { pt: "Programação", en: "Programming" },
-      { pt: "Tecnologia", en: "Technology" },
-      { pt: "Conteúdo diário", en: "Daily content" },
+      { pt: "Leitura", en: "Reading" },
+      { pt: "Desenvolvimento", en: "Development" },
+      { pt: "Comunicação no dia a dia", en: "Everyday communication" },
     ],
   },
 ];

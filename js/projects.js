@@ -1,168 +1,153 @@
 /* =============================================================
-   projects.js — projetos em destaque, protótipos, escopos e estudo de caso
+   projects.js — página /projects/
    -------------------------------------------------------------
-   Tudo é gerado a partir de PROJECTS (js/data.js).
-   Para adicionar um projeto, edite apenas data.js.
+   • Destaques: projetos com  featured: 1..5  (data.js)
+   • Catálogo completo com filtros por estado (animação FLIP)
+   • Estudo de caso em <dialog> (link direto: #project/<id>)
+   Tudo é gerado a partir de PROJECTS — edite apenas data.js.
    ============================================================= */
 
 const Projects = (() => {
   const esc = U.esc;
-  const t = (k) => I18N.t(k);
+  const t = (k, v) => I18N.t(k, v);
   const pick = (v) => I18N.pick(v);
 
-  const featured = () => PROJECTS.filter((p) => p.category === "featured");
-  const prototypes = () => {
-    const priority = { live: 0, "in-progress": 1, completed: 2, prototype: 3, concept: 4, discontinued: 5 };
-    return PROJECTS.filter((p) => p.category === "concept").sort((a, b) => (priority[a.status] ?? 9) - (priority[b.status] ?? 9));
-  };
+  const STATUSES = ["live", "in-progress", "completed", "prototype", "discontinued"];
+  const ORDER = Object.fromEntries(STATUSES.map((s, i) => [s, i]));
 
-  const scopes = () => (typeof GENERIC_SCOPES !== "undefined" && Array.isArray(GENERIC_SCOPES) ? GENERIC_SCOPES : []);
+  const all = () => PROJECTS.slice();
+  const featured = () => PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
+  const catalog = () =>
+    PROJECTS
+      .map((p, i) => ({ p, i }))
+      .sort((a, b) => (a.p.featured || 99) - (b.p.featured || 99) || (ORDER[a.p.status] ?? 9) - (ORDER[b.p.status] ?? 9) || a.i - b.i)
+      .map(({ p }) => p);
+  const count = (status) => PROJECTS.filter((p) => p.status === status).length;
 
+  let filter = "all";
+
+  /* ---------- Peças ---------- */
   const statusBadge = (status) =>
     `<span class="status status--${esc(status)}"><span class="status__dot" aria-hidden="true"></span>${esc(t("status." + status))}</span>`;
+
+  const kindLabel = (p) => (p.kind ? `<span class="kind mono">${esc(t("kind." + p.kind))}</span>` : "");
 
   const list = (items, cls = "checklist") =>
     `<ul class="${cls}">${(items || []).map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
 
-  /* ---------- Projetos em destaque ---------- */
+  function hasCase(p) {
+    const cs = p.caseStudy || {};
+    return Boolean(cs.problem || cs.idea || cs.challenges || cs.solutions || (cs.screenshots && cs.screenshots.length));
+  }
+
+  function actions(p, { primary = false } = {}) {
+    const demoLabel = p.status === "live" ? t("projects.view") : t("projects.demo");
+    return `
+      ${U.linkButton({ href: p.links.demo, label: demoLabel, iconId: "external", variant: primary ? "primary" : "ghost" })}
+      ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
+      ${hasCase(p) ? `<button type="button" class="btn btn--text btn--sm" data-case="${esc(p.id)}" aria-haspopup="dialog">${esc(t(primary ? "projects.case" : "projects.more"))} ${U.icon("arrow", "btn__icon")}</button>` : ""}`;
+  }
+
+  /* ---------- Destaques (hierarquia visual, sem rótulo de categoria) ---------- */
+  function spot(p, lead) {
+    return `
+      <article class="spot${lead ? " spot--lead" : ""}" data-spotlight data-reveal="rise" aria-labelledby="s-${esc(p.id)}-title">
+        <div class="spot__media media" data-reveal-media>
+          ${U.cover({ name: p.name, cover: p.cover, eager: lead, sizes: lead ? "(max-width: 960px) 100vw, 62vw" : "(max-width: 768px) 100vw, 50vw" })}
+        </div>
+        <div class="spot__body">
+          <p class="spot__meta">${statusBadge(p.status)}${kindLabel(p)}</p>
+          <h2 class="spot__title" id="s-${esc(p.id)}-title">${esc(p.name)}</h2>
+          <p class="spot__tagline">${esc(pick(p.tagline))}</p>
+          <p class="spot__desc">${esc(pick(p.summary))}</p>
+          <ul class="tags tags--sm" aria-label="${esc(t("projects.tech"))}">${p.technologies.map(U.techTag).join("")}</ul>
+          <div class="spot__actions">${actions(p, { primary: true })}</div>
+        </div>
+      </article>`;
+  }
+
   function renderFeatured() {
     const root = document.getElementById("featured-projects");
     if (!root) return;
+    const [lead, ...rest] = featured();
+    const pairs = [];
+    for (let i = 0; i < rest.length; i += 2) pairs.push(rest.slice(i, i + 2));
+    root.innerHTML = `
+      ${lead ? spot(lead, true) : ""}
+      ${pairs.map((pair) => `<div class="spot-row">${pair.map((p) => spot(p, false)).join("")}</div>`).join("")}`;
+  }
 
-    root.innerHTML = featured()
-      .map((p, i) => {
-        const num = String(i + 1).padStart(2, "0");
-        return `
-        <article class="feature" data-reveal aria-labelledby="p-${esc(p.id)}-title">
-          <div class="feature__media media">
-            ${U.media(p)}
-          </div>
-
-          <div class="feature__body">
-            <div class="feature__main">
-              <p class="feature__meta mono">
-                <span class="feature__label">${esc(t("projects.label")).toUpperCase()} ${num}</span>
-                ${p.context ? `<span class="feature__context">· ${esc(pick(p.context))}</span>` : ""}
-                ${statusBadge(p.status)}
-              </p>
-              <h3 class="feature__title" id="p-${esc(p.id)}-title">${esc(p.name)}</h3>
-              <p class="feature__tagline">${esc(pick(p.tagline))}</p>
-              <p class="feature__desc">${esc(pick(p.description))}</p>
-
-              <h4 class="visually-hidden">${esc(t("projects.tech"))}</h4>
-              <ul class="tags">${p.technologies.map(U.techTag).join("")}</ul>
-
-              <div class="feature__actions">
-                ${U.linkButton({ href: p.links.demo, label: t("projects.view"), iconId: "external", variant: "primary" })}
-                ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
-                <button type="button" class="btn btn--text btn--sm" data-case="${esc(p.id)}">
-                  ${esc(t("projects.case"))} ${U.icon("arrow", "btn__icon")}
-                </button>
-              </div>
-            </div>
-
-            <div class="feature__details">
-              <div class="feature__block">
-                <h4 class="feature__block-title mono">${esc(t("projects.features"))}</h4>
-                ${list(pick(p.features))}
-              </div>
-              <div class="feature__block">
-                <h4 class="feature__block-title mono">${esc(t("projects.role"))}</h4>
-                ${list(pick(p.role), "chips")}
-              </div>
-            </div>
-          </div>
-        </article>`;
-      })
+  /* ---------- Filtros ---------- */
+  function renderFilters() {
+    const root = document.getElementById("project-filters");
+    if (!root) return;
+    const opts = [["all", PROJECTS.length], ...STATUSES.map((s) => [s, count(s)])];
+    root.innerHTML = opts
+      .map(([id, n]) => `
+        <button type="button" class="filter${id !== "all" ? ` filter--${id}` : ""}" data-filter="${id}" aria-pressed="${id === filter}">
+          ${id !== "all" ? `<span class="status__dot" aria-hidden="true"></span>` : ""}
+          <span>${esc(t("filter." + id))}</span><span class="filter__count mono">${n}</span>
+        </button>`)
       .join("");
   }
 
-  /* ---------- Protótipos e demonstrações ---------- */
-  function renderPrototypes() {
-    const root = document.getElementById("prototype-projects");
-    if (!root) return;
+  /* ---------- Catálogo ---------- */
+  function card(p) {
+    return `
+      <article class="pcard${p.status === "discontinued" ? " is-discontinued" : ""}" data-status="${esc(p.status)}" data-spotlight data-reveal="rise" aria-labelledby="c-${esc(p.id)}-title">
+        <div class="pcard__media media" data-reveal-media>
+          ${U.cover({ name: p.name, cover: p.cover, video: p.video, sizes: "(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw" })}
+        </div>
+        <div class="pcard__body">
+          <p class="pcard__meta">${statusBadge(p.status)}${kindLabel(p)}</p>
+          <h3 class="pcard__title" id="c-${esc(p.id)}-title">${esc(p.name)}</h3>
+          <p class="pcard__tagline">${esc(pick(p.tagline))}</p>
+          <p class="pcard__desc">${esc(pick(p.summary))}</p>
+          <ul class="tags tags--sm" aria-label="${esc(t("projects.tech"))}">${p.technologies.slice(0, 4).map(U.techTag).join("")}</ul>
+          <div class="pcard__actions">${actions(p)}</div>
+        </div>
+      </article>`;
+  }
 
-    root.innerHTML = prototypes()
-      .map(
-        (p) => `
-        <article class="concept${p.status === "discontinued" ? " is-discontinued" : ""}" data-reveal aria-labelledby="c-${esc(p.id)}-title">
-          <div class="concept__media media${p.video ? " has-video" : ""}">
-            ${U.media(p)}
-          </div>
-          <div class="concept__body">
-            <p class="concept__type mono">${esc(t("type." + (p.type || "website-concept")))} ${statusBadge(p.status)}</p>
-            <h4 class="concept__title" id="c-${esc(p.id)}-title">${esc(p.name)} <span>${esc(pick(p.tagline))}</span></h4>
-            <p class="concept__desc">${esc(pick(p.description))}</p>
-            <ul class="tags tags--sm">${p.technologies.map(U.techTag).join("")}</ul>
-            <div class="concept__actions">
-              ${U.linkButton({ href: p.links.demo, label: t("projects.demo"), iconId: "external" })}
-              ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
-              <button type="button" class="btn btn--text btn--sm" data-case="${esc(p.id)}">
-                ${esc(t("projects.more"))} ${U.icon("arrow", "btn__icon")}
-              </button>
-            </div>
-          </div>
-        </article>`
-      )
-      .join("");
+  function renderCatalog() {
+    const root = document.getElementById("project-catalog");
+    if (!root) return;
+    root.innerHTML = catalog().map(card).join("");
+    applyFilter({ animate: false });
 
     // Vídeos tocam só ao passar o mouse / focar (e nunca com movimento reduzido)
-    root.querySelectorAll(".has-video").forEach((box) => {
-      const v = box.querySelector("video");
-      const card = box.closest(".concept");
+    root.querySelectorAll("video").forEach((v) => {
+      const c = v.closest(".pcard");
       const play = () => { if (!U.reducedMotion()) v.play().catch(() => {}); };
-      const stop = () => { v.pause(); };
-      card.addEventListener("mouseenter", play);
-      card.addEventListener("mouseleave", stop);
-      card.addEventListener("focusin", play);
-      card.addEventListener("focusout", stop);
+      const stop = () => v.pause();
+      c.addEventListener("mouseenter", play); c.addEventListener("mouseleave", stop);
+      c.addEventListener("focusin", play); c.addEventListener("focusout", stop);
     });
   }
 
-  /* ---------- Escopos genéricos ---------- */
-  function renderScopes() {
-    const root = document.getElementById("generic-scopes");
+  function applyFilter({ animate = true } = {}) {
+    const root = document.getElementById("project-catalog");
     if (!root) return;
+    const items = [...root.children];
+    const show = (el) => filter === "all" || el.dataset.status === filter;
+    if (animate) U.flipFilter(items, show);
+    else items.forEach((el) => { el.hidden = !show(el); });
 
-    const items = scopes();
-    if (!items.length) {
-      const href = PROFILE.instagram || "#contact";
-      const external = Boolean(PROFILE.instagram);
-      root.innerHTML = `
-        <article class="scope-intro-card" data-reveal>
-          <div class="scope-intro-card__copy">
-            <p class="scope-intro-card__eyebrow mono">${esc(t("scopes.eyebrow"))}</p>
-            <h4 class="scope-intro-card__title">${esc(t("scopes.cardTitle"))}</h4>
-            <p class="scope-intro-card__text">${esc(t("scopes.cardText"))}</p>
-            <a class="btn btn--ghost btn--sm" href="${esc(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>
-              ${esc(t("scopes.cta"))} ${U.icon(external ? "external" : "arrow", "btn__icon")}
-            </a>
-          </div>
-          <ol class="scope-intro-card__steps" aria-label="${esc(t("scopes.title"))}">
-            <li><span class="mono">01</span><strong>${esc(t("scopes.step1"))}</strong></li>
-            <li><span class="mono">02</span><strong>${esc(t("scopes.step2"))}</strong></li>
-            <li><span class="mono">03</span><strong>${esc(t("scopes.step3"))}</strong></li>
-          </ol>
-        </article>`;
-      return;
-    }
+    const n = items.filter((el) => !el.hidden).length;
+    const out = document.getElementById("project-count");
+    if (out) out.textContent = t("projects.showing", { n, total: items.length });
+    const empty = document.getElementById("project-empty");
+    if (empty) empty.hidden = n > 0;
+    document.querySelectorAll("#project-filters [data-filter]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+  }
 
-    root.innerHTML = `
-      <div class="scope-grid">
-        ${items.map((p) => `
-          <article class="scope-card" data-reveal>
-            <div class="scope-card__media media">${U.media(p)}</div>
-            <div class="scope-card__body">
-              <p class="scope-card__type mono">${esc(t("type.generic-scope"))}</p>
-              <h4 class="scope-card__title">${esc(p.name)}</h4>
-              <p class="scope-card__tagline">${esc(pick(p.tagline))}</p>
-              <p class="scope-card__desc">${esc(pick(p.description))}</p>
-              <ul class="tags tags--sm">${(p.technologies || []).map(U.techTag).join("")}</ul>
-              ${p.links?.demo ? `<div class="scope-card__actions">${U.linkButton({ href: p.links.demo, label: t("projects.demo"), iconId: "external" })}</div>` : ""}
-            </div>
-          </article>
-        `).join("")}
-      </div>`;
+  function setFilter(next) {
+    if (!["all", ...STATUSES].includes(next) || next === filter) return;
+    filter = next;
+    applyFilter();
+    const url = new URL(location.href);
+    if (filter === "all") url.searchParams.delete("status"); else url.searchParams.set("status", filter);
+    history.replaceState(null, "", url.pathname + url.search + url.hash);
   }
 
   /* ---------- Modal: estudo de caso ---------- */
@@ -183,26 +168,21 @@ const Projects = (() => {
     const cs = p.caseStudy || {};
     const txt = (v) => (pick(v) ? `<p>${esc(pick(v))}</p>` : "");
     const arr = (v, cls) => (pick(v) && pick(v).length ? list(pick(v), cls) : "");
-    // Paisagem ocupa meia linha (ou a linha toda, se sobrar uma); retrato, um terço
     const allShots = cs.screenshots || [];
     const landscape = allShots.filter((s) => !s.portrait);
     const shots = allShots
       .map(
         (s) => `<figure class="case__shot${s.portrait ? " is-portrait" : ""}${!s.portrait && landscape.length % 2 && s === landscape[0] ? " is-wide" : ""}">
-          <a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" title="${esc(t("case.open"))}">
-            <img src="${esc(s.src)}" alt="${esc(pick(s.caption) || p.name)}" loading="lazy" decoding="async">
+          <a href="${esc(U.asset(s.src))}" target="_blank" rel="noopener noreferrer" title="${esc(t("case.open"))}">
+            <img src="${esc(U.asset(s.src))}" alt="${esc(pick(s.caption) || p.name)}" loading="lazy" decoding="async">
           </a>
           ${s.caption ? `<figcaption>${esc(pick(s.caption))}</figcaption>` : ""}
         </figure>`
       )
       .join("");
 
-    const links = `<div class="case__links">
-        ${U.linkButton({ href: p.links.demo, label: t(p.category === "featured" ? "projects.view" : "projects.demo"), iconId: "external", variant: "primary" })}
-        ${p.links.github ? U.linkButton({ href: p.links.github, label: "GitHub", iconId: "github" }) : ""}
-      </div>`;
-
-    const projectBody = `<p>${esc(pick(p.description))}</p>${p.context ? `<p class="case__role mono">${esc(t("case.context"))}: <span class="accent">${esc(pick(p.context))}</span></p>` : ""}${p.role ? `<p class="case__role mono">${esc(t("case.role"))}:</p>${list(pick(p.role), "chips")}` : ""}`;
+    const links = `<div class="case__links">${actions({ ...p, caseStudy: {} }, { primary: true })}</div>`;
+    const projectBody = `<p>${esc(pick(p.description || p.summary))}</p>${p.context ? `<p class="case__role mono">${esc(t("case.context"))}: <span class="accent">${esc(pick(p.context))}</span></p>` : ""}${p.role ? `<p class="case__role mono">${esc(t("case.role"))}:</p>${list(pick(p.role), "chips")}` : ""}`;
 
     let n = 0;
     const sections = [
@@ -231,7 +211,7 @@ const Projects = (() => {
         </div>
         <button type="button" class="case__close" data-case-close aria-label="${esc(t("case.close"))}">${U.icon("close")}</button>
       </header>
-      <div class="case__cover media">${U.media(p)}</div>
+      <div class="case__cover media">${U.cover({ name: p.name, cover: p.cover, sizes: "(max-width: 960px) 100vw, 960px" })}</div>
       <div class="case__sections">${sections}</div>`;
   }
 
@@ -245,7 +225,7 @@ const Projects = (() => {
     if (!d.open) d.showModal();
     d.scrollTop = 0;
     document.documentElement.classList.add("has-modal");
-    if (updateHash) history.replaceState(null, "", `#project/${id}`);
+    if (updateHash) history.replaceState(null, "", `${location.pathname}${location.search}#project/${id}`);
     d.querySelector("[data-case-close]")?.focus();
   }
 
@@ -257,16 +237,25 @@ const Projects = (() => {
   function onClosed() {
     openId = null;
     document.documentElement.classList.remove("has-modal");
-    if (location.hash.startsWith("#project/")) history.replaceState(null, "", "#projects");
+    if (location.hash.startsWith("#project/")) history.replaceState(null, "", location.pathname + location.search);
     if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
 
-  function init() {
+  function renderAll() {
     renderFeatured();
-    renderPrototypes();
-    renderScopes();
+    renderFilters();
+    renderCatalog();
+  }
+
+  function init() {
+    const initial = new URLSearchParams(location.search).get("status");
+    if (initial && STATUSES.includes(initial)) filter = initial;
+
+    renderAll();
 
     document.addEventListener("click", (e) => {
+      const f = e.target.closest("#project-filters [data-filter]");
+      if (f) { setFilter(f.dataset.filter); return; }
       const trigger = e.target.closest("[data-case]");
       if (trigger) { open(trigger.dataset.case); return; }
       if (e.target.closest("[data-case-close]")) close();
@@ -275,24 +264,19 @@ const Projects = (() => {
     const d = dialog();
     if (d) {
       d.addEventListener("close", onClosed);
-      // Clique fora do conteúdo (no backdrop) fecha o modal
       d.addEventListener("click", (e) => { if (e.target === d) close(); });
     }
 
-    // Link direto: seusite.com/#project/votai
+    // Link direto: /projects/#project/votai
     const m = location.hash.match(/^#project\/([\w-]+)/);
     if (m) open(m[1], { updateHash: false });
 
     document.addEventListener("langchange", () => {
-      renderFeatured();
-      renderPrototypes();
-      renderScopes();
-      U.observeReveal(document.getElementById("projects"), { instant: true });
-      if (openId) {
-        document.getElementById("case-content").innerHTML = renderCase(PROJECTS.find((x) => x.id === openId));
-      }
+      renderAll();
+      U.observeReveal(document.getElementById("main"), { instant: true });
+      if (openId) document.getElementById("case-content").innerHTML = renderCase(PROJECTS.find((x) => x.id === openId));
     });
   }
 
-  return { init, open, close, featured, prototypes, scopes };
+  return { init, open, close, all, featured, count };
 })();

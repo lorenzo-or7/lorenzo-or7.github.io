@@ -1,7 +1,7 @@
 # Lorenzo Orsetti — Portfolio
 
 Portfólio pessoal de **Lorenzo Orsetti**, estudante de Engenharia de Software e desenvolvedor web.
-One page, bilíngue (PT/EN), com tema escuro e claro, feito com **HTML, CSS e JavaScript puros**, sem frameworks nem build.
+Três páginas (Home, Projetos e Modelos), bilíngue (PT/EN), com tema escuro e claro, feito com **HTML, CSS e JavaScript puros**, sem frameworks nem build.
 
 > **Por que não tem PHP/MySQL?** Nenhuma funcionalidade do portfólio precisa de servidor: o conteúdo vem de um arquivo JS, o idioma e o tema ficam salvos no navegador e as estatísticas do GitHub vêm da API pública. Sem backend, o site pode ser hospedado de graça (GitHub Pages, Netlify, Vercel) e carrega mais rápido.
 
@@ -11,12 +11,13 @@ One page, bilíngue (PT/EN), com tema escuro e claro, feito com **HTML, CSS e Ja
 
 Apresentar, de forma rápida e organizada:
 
-1. quem é Lorenzo e o que ele faz;
-2. os **projetos** (parte central), com estudo de caso de cada um;
-3. as tecnologias e práticas de engenharia de software;
-4. a formação na PUCPR;
-5. o nível de inglês (o próprio site bilíngue serve de demonstração);
-6. GitHub, LinkedIn e contato.
+1. quem é Lorenzo e o que ele faz (**Home**, `/`);
+2. os **projetos** (`/projects/`), com status, filtros e estudos de caso;
+3. os **modelos** por segmento comercial (`/showcase/`), marcas fictícias usadas como vitrine da Or7;
+4. as tecnologias e práticas de engenharia de software;
+5. a formação na PUCPR;
+6. o nível de inglês (o próprio site bilíngue serve de demonstração);
+7. GitHub, LinkedIn e contato.
 
 ## Tecnologias
 
@@ -33,24 +34,32 @@ Nenhuma biblioteca externa de JavaScript.
 
 ```
 /
-├── index.html              # esqueleto da página (seções vazias preenchidas via JS)
-├── projects/               # (opcional) demos hospedadas junto do portfólio
+├── index.html              # Home: quem é Lorenzo (seções preenchidas via JS)
+├── projects/index.html     # Projetos: destaques, filtros por estado e estudos de caso
+├── showcase/index.html     # Modelos: 29 conceitos por segmento + bloco comercial
 ├── assets/
-│   ├── images/             # foto de perfil e og-image.png
+│   ├── covers/projects/    # capas OFICIAIS dos projetos (<id>.webp + <id>-800.webp)
+│   ├── covers/showcase/    # capas OFICIAIS dos modelos (<id>.webp + <id>-800.webp)
+│   ├── images/             # foto de perfil e imagens de compartilhamento (og-*.png)
 │   ├── icons/              # favicon e logos das tecnologias
-│   └── projects/           # capas, screenshots e vídeos de cada projeto
+│   └── projects/           # screenshots dos estudos de caso
 ├── css/
 │   ├── themes.css          # TODAS as cores (tema escuro e claro)
-│   ├── style.css           # componentes
+│   ├── style.css           # base e componentes da Home
+│   ├── pages.css           # páginas internas, cards, filtros, bloco comercial
+│   ├── motion.css          # revelações, split text, transições entre páginas
 │   └── responsive.css      # breakpoints (1440 → 360px)
 ├── js/
-│   ├── data.js             # ★ CONTEÚDO: perfil, links, tecnologias, projetos, formação, idiomas
-│   ├── language.js         # textos da interface PT/EN + troca de idioma
+│   ├── data.js             # ★ CONTEÚDO: perfil, tecnologias, PROJECTS, SHOWCASE, formação, idiomas
+│   ├── language.js         # textos da interface PT/EN + metadados de cada página
+│   ├── icons.js            # sprite de ícones SVG (único para as três páginas)
 │   ├── theme.js            # botão de tema + localStorage
-│   ├── utils.js            # funções auxiliares compartilhadas
-│   ├── projects.js         # cards de projetos + modal de estudo de caso
-│   ├── github.js           # seção GitHub (API pública opcional)
-│   └── main.js             # demais seções, menu, terminal, animações, cursor
+│   ├── utils.js            # caminhos, capas, filtros com animação (FLIP), revelação
+│   ├── projects.js         # página Projetos + modal de estudo de caso
+│   ├── showcase.js         # página Modelos
+│   ├── github.js           # seção GitHub (API pública)
+│   ├── motion.js           # movimento: nome do hero, spotlight, progresso de leitura
+│   └── main.js             # inicialização comum, seções da Home, menu, terminal
 └── README.md
 ```
 
@@ -77,20 +86,20 @@ Abra `js/data.js`, copie um bloco de `PROJECTS` e edite:
 
 ```js
 {
-  id: "meu-projeto",                 // único, sem espaços (usado no link #project/meu-projeto)
-  category: "featured",              // "featured" = Projetos em Destaque | "concept" = Protótipos e Demonstrações
-  type: "website-concept",           // só para protótipos: "website-concept" | "concept-project" | "prototype" | "website-demo" | "commercial-website"
+  id: "meu-projeto",                 // único, sem espaços (link direto: /projects/#project/meu-projeto)
   name: "Meu Projeto",
+  summary: { pt: "1–3 linhas para o card", en: "..." },   // obrigatório
+  kind: "authorial",                 // opcional: "own-product" | "authorial" | "commercial"
+  featured: 0,                       // opcional: 1–5 = bloco de destaque (ordem)
   tagline: { pt: "Subtítulo", en: "Subtitle" },
-  status: "in-progress",             // "in-progress" | "completed" | "prototype" | "concept"
-  description: { pt: "...", en: "..." },
+  status: "in-progress",             // "live" | "in-progress" | "completed" | "prototype" | "discontinued"
+  description: { pt: "...", en: "..." },   // texto longo do estudo de caso
   technologies: ["HTML", "CSS", "JavaScript"],   // chaves de TECHNOLOGIES
   features: { pt: ["..."], en: ["..."] },
   role:     { pt: ["..."], en: ["..."] },
-  image: "assets/projects/meu-projeto/cover.webp",
+  cover: "assets/covers/projects/meu-projeto.webp",   // + meu-projeto-800.webp
   video: "",                          // opcional (protótipos): toca ao passar o mouse
   links: { demo: "https://...", github: "https://github.com/..." },
-  placeholder: { url: "meuprojeto", bg: "#FFFFFF", ink: "#111111", accent: "#4928C2" },
   caseStudy: {
     problem:    { pt: "...", en: "..." },
     idea:       { pt: "...", en: "..." },
@@ -104,31 +113,28 @@ Abra `js/data.js`, copie um bloco de `PROJECTS` e edite:
 },
 ```
 
-- A numeração (PROJECT 01, 02…) e os contadores do perfil são automáticos.
+- Filtros, contadores e o perfil da Home são calculados automaticamente.
 - Qualquer seção do estudo de caso deixada vazia é simplesmente ocultada.
 - Links vazios aparecem como botão tracejado **"em breve"**.
-- Sem `image`, o card mostra uma prévia ilustrada com as cores de `placeholder`.
+- Sem `cover` (ou se o arquivo não existir), o card mostra o estado **"Capa oficial pendente"** e um aviso no console. Nunca é trocado por imagem genérica.
+- Projetos descontinuados continuam no catálogo, com a capa levemente dessaturada.
 
 > ⚠️ Os textos de **Desafios / Soluções / O que aprendi** do VotAI e as descrições dos protótipos são **rascunhos** baseados nas informações fornecidas. Revise-os com a sua experiência real antes de publicar.
 
-## Como adicionar um escopo genérico
+## Como adicionar um modelo (Showcase)
 
-Os escopos genéricos ficam no array `GENERIC_SCOPES` em `js/data.js`. Eles são demonstrações autorais por segmento, sem vínculo com uma empresa real.
-
-Enquanto o array estiver vazio, o site exibe um bloco explicando a proposta dos escopos e direciona o visitante para contato. Quando houver escopos cadastrados, eles passam a aparecer como cards automaticamente.
-
-Exemplo:
+Os modelos ficam em `SHOWCASE` (`js/data.js`) e os segmentos em `SHOWCASE_CATEGORIES`. São demonstrações autorais com marcas fictícias, nunca clientes reais. Códigos internos (ex.: 01.01) **não** devem aparecer em `name`.
 
 ```js
 {
   id: "restaurante-premium",
-  name: "Restaurante Premium",
-  tagline: { pt: "Experiência digital para gastronomia", en: "Digital experience for hospitality" },
-  description: { pt: "...", en: "..." },
-  status: "concept",
-  technologies: ["HTML", "CSS", "JavaScript"],
-  image: "assets/scopes/restaurante-premium.webp",
-  links: { demo: "https://...", github: "" }
+  name: { pt: "Restaurante Premium", en: "Premium Restaurant" },
+  brand: "Lume",                       // marca fictícia (opcional)
+  category: "food",                    // id de SHOWCASE_CATEGORIES
+  summary: { pt: "...", en: "..." },
+  technologies: ["React", "TypeScript", "Motion"],
+  cover: "assets/covers/showcase/restaurante-premium.webp",
+  demo: "https://lorenzo-or7.github.io/restaurant-premium-demo/",
 }
 ```
 
@@ -146,12 +152,13 @@ Tudo em `PROFILE` (`js/data.js`): cargo, localização, foto, e-mail, GitHub, Li
 | O quê | Onde colocar | Onde configurar |
 | --- | --- | --- |
 | Foto de perfil | `assets/images/profile.webp` (quadrada, ~480px) | `PROFILE.photo` |
-| Capa de projeto | `assets/projects/<id>/cover.webp` | `image` do projeto |
+| Capa de projeto | `assets/covers/projects/<id>.webp` (1600px) + `<id>-800.webp` | `cover` do projeto |
+| Capa de modelo | `assets/covers/showcase/<id>.webp` (1600px) + `<id>-800.webp` | `cover` do modelo |
 | Screenshots | `assets/projects/<id>/*.webp` | `caseStudy.screenshots` |
 | Vídeo de conceito | `assets/projects/<id>/preview.mp4` | `video` do projeto |
 | Logos das tecnologias | `assets/icons/html5.webp` etc. (fundo transparente) | `icon` em `TECHNOLOGIES` |
 | Favicon | `assets/icons/favicon.svg` / `apple-touch-icon.png` | substitua os arquivos |
-| Imagem de compartilhamento | `assets/images/og-image.png` (1200×630) | substitua o arquivo |
+| Imagens de compartilhamento | `assets/images/og-image.png`, `og-projects.png`, `og-showcase.png` (1200×630) | meta tags de cada página |
 
 Sem foto, o site mostra as iniciais **LO**. Se uma imagem não carregar, o site volta automaticamente para o fallback. Prefira **WebP** (converta em [squoosh.app](https://squoosh.app)).
 
@@ -165,7 +172,7 @@ githubUsername: "seu-usuario",
 
 Isso ativa automaticamente os botões de GitHub (hero, perfil, contato, rodapé), o `@usuario` do perfil e busca na **API pública do GitHub** o número de repositórios, os repositórios atualizados recentemente e as linguagens usadas (com cache de 1 hora).
 
-Contribuições e commits **não** estão disponíveis na API pública sem token; por isso aparecem como `--`. Se quiser exibi-los, preencha com números reais:
+A seção mostra só números com dado real: contribuições do último ano (gráfico público do perfil), repositórios públicos e data do último push. Sem dado, o item é ocultado (nada de `--`). Para fixar o total de contribuições manualmente:
 
 ```js
 const GITHUB_MANUAL_STATS = { contributions: 214, commits: null };
